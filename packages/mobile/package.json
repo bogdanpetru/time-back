@@ -20,6 +20,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "get-yarn-workspaces": "^1.0.2",
     "react": "16.13.1",
     "react-native": "0.63.3"
   },
@@ -37,7 +38,8 @@
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
     "react-test-renderer": "16.13.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "pomodoro-like-app-projects": "1.0.0"
   },
   "jest": {
     "preset": "react-native",

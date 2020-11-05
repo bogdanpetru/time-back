@@ -1,14 +1,10 @@
-/**
- * Metro configuration for React Native
- * https://github.com/facebook/react-native
- *
- * @format
- */
+const path = require('path');
+const getWorkspaces = require('get-yarn-workspaces');
 
 const watchFolders = [
-  path.resolve(appDir, '../..', 'node_modules'),
-  ...workspaces.filter(
-    workspaceDir => !(workspaceDir === appDir),
+  path.resolve(__dirname, '../..', 'node_modules'),
+  ...getWorkspaces(__dirname).filter(
+    (workspaceDir) => !(workspaceDir === __dirname),
   ),
 ];
 
