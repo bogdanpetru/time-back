@@ -1,27 +1,13 @@
 {
-  "name": "pomodoro-like-app",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "name": "popmodoro-like-app",
   "version": "1.0.0",
-  "description": "Pomodoro like app, with projects, simple notes.",
+  "description": "Pomodoro Like App",
   "main": "index.js",
+  "author": "bogdan petru pintican <bogdan.pintican@8x8.com>",
+  "license": "MIT",
   "scripts": {
-    "start": "parcel ./src/index.html -p 1234"
-  },
-  "keywords": [
-    "pomodoro",
-    "todo",
-    "focus"
-  ],
-  "author": "Bogdan Petru Pintican",
-  "license": "ISC",
-  "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "parcel": "1.12.4",
-    "parcel-bundler": "1.12.4",
-    "typescript": "4.0.5"
-  },
-  "parcel-plugin-prettier": "0.2.1",
-  "dependencies": {
-    "babel-polyfill": "^6.26.0"
+    "start-andorid": "cd ./packages/mobile && npx react-native start-android"
   }
 }
