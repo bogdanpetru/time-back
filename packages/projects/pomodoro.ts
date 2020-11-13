@@ -34,6 +34,10 @@ export class Pomodoro {
     });
   }
 
+  toString() {
+    return JSON.stringify(this);
+  }
+
   static of (config: ConstructorInterface) {
     return new Pomodoro(config);
   }

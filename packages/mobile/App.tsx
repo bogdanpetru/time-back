@@ -1,6 +1,14 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { Pomodoro } from 'pomodoro-like-app-projects';
+
+const style = {
+  flex: 'row',
+  height: 300,
+  width: 300,
+  backgroundColor: 'red',
+  flex: 3,
+};
 
 const App = () => {
   const pomodoro = Pomodoro.of({
@@ -10,7 +18,13 @@ const App = () => {
 
   return (
     <>
-      <Text>{JSON.stringify(pomodoro)}</Text>
+      <View style={style}>
+        <Text>Ce sa si faci</Text>
+      </View>
+      <View style={style}>
+        <Text>again</Text>
+      </View>
+      <Text>{pomodoro + ''}</Text>
       <Text>Frumos ce sa faci</Text>
     </>
   );

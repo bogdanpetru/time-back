@@ -8,6 +8,6 @@
   "author": "bogdan petru pintican <bogdan.pintican@8x8.com>",
   "license": "MIT",
   "scripts": {
-    "start-andorid": "cd ./packages/mobile && npx react-native start-android"
+    "start-andorid": "cd ./packages/mobile && npx react-native run-android"
   }
 }
