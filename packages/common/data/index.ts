@@ -1,0 +1,1 @@
+export { initializeFirebase as initializeData } from './firebase';

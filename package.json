@@ -1,13 +1,18 @@
 {
   "private": true,
-  "workspaces": ["packages/*"],
-  "name": "popmodoro-like-app",
+  "workspaces": [
+    "./packages/common/*", 
+    "./packages/web",
+    "./packages/mobile"
+  ],
+  "name": "time-back",
   "version": "1.0.0",
-  "description": "Pomodoro Like App",
-  "main": "index.js",
+  "description": "Time back. Lik Pomodoro but with strawberries.",
   "author": "bogdan petru pintican <bogdan.pintican@8x8.com>",
   "license": "MIT",
   "scripts": {
-    "start-andorid": "cd ./packages/mobile && npx react-native run-android"
+    "start-andorid": "cd ./packages/mobile && npx react-native run-android",
+    "start": "yarn workspace time-back-web start",
+    "watch": "yarn workspace @app/components watch"
   }
 }

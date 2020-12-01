@@ -1,33 +1,22 @@
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Text, View } from 'react-native';
-import { Pomodoro } from 'pomodoro-like-app-projects';
+import { StyleSheet, Text, View } from 'react-native';
 
-const style = {
-  flex: 'row',
-  height: 300,
-  width: 300,
-  backgroundColor: 'red',
-  flex: 3,
-};
-
-const App = () => {
-  const pomodoro = Pomodoro.of({
-    name: 'first pomodro',
-    id: '123',
-  });
-
+export default function App() {
   return (
-    <>
-      <View style={style}>
-        <Text>Ce sa si faci</Text>
+    <View style={styles.container}>
+      <View>
+        <Text>Hello from mobile</Text>
       </View>
-      <View style={style}>
-        <Text>again</Text>
-      </View>
-      <Text>{pomodoro + ''}</Text>
-      <Text>Frumos ce sa faci</Text>
-    </>
+    </View>
   );
-};
+}
 
-export default App;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
