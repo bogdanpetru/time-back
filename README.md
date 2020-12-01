@@ -34,7 +34,7 @@ mobile
 
 [structure](https://www.robinwieruch.de/react-folder-structure)
 
-ComponentName/
+component-name/
   /index.tsx 
   /test.ts
   /style.js

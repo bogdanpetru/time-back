@@ -2,8 +2,7 @@
   "private": true,
   "workspaces": [
     "./packages/common/*", 
-    "./packages/web",
-    "./packages/mobile"
+    "./packages/web"
   ],
   "name": "time-back",
   "version": "1.0.0",

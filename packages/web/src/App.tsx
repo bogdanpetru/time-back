@@ -1,29 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { ThemeProvider } from 'styled-components'
+import { primary } from '@app/theme';
+import { Input, LogoSmall, LogoTextBig } from '@app/components'
 
-import { Input } from '@app/components';
 
 function App() {
   return (
-    <div className="App">
-      <Input label="dude" onChange={console.log} />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ThemeProvider theme={primary}>
+      <LogoSmall />
+      <LogoTextBig />
+      <Input onChange={console.log} label="test" />
+      <h1>hello world</h1>
+    </ThemeProvider>
+  )
 }
 
-export default App;
+export default App
