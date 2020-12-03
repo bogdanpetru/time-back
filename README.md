@@ -48,3 +48,9 @@ component-name/
 /views/ViewName/index.ts
 /views/ViewName/ViewName.ts
 /views/ViewName/components/specific to the view?
+
+## style guide
+
+### destructuring
+- as mutch as possible no destructuring
+- this way you have the notion of namespace
