@@ -1,6 +1,6 @@
 # time back
 
-## should be abble to:
+## should be abble to
 
 **faze I**
 - [ ] organise in projects
@@ -21,7 +21,9 @@
 - [ ] runs on mobile and web (web with PWA)
 
 
-### packages
+## structure
+
+## packages
 
 common
   /components
@@ -30,7 +32,8 @@ common
 web
 mobile
 
-#### components
+## components
+
 
 [structure](https://www.robinwieruch.de/react-folder-structure)
 
@@ -39,9 +42,21 @@ component-name/
   /test.ts
   /style.js
 
-#### web
+## web
+
+### /src/App.tsx
+
+This component will hold all the logic that is common for all views:
+- ruting
+- theminig
+- any global context providers
+
+### comoponents
 
 /components - specific components for the web
+
+##### views
+
 /views - each route of the app, hold view data
 
 /views/ViewName/

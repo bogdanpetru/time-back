@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import styled, { ThemeContext } from "styled-components";
+import styled from "styled-components";
 
 interface WrapperProps {
   hasFocus?: boolean;
@@ -56,6 +56,9 @@ interface InputProps {
   onChange: (value: string) => void;
   defaultValue?: string;
   value?: string;
+  type?: string;
+  className?: string;
+  style?: object;
 }
 
 const Input = (props: InputProps) => {
@@ -76,11 +79,12 @@ const Input = (props: InputProps) => {
   const value = props.value || localValue;
 
   return (
-    <Wrapper hasFocus={hasFocus} hasValue={Boolean(value)}>
+    <Wrapper style={props.style} className={props.className} hasFocus={hasFocus} hasValue={Boolean(value)}>
       {props.label && (
         <Label hasValue={hasFocus || Boolean(value)}>{props.label}</Label>
       )}
       <InputInner
+        type={props.type || 'text'}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleChange}

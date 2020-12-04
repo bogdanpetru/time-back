@@ -1,44 +1,36 @@
 import React from "react";
+
+// theming
 import { ThemeProvider } from "styled-components";
 import { primary } from "@app/theme";
-import {
-  Input,
-  LogoSmall,
-  LogoTextBig,
-  Button,
-  TwitterLogo,
-  GoogleLogo,
-  FacebookLogo,
-} from "@app/components";
-
 import styled from "styled-components";
+
+// routing
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Auth from './views/Auth';
+import Projects from './views/Projects';
 
 const Container = styled.div`
   max-width: 600px;
   margin: 0 auto;
 `;
 
-function tmp(str: string[], val1: string): string {
-  return `${str.join(",")} - ${val1}`;
-}
-
 function App() {
   return (
-    <Container>
+    <Router>
       <ThemeProvider theme={primary}>
-        <Button />
-        <Button primary />
-        <LogoSmall />
-        <LogoTextBig />
-        <Input onChange={console.log} label="email" />
-      
-        <GoogleLogo />
-        <FacebookLogo />
-        <TwitterLogo />
-
-
+        <Container>
+          <Switch>
+          <Route path="/login">
+            <Auth />
+          </Route>
+          <Route path="/">
+            <Projects />
+          </Route>
+          </Switch>
+        </Container>
       </ThemeProvider>
-    </Container>
+    </Router>
   );
 }
 
