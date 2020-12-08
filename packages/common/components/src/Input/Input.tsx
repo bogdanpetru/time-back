@@ -10,7 +10,7 @@ const Wrapper = styled.div<WrapperProps>`
   position: relative;
   display: flex;
   padding: 0 6px;
-  border-bottom: ${(props) => props?.theme?.input?.border_bottom};
+  border-bottom: ${(props) => props?.theme?.input?.borderBottom};
   height: ${(props) => props?.theme?.input?.height}px;
 
   ${(props) => props?.theme?.common}
@@ -20,16 +20,6 @@ const Wrapper = styled.div<WrapperProps>`
       : props?.theme?.input?.background};
 `;
 
-const InputInner = styled.input`
-  flex: 1;
-  font-size: ${(props) => props?.theme?.input?.font_size}px;
-  border: 0;
-  background: none;
-  padding-top: 16px;
-  &:focus {
-    outline: 0;
-  }
-`;
 
 interface LabelProps {
   hasValue?: boolean;
@@ -38,19 +28,29 @@ interface LabelProps {
 const Label = styled.label<LabelProps>`
   position: absolute;
   left: 8px;
-  font-size: ${(props) => props?.theme?.label?.font_size}px;
+  font-size: ${(props) => props?.theme?.label?.fontSize}px;
   transition: top 100ms;
   ${(props) =>
     props.hasValue
       ? "top: 3px;"
       : `
-    top: 10px;
-    font-size: ${props.theme.label.font_size_with_value}px;
+    top: 13px;
+    font-size: ${props.theme.label.fontSizeWithValue}px;
   `}
 
   color: ${(props) => props?.theme?.label?.color};
 `;
 
+const InputInner = styled.input`
+  flex: 1;
+  font-size: ${(props) => props?.theme?.input?.fontSize}px;
+  border: 0;
+  background: none;
+  padding-top: 19px;
+  &:focus {
+    outline: 0;
+  }
+`;
 interface InputProps {
   label: string;
   onChange: (value: string) => void;

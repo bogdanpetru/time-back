@@ -13,28 +13,29 @@ const primary = darkBlue;
 const input = {
   background_active: lightBlue,
   background: gray100,
-  height: 40,
-  border_bottom: `1px solid ${gray200}`,
-  font_size: 18, 
+  height: 42,
+  borderBottom: `1px solid ${gray200}`,
+  fontSize: 18, 
 };
 
 const label = {
-  font_size_with_value: 18,
-  font_size: 12,
+  fontSizeWithValue: 18,
+  fontSize: 14,
   color: primary,
+  colorWithValue: primary,
 }
 
 const button = {
-  font_size: 18,
+  fontSize: 18,
   color: primary,
   padding: '7px 10px', 
   primary: {
     background: yellow100,
-    active_background: yellow200,
+    activeBackground: yellow200,
   },
   secondary: {
     background: gray300,
-    active_background: gray400,
+    activeBackground: gray400,
   }
 }
 

@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import {
   LogoSmall,
   LogoTextBig,
@@ -7,7 +7,10 @@ import {
   GoogleLogo,
   FacebookLogo,
   TwitterLogo,
+  TransparentButton,
 } from "@app/components";
+import { signIn, isUserSignedIn } from '@app/data/auth';
+import { Redirect } from "react-router-dom";
 
 const Wrapper = styled.div`
   padding-top: 74px;
@@ -47,6 +50,12 @@ const SocialWrapper = styled.div`
 `;
 
 const Auth = () => {
+  const isAuthenticated = isUserSignedIn();
+
+  if (isAuthenticated) {
+    return <Redirect to="/" />
+  }
+
   return (
     <Wrapper>
       <LogoGraphWrapper>
@@ -71,7 +80,9 @@ const Auth = () => {
       </ButtonWraper>
 
       <SocialWrapper>
-        <GoogleLogo />
+        <TransparentButton onClick={signIn}>
+          <GoogleLogo />  
+        </TransparentButton>
         <FacebookLogo />
         <TwitterLogo />
       </SocialWrapper>

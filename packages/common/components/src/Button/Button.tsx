@@ -11,7 +11,7 @@ const ButtonInner = styled.button<ButtonInnerProps>`
     props.primary
       ? props?.theme?.button?.primary?.background
       : props?.theme?.button?.secondary?.background};
-  font-size: ${(props) => props?.theme?.button?.font_size}px;
+  font-size: ${(props) => props?.theme?.button?.fontSize}px;
   padding: ${(props) => props?.theme?.button?.padding};
   border: 0;
   cursor: pointer;
@@ -22,8 +22,8 @@ const ButtonInner = styled.button<ButtonInnerProps>`
   &:active {
     background: ${(props) =>
       props.primary
-        ? props?.theme?.button?.primary?.active_background
-        : props?.theme?.button?.secondary?.active_background};
+        ? props?.theme?.button?.primary?.activeBackground
+        : props?.theme?.button?.secondary?.activeBackground};
   }
 `;
 

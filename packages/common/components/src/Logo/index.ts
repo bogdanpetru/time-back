@@ -1,2 +1,2 @@
-export { default as LogoSmall } from './logo-small';
-export { default as LogoTextBig } from './logo-text-big';
+export { default as LogoSmall } from './LogoSmall';
+export { default as LogoTextBig } from './logoTextBig';

@@ -7,8 +7,15 @@ import styled from "styled-components";
 
 // routing
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Auth from './views/Auth';
-import Projects from './views/Projects';
+
+// views
+import Auth from "./views/Auth";
+import Projects from "./views/Projects";
+import ProtectedRoute from './components/ProtectedRoute';
+
+import { initializeFirebase } from '@app/data/firebase';
+
+initializeFirebase();
 
 const Container = styled.div`
   max-width: 600px;
@@ -17,20 +24,24 @@ const Container = styled.div`
 
 function App() {
   return (
-    <Router>
-      <ThemeProvider theme={primary}>
-        <Container>
+    <ThemeProvider theme={primary}>
+      <Container>
+        <Router>
           <Switch>
-          <Route path="/login">
-            <Auth />
-          </Route>
-          <Route path="/">
-            <Projects />
-          </Route>
+
+            <Route path="/login">
+              <Auth />
+            </Route>
+
+            <ProtectedRoute path="/">
+              <Projects />
+            </ProtectedRoute>
+
+
           </Switch>
-        </Container>
-      </ThemeProvider>
-    </Router>
+        </Router>
+      </Container>
+    </ThemeProvider>
   );
 }
 

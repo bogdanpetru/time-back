@@ -2,6 +2,9 @@
 
 ## should be abble to
 
+**setup**
+- [ ] remove create react app
+
 **faze I**
 - [ ] organise in projects
 - [ ] custo intervals
