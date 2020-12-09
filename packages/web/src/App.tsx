@@ -1,9 +1,9 @@
 import React from "react";
+import styled, { createGlobalStyle} from "styled-components";
 
 // theming
 import { ThemeProvider } from "styled-components";
 import { primary } from "@app/theme";
-import styled from "styled-components";
 
 // routing
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -12,19 +12,25 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Auth from "./views/Auth";
 import Projects from "./views/Projects";
 import ProtectedRoute from './components/ProtectedRoute';
+import { initAuth } from '@app/data/auth';
 
-import { initializeFirebase } from '@app/data/firebase';
-
-initializeFirebase();
+initAuth();
 
 const Container = styled.div`
   max-width: 600px;
   margin: 0 auto;
 `;
 
+const GlobalStyle = createGlobalStyle`
+  html {
+    ${primary.common}
+  }
+`;
+
 function App() {
   return (
     <ThemeProvider theme={primary}>
+      <GlobalStyle />
       <Container>
         <Router>
           <Switch>

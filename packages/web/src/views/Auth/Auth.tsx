@@ -5,12 +5,12 @@ import {
   Input,
   Button,
   GoogleLogo,
-  FacebookLogo,
-  TwitterLogo,
   TransparentButton,
 } from "@app/components";
-import { signIn, isUserSignedIn } from '@app/data/auth';
+import { t } from '@app/data/intl';
+import { isUserSignedIn, signInWithGoogle } from '@app/data/auth/utils';
 import { Redirect } from "react-router-dom";
+import { useState } from "react";
 
 const Wrapper = styled.div`
   padding-top: 74px;
@@ -42,22 +42,36 @@ const ButtonWraper = styled.div`
 `;
 
 const SocialWrapper = styled.div`
-  display: flex;
   align-items: center;
   max-width: 155px;
   margin: 0 auto;
-  justify-content: space-between;
+  text-align: center;
+`;
+
+const LoginText = styled.div`
+  margin-right: 4px;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
 `;
 
 const Auth = () => {
+  const [signinInProgres, setSigninLoading] = useState(false);
   const isAuthenticated = isUserSignedIn();
 
   if (isAuthenticated) {
     return <Redirect to="/" />
   }
 
+  const handleSignInWithGoogle = async() => {
+    setSigninLoading(true);
+    await signInWithGoogle();
+    setSigninLoading(false);
+  };
+
   return (
     <Wrapper>
+      {signinInProgres && 'loading'}
       <LogoGraphWrapper>
         <LogoSmall />
       </LogoGraphWrapper>
@@ -75,16 +89,17 @@ const Auth = () => {
       </InputWrapper>
 
       <ButtonWraper>
-        <Button primary>login</Button>
-        <Button primary>signup</Button>
+        <Button onClick={() => {}} primary>login</Button>
+        <Button onClick={() => {}} primary>signup</Button>
       </ButtonWraper>
 
       <SocialWrapper>
-        <TransparentButton onClick={signIn}>
+        <LoginText>
+          {t('Login with:')}
+        </LoginText>
+        <TransparentButton onClick={handleSignInWithGoogle}>
           <GoogleLogo />  
         </TransparentButton>
-        <FacebookLogo />
-        <TwitterLogo />
       </SocialWrapper>
     </Wrapper>
   );

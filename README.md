@@ -69,6 +69,15 @@ This component will hold all the logic that is common for all views:
 
 ## style guide
 
-### destructuring
+### always
+#### functions declarations
+- use `function` declaration for standalone functions
+- use `() => {}` for lambdas
+
+#### exports
+- one thing to export, default export
+- multiple, always named, no namespaces
+
+#### destructuring
 - as mutch as possible no destructuring
 - this way you have the notion of namespace

@@ -39,7 +39,7 @@ const button = {
   }
 }
 
-const common = `font-family: 'Inconsolata', monospace;`
+const common = `font-family: 'Inconsolata', monospace;`;
 
 const theme = {
   input,

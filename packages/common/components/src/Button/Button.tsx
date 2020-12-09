@@ -30,11 +30,12 @@ const ButtonInner = styled.button<ButtonInnerProps>`
 interface ButtonProps {
   primary?: boolean;
   children: string;
+  onClick: () => void;
 }
 
 const Button = (props: ButtonProps) => {
   return (
-    <ButtonInner primary={Boolean(props.primary)}>{props.children}</ButtonInner>
+    <ButtonInner onClick={props.onClick} primary={Boolean(props.primary)}>{props.children}</ButtonInner>
   );
 };
 

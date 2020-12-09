@@ -14,8 +14,8 @@ const Button = styled.button`
 `;
 
 interface ButtonProps {
-  onClick: () => void
-  children: React.ReactElement
+  onClick: () => void;
+  children: React.ReactNode;
 }
 
 const TransparentButton = (props: ButtonProps) => (
