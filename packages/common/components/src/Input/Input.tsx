@@ -63,7 +63,7 @@ interface InputProps {
 
 const Input = (props: InputProps) => {
   const [hasFocus, setHasFocus] = useState(false);
-  const [localValue, setValue] = useState(props.defaultValue);
+  const [localValue, setValue] = useState<string>(props.defaultValue || '');
 
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus]);
   const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus]);

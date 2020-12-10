@@ -7,9 +7,14 @@ import {
   GoogleLogo,
   TransparentButton,
 } from "@app/components";
-import { t } from '@app/data/intl';
-import { isUserSignedIn, signInWithGoogle } from '@app/data/auth/utils';
-import { Redirect } from "react-router-dom";
+import { t } from "@app/data/intl";
+import {
+  isUserSignedIn,
+  signInWithGoogle,
+  signInWithEmail,
+  signUpWithEmail,
+} from "@app/data/auth/utils";
+import { Redirect, useHistory } from "react-router-dom";
 import { useState } from "react";
 
 const Wrapper = styled.div`
@@ -57,21 +62,44 @@ const LoginText = styled.div`
 
 const Auth = () => {
   const [signinInProgres, setSigninLoading] = useState(false);
-  const isAuthenticated = isUserSignedIn();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const history = useHistory();
 
-  if (isAuthenticated) {
-    return <Redirect to="/" />
+  if (isUserSignedIn()) {
+    return <Redirect to="/" />;
   }
 
-  const handleSignInWithGoogle = async() => {
+  if (signinInProgres) {
+    return <>'we will be back in a moment'</>;
+  }
+
+  const handleSignInWithGoogle = async () => {
     setSigninLoading(true);
     await signInWithGoogle();
     setSigninLoading(false);
   };
 
+  const handleSignUpWithEmail = async () => {
+    setSigninLoading(true);
+    await signUpWithEmail(email, password);
+    setSigninLoading(false);
+    history.push("/");
+  };
+
+  const handleSignInWithEmail = async () => {
+    setSigninLoading(true);
+    await signInWithEmail(email, password);
+    setSigninLoading(false);
+    history.push("/");
+  };
+
+  const buttonsDisabled = !email || !password;
+
+  
   return (
     <Wrapper>
-      {signinInProgres && 'loading'}
+      {signinInProgres && "loading"}
       <LogoGraphWrapper>
         <LogoSmall />
       </LogoGraphWrapper>
@@ -81,24 +109,41 @@ const Auth = () => {
 
       <InputWrapper>
         <Input
+          label={t("email")}
+          onChange={setEmail}
           style={{ marginBottom: 23 }}
-          label="username"
-          onChange={console.log}
+          type="email"
+          value={email}
         />
-        <Input label="password" type="password" onChange={console.log} />
+        <Input
+          label="password"
+          onChange={setPassword}
+          type="password"
+          value={password}
+        />
       </InputWrapper>
 
       <ButtonWraper>
-        <Button onClick={() => {}} primary>login</Button>
-        <Button onClick={() => {}} primary>signup</Button>
+        <Button
+          disabled={buttonsDisabled}
+          onClick={handleSignInWithEmail}
+          primary
+        >
+          {t("login")}
+        </Button>
+        <Button
+          disabled={buttonsDisabled}
+          onClick={handleSignUpWithEmail}
+          primary
+        >
+          {t("signup")}
+        </Button>
       </ButtonWraper>
 
       <SocialWrapper>
-        <LoginText>
-          {t('Login with:')}
-        </LoginText>
+        <LoginText>{t("Login with:")}</LoginText>
         <TransparentButton onClick={handleSignInWithGoogle}>
-          <GoogleLogo />  
+          <GoogleLogo />
         </TransparentButton>
       </SocialWrapper>
     </Wrapper>

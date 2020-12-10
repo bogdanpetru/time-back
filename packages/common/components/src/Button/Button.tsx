@@ -16,10 +16,14 @@ const ButtonInner = styled.button<ButtonInnerProps>`
   border: 0;
   cursor: pointer;
 
-  &:focus {
+  :disabled {
+    opacity: 0.5;
+  }
+
+  :focus {
     outline: none;
   }
-  &:active {
+  :active {
     background: ${(props) =>
       props.primary
         ? props?.theme?.button?.primary?.activeBackground
@@ -30,12 +34,13 @@ const ButtonInner = styled.button<ButtonInnerProps>`
 interface ButtonProps {
   primary?: boolean;
   children: string;
+  disabled?: boolean;
   onClick: () => void;
 }
 
 const Button = (props: ButtonProps) => {
   return (
-    <ButtonInner onClick={props.onClick} primary={Boolean(props.primary)}>{props.children}</ButtonInner>
+    <ButtonInner {...props}/>
   );
 };
 
