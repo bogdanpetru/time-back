@@ -2,6 +2,11 @@
 
 ## should be abble to
 
+**chores**
+
+- [ ] add webpack alias for providers
+- [ ] think about providers vs importing services directly
+
 **setup**
 - [x] remove create react app
 
