@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, createContext } from "react";
 import styled, { createGlobalStyle} from "styled-components";
 
 // theming
@@ -9,12 +9,23 @@ import { primary } from "@app/theme";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // views
-import Auth from "./views/Auth";
 import Projects from "./views/Projects";
 import ProtectedRoute from './components/ProtectedRoute';
-import { initAuth } from '@app/data/auth';
+import Auth from "./views/Auth";
 
-initAuth();
+import AuthContext from './providers/auth';
+import AuthSerice from '@app/data/auth';
+
+const authService = AuthSerice.of({
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.FIREBASE_DATA_BASE_URL,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID
+});
 
 const Container = styled.div`
   max-width: 600px;
@@ -28,26 +39,37 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    (async () => {
+      await authService.init();
+      setLoading(false);
+    })();
+  }, [authService.init]);
+
+  if (loading) {
+    return <>'loading'</>;
+  }
+
   return (
-    <ThemeProvider theme={primary}>
-      <GlobalStyle />
-      <Container>
-        <Router>
-          <Switch>
-
-            <Route path="/login">
-              <Auth />
-            </Route>
-
-            <ProtectedRoute path="/">
-              <Projects />
-            </ProtectedRoute>
-
-
-          </Switch>
-        </Router>
-      </Container>
-    </ThemeProvider>
+    <AuthContext.Provider value={authService}>
+      <ThemeProvider theme={primary}>
+        <GlobalStyle />
+        <Container>
+          <Router>
+            <Switch>
+              <Route path="/login">
+                <Auth />
+              </Route>
+              <ProtectedRoute path="/">
+                <Projects />
+              </ProtectedRoute>
+            </Switch>
+          </Router>
+        </Container>
+      </ThemeProvider>
+    </AuthContext.Provider>
   );
 }
 

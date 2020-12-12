@@ -1,3 +1,4 @@
+import { useContext, useState } from 'react';
 import styled from "styled-components";
 import {
   LogoSmall,
@@ -8,14 +9,8 @@ import {
   TransparentButton,
 } from "@app/components";
 import { t } from "@app/data/intl";
-import {
-  isUserSignedIn,
-  signInWithGoogle,
-  signInWithEmail,
-  signUpWithEmail,
-} from "@app/data/auth/utils";
 import { Redirect, useHistory } from "react-router-dom";
-import { useState } from "react";
+import authContext from '../../providers/auth';
 
 const Wrapper = styled.div`
   padding-top: 74px;
@@ -61,12 +56,13 @@ const LoginText = styled.div`
 `;
 
 const Auth = () => {
+  const auth = useContext(authContext);
   const [signinInProgres, setSigninLoading] = useState(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const history = useHistory();
 
-  if (isUserSignedIn()) {
+  if (auth.isUserSignedIn()) {
     return <Redirect to="/" />;
   }
 
@@ -76,20 +72,20 @@ const Auth = () => {
 
   const handleSignInWithGoogle = async () => {
     setSigninLoading(true);
-    await signInWithGoogle();
+    await auth.signInWithGoogle();
     setSigninLoading(false);
   };
 
   const handleSignUpWithEmail = async () => {
     setSigninLoading(true);
-    await signUpWithEmail(email, password);
+    await auth.signUpWithEmail(email, password);
     setSigninLoading(false);
     history.push("/");
   };
 
   const handleSignInWithEmail = async () => {
     setSigninLoading(true);
-    await signInWithEmail(email, password);
+    await auth.signInWithEmail(email, password);
     setSigninLoading(false);
     history.push("/");
   };

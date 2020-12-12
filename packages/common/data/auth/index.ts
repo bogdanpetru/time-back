@@ -1,2 +1,1 @@
-export * from './utils';
-export { initializeFirebase as initAuth } from './firebase';
+export { default } from './service';

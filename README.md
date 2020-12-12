@@ -31,8 +31,10 @@
 
 common
   /components
-  /services
+  /data
     /api
+      /service - are statefull entities
+      /utils - are stateless utils
 web
 mobile
 
@@ -54,8 +56,7 @@ This component will hold all the logic that is common for all views:
 - ruting
 - theminig
 - any global context providers
-
-### comoponents
+### components
 
 /components - specific components for the web
 
