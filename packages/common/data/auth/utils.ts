@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import 'firebase/auth';
 
 setTimeout(() => {
-  firebase.auth().onAuthStateChanged((...dd) => console.log('dude', ...dd));
+  firebase.auth().onAuthStateChanged((args: any) => console.log('dude', args));
 }, 3000);
 
 export function signInWithEmail(email: string, password: string) {
@@ -14,17 +14,17 @@ export async function signUpWithEmail(email: string, password: string) {
 }
 
 export function signInWithGoogle() {
-  var provider = new firebase.auth.GoogleAuthProvider();
+  const provider = new firebase.auth.GoogleAuthProvider();
   return firebase.auth().signInWithPopup(provider);
 }
 
 export function signInWithTwitter() {
-  var provider = new firebase.auth.TwitterAuthProvider();
+  const provider = new firebase.auth.TwitterAuthProvider();
   return firebase.auth().signInWithPopup(provider);
 }
 
 export function signInWithFacebook() {
-  var provider = new firebase.auth.FacebookAuthProvider();
+  const provider = new firebase.auth.FacebookAuthProvider();
   return firebase.auth().signInWithPopup(provider);
 }
 

@@ -3,7 +3,7 @@
 ## should be abble to
 
 **setup**
-- [ ] remove create react app
+- [x] remove create react app
 
 **faze I**
 - [ ] organise in projects
@@ -82,3 +82,12 @@ This component will hold all the logic that is common for all views:
 #### destructuring
 - as mutch as possible no destructuring
 - this way you have the notion of namespace
+
+
+## Stack
+
+### build/dev
+
+The app uses vanila **webpack**. I've tired to  use parcel and create-react-app.
+
+Both alternatives (I create-react-app uses webpack) were hard to work with with typescript, yarn packages, web and react-native.
