@@ -5,7 +5,10 @@
 **chores**
 
 - [ ] add webpack alias for providers
-- [ ] think about providers vs importing services directly
+  - [ ] not sure this is needed because anything I would want to import should bee already a child, or it should reside ini @app/common
+- [x] think about providers vs importing services directly
+- [ ] add eslint and prettier in webpack
+- [ ] move tsconfig to root, so all projects can use the same config
 
 **setup**
 - [x] remove create react app
