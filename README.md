@@ -19,7 +19,7 @@
 
 **faze II**
 - [ ] allow using the app without logging in
-  - [ ] save the data in indexdb or localstorage for web
+  - [ ] save the data in indexdb or localstorage for web\
 - [ ] logged in with faundadb
 - [ ] require stronger password
 
@@ -32,7 +32,7 @@
 
 ## structure
 
-## packages
+### packages
 
 common
   /components
@@ -43,7 +43,7 @@ common
 web
 mobile
 
-## components
+### components
 
 
 [structure](https://www.robinwieruch.de/react-folder-structure)
@@ -53,30 +53,27 @@ component-name/
   /test.ts
   /style.js
 
-## web
+### web
 
-### /src/App.tsx
+#### /src/App.tsx
 
 This component will hold all the logic that is common for all views:
 - ruting
 - theminig
 - any global context providers
-### components
+#### /components
 
 /components - specific components for the web
 
-##### views
+#### /views
 
 /views - each route of the app, hold view data
-
 /views/ViewName/
 /views/ViewName/index.ts
 /views/ViewName/ViewName.ts
 /views/ViewName/components/specific to the view?
 
 ## style guide
-
-### always
 #### functions declarations
 - use `function` declaration for standalone functions
 - use `() => {}` for lambdas

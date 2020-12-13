@@ -10,7 +10,7 @@ import {
 } from "@app/components";
 import { t } from "@app/data/intl";
 import { Redirect, useHistory } from "react-router-dom";
-import authContext from '../../providers/auth';
+import { AuthContext } from '@app/data/auth';
 
 const Wrapper = styled.div`
   padding-top: 74px;
@@ -56,7 +56,7 @@ const LoginText = styled.div`
 `;
 
 const Auth = () => {
-  const auth = useContext(authContext);
+  const auth = useContext(AuthContext);
   const [signinInProgres, setSigninLoading] = useState(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

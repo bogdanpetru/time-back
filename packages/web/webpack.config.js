@@ -34,5 +34,5 @@ module.exports = {
       template: "public/index.html",
     }),
     new Dotenv(),
-  ],
+  ]
 };

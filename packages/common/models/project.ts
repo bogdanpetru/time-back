@@ -12,7 +12,7 @@ interface ProjectConfig {
 	pomodoros?: Pomodoro[],
 }
 
-export class Project implements Project {
+export class Project {
 	id: string = null
 	name: string = null;
 	description: string = null;

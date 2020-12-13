@@ -1,6 +1,6 @@
 import { createContext } from 'react'; 
 
-import AuthSerice from '@app/data/auth';
+import AuthSerice from './service';
 
 const AuthContext = createContext<AuthSerice>(null);
 

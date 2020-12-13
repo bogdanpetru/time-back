@@ -13,10 +13,9 @@ import Projects from "./views/Projects";
 import ProtectedRoute from './components/ProtectedRoute';
 import Auth from "./views/Auth";
 
-import AuthContext from './providers/auth';
-import AuthSerice from '@app/data/auth';
+import { useAuth, AuthContext } from '@app/data/auth';
 
-const authService = AuthSerice.of({
+const authServiceConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.FIREBASE_DATA_BASE_URL,
@@ -25,7 +24,7 @@ const authService = AuthSerice.of({
   messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.FIREBASE_APP_ID,
   measurementId: process.env.FIREBASE_MEASUREMENT_ID
-});
+};
 
 const Container = styled.div`
   max-width: 600px;
@@ -39,15 +38,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    (async () => {
-      await authService.init();
-      setLoading(false);
-    })();
-  }, [authService.init]);
-
+  const { loading, authService } = useAuth(authServiceConfig);
   if (loading) {
     return <>'loading'</>;
   }
