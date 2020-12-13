@@ -11,8 +11,8 @@
 - [x] remove create react app
 
 **faze I**
-- [ ] organise in projects
-- [ ] custo intervals
+- [ ] organize in projects
+- [ ] custom intervals
 - [ ] notes on pomodoros and projects
 - [ ] can add notes while the timer is running
 - [ ] able to use it as a fasting timer
@@ -38,7 +38,7 @@ common
   /components
   /data
     /api
-      /service - are statefull entities
+      /service - are stateful entities
       /utils - are stateless utils
 web
 mobile
@@ -58,13 +58,23 @@ component-name/
 #### /src/App.tsx
 
 This component will hold all the logic that is common for all views:
-- ruting
-- theminig
+- routing
+- theming
 - any global context providers
 #### /components
 
 /components - specific components for the web
 
+#### styled components
+
+`styled-components` are first class components:
+  -  we do not discriminate, the follow the same naming convention as any other component 
+  -  they are not segregated in `styled` folders
+
+Naming:
+- `Wrapper` - the out-most element, when one is needed
+- `ComponentInner` - when the styled component represents the main part of the component
+  - e.g. an Input component whould have an `InputInner` for the styled-input-componet
 #### /views
 
 /views - each route of the app, hold view data
@@ -74,23 +84,29 @@ This component will hold all the logic that is common for all views:
 /views/ViewName/components/specific to the view?
 
 ## style guide
-#### functions declarations
-- use `function` declaration for standalone functions
-- use `() => {}` for lambdas
 
+### Priniciples
+
+- easy to extend and refactor
+- less code is better when it does not impact readability
+  - e.g. all functions are declared with arrow function, shorter readability
+#### functions declarations
+- use `() => {}` declaration for any function with the exception of generators
+- `why` 
+  -  everything is a variable
+  -  less code for simple components, no `return` statement
+  -  e.g. a styled-component when changing to proper component, less text to edit
 #### exports
 - one thing to export, default export
 - multiple, always named, no namespaces
 
 #### destructuring
-- as mutch as possible no destructuring
-- this way you have the notion of namespace
-
-
+- no destructuring for props
+  - easy to see what are props or other types of variables
 ## Stack
 
 ### build/dev
 
-The app uses vanila **webpack**. I've tired to  use parcel and create-react-app.
+The app uses vanilla **webpack**. I've tired to  use parcel and create-react-app.
 
 Both alternatives (I create-react-app uses webpack) were hard to work with with typescript, yarn packages, web and react-native.

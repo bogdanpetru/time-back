@@ -6,6 +6,7 @@ const gray300 = '#E5E5E5';
 const gray400 = '#DDDCDC';
 const yellow100 = '#F8BD00';
 const yellow200 = '#EEB600';
+const red = '#E00202';
 
 const primary = darkBlue;
 
@@ -39,6 +40,19 @@ const button = {
   }
 }
 
+const text = {
+  color: primary,
+  fontSize: 14,
+};
+
+const error = {
+  color: red,
+};
+
+const loader = {
+  background_color: yellow100,
+};
+
 const common = `font-family: 'Inconsolata', monospace;`;
 
 const theme = {
@@ -47,6 +61,9 @@ const theme = {
   label,
   primary,
   button,
+  error,
+  text,
+  loader,
 };
 
 export default theme;

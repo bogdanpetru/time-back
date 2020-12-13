@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import {
   LogoSmall,
@@ -7,14 +7,17 @@ import {
   Button,
   GoogleLogo,
   TransparentButton,
+  ErrorText,
+  Loader,
 } from "@app/components";
 import { t } from "@app/data/intl";
 import { Redirect, useHistory } from "react-router-dom";
-import { AuthContext } from '@app/data/auth';
+import { AuthContext } from "@app/data/auth";
 
 const Wrapper = styled.div`
+  position: relative;
   padding-top: 74px;
-  max-width: 255px;
+  max-width: 300px;
   margin: 0 auto;
 `;
 
@@ -55,10 +58,22 @@ const LoginText = styled.div`
   margin-bottom: 20px;
 `;
 
+const LoaderWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Auth = () => {
   const auth = useContext(AuthContext);
-  const [signinInProgres, setSigninLoading] = useState(false);
+  const [signingInProgress, setSigninLoading] = useState(false);
   const [email, setEmail] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const history = useHistory();
 
@@ -66,36 +81,41 @@ const Auth = () => {
     return <Redirect to="/" />;
   }
 
-  if (signinInProgres) {
-    return <>'we will be back in a moment'</>;
+  if (signingInProgress) {
+    return (
+      <LoaderWrapper>
+        <Loader />
+      </LoaderWrapper>
+    );
   }
 
-  const handleSignInWithGoogle = async () => {
+  const handleSignUp = (
+    signUpFn: (email: string, password: string) => Promise<any>
+  ) => async () => {
     setSigninLoading(true);
-    await auth.signInWithGoogle();
-    setSigninLoading(false);
+    try {
+      await signUpFn(email, password);
+      history.push("/");
+    } catch (error) {
+      if (error && error.message) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage(t("Failed to sign in."));
+      }
+    } finally {
+      setSigninLoading(false);
+    }
   };
 
-  const handleSignUpWithEmail = async () => {
-    setSigninLoading(true);
-    await auth.signUpWithEmail(email, password);
-    setSigninLoading(false);
-    history.push("/");
-  };
-
-  const handleSignInWithEmail = async () => {
-    setSigninLoading(true);
-    await auth.signInWithEmail(email, password);
-    setSigninLoading(false);
-    history.push("/");
-  };
-
+  const handleSignInWithGoogle = handleSignUp(auth.signInWithGoogle);
+  const handleSignUpWithEmail = handleSignUp(auth.signUpWithEmail);
+  const handleSignInWithEmail = handleSignUp(auth.signInWithEmail);
   const buttonsDisabled = !email || !password;
 
-  
+  console.log("errorMessage", errorMessage);
+
   return (
     <Wrapper>
-      {signinInProgres && "loading"}
       <LogoGraphWrapper>
         <LogoSmall />
       </LogoGraphWrapper>
@@ -135,13 +155,13 @@ const Auth = () => {
           {t("signup")}
         </Button>
       </ButtonWraper>
-
       <SocialWrapper>
         <LoginText>{t("Login with:")}</LoginText>
         <TransparentButton onClick={handleSignInWithGoogle}>
           <GoogleLogo />
         </TransparentButton>
       </SocialWrapper>
+      {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
     </Wrapper>
   );
 };

@@ -1,17 +1,17 @@
 import { useState, useEffect }  from 'react';
-import AuthSerice, { AuthConfig } from './service';
+import AuthService, { AuthConfig } from './service';
 
-const useAuth = (config: AuthConfig)  => {
+function useAuth (config: AuthConfig) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-  const [authService, setAuthService] = useState<AuthSerice>(null);
+  const [authService, setAuthService] = useState<AuthService>(null);
 
   useEffect(() => {
-    const authServiceInsance = AuthSerice.of(config);
-    setAuthService(authServiceInsance);
+    const authServiceInstance = AuthService.of(config);
+    setAuthService(authServiceInstance);
     (async() => {
       try {
-        await authServiceInsance.init();
+        await authServiceInstance.init();
       } catch (error) {
         setError(error);
       } finally {
@@ -19,7 +19,7 @@ const useAuth = (config: AuthConfig)  => {
       }
     })()
     
-  }, [AuthSerice])
+  }, [AuthService])
 
   return {authService, loading, error};
 }
