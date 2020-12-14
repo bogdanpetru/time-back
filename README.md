@@ -25,6 +25,7 @@
   - [ ] save the data in indexdb or localstorage for web\
 - [ ] logged in with faundadb
 - [ ] require stronger password
+- [ ] server side rendering
 
 **faze III**
 - [ ] tags

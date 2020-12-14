@@ -10,6 +10,7 @@ const Wrapper = styled.div<WrapperProps>`
   position: relative;
   display: flex;
   padding: 0 6px;
+  margin-bottom: 20px;
   border-bottom: ${(props) => props?.theme?.input?.borderBottom};
   height: ${(props) => props?.theme?.input?.height}px;
 

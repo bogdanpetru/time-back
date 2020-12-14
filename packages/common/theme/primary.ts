@@ -45,6 +45,10 @@ const text = {
   fontSize: 14,
 };
 
+const title = {
+  color: primary,
+}
+
 const error = {
   color: red,
 };
@@ -64,6 +68,7 @@ const theme = {
   error,
   text,
   loader,
+  title,
 };
 
 export default theme;

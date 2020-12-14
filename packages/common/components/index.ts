@@ -5,3 +5,4 @@ export { LogoSmall, LogoTextBig } from './src/Logo';
 export { TwitterLogo, GoogleLogo, FacebookLogo } from './src/SocialMedia';
 export { default as ErrorText } from './src/ErrorText';
 export { default as Loader } from './src/Loader';
+export { default as Title } from './src/Title';

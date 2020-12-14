@@ -1,6 +1,8 @@
 import { useContext } from "react";
-import { Button } from "@app/components";
 import { AuthContext } from '@app/data/auth';
+import { Link } from 'react-router-dom';
+
+import CreateProject from './Create';
 
 const Projects = () => {
   const auth = useContext(AuthContext);
@@ -8,8 +10,11 @@ const Projects = () => {
 
   return (
     <div>
-      <Button onClick={handleSignOut}>signout</Button>
-      projects
+      <Link to="/create">
+        creatte
+      </Link>
+
+      <CreateProject />
     </div>
   );
 };
