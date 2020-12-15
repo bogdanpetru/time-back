@@ -1,17 +1,13 @@
 import { useState, useEffect }  from 'react';
-import AuthService, { AuthConfig } from './service';
+import init, { AuthConfig } from './init';
 
 function useAuth (config: AuthConfig) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-  const [authService, setAuthService] = useState<AuthService>(null);
-
   useEffect(() => {
-    const authServiceInstance = AuthService.of(config);
-    setAuthService(authServiceInstance);
     (async() => {
       try {
-        await authServiceInstance.init();
+        await init(config);
       } catch (error) {
         setError(error);
       } finally {
@@ -19,9 +15,9 @@ function useAuth (config: AuthConfig) {
       }
     })()
     
-  }, [AuthService])
+  }, [init])
 
-  return {authService, loading, error};
+  return {loading, error};
 }
 
 export default useAuth;

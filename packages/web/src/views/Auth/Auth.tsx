@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { Redirect, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import {
   LogoSmall,
@@ -11,8 +12,13 @@ import {
   Loader,
 } from "@app/components";
 import { t } from "@app/data/intl";
-import { Redirect, useHistory } from "react-router-dom";
-import { AuthContext } from "@app/data/auth";
+
+import {
+  isUserSignedIn,
+  signInWithGoogle,
+  signUpWithEmail,
+  signInWithEmail,
+} from "@app/data/auth";
 
 const Wrapper = styled.div`
   position: relative;
@@ -38,7 +44,7 @@ const InputWrapper = styled.div`
   margin-bottom: 48px;
 `;
 
-const ButtonWraper = styled.div`
+const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0 auto 87px;
@@ -70,14 +76,13 @@ const LoaderWrapper = styled.div`
 `;
 
 const Auth = () => {
-  const auth = useContext(AuthContext);
-  const [signingInProgress, setSigninLoading] = useState(false);
+  const [signingInProgress, setSignInLoading] = useState(false);
   const [email, setEmail] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const history = useHistory();
 
-  if (auth.isUserSignedIn()) {
+  if (isUserSignedIn()) {
     return <Redirect to="/" />;
   }
 
@@ -92,7 +97,7 @@ const Auth = () => {
   const handleSignUp = (
     signUpFn: (email: string, password: string) => Promise<any>
   ) => async () => {
-    setSigninLoading(true);
+    setSignInLoading(true);
     try {
       await signUpFn(email, password);
       history.push("/");
@@ -103,13 +108,13 @@ const Auth = () => {
         setErrorMessage(t("Failed to sign in."));
       }
     } finally {
-      setSigninLoading(false);
+      setSignInLoading(false);
     }
   };
 
-  const handleSignInWithGoogle = handleSignUp(auth.signInWithGoogle);
-  const handleSignUpWithEmail = handleSignUp(auth.signUpWithEmail);
-  const handleSignInWithEmail = handleSignUp(auth.signInWithEmail);
+  const handleSignInWithGoogle = handleSignUp(signInWithGoogle);
+  const handleSignUpWithEmail = handleSignUp(signUpWithEmail);
+  const handleSignInWithEmail = handleSignUp(signInWithEmail);
   const buttonsDisabled = !email || !password;
 
   console.log("errorMessage", errorMessage);
@@ -139,7 +144,7 @@ const Auth = () => {
         />
       </InputWrapper>
 
-      <ButtonWraper>
+      <ButtonWrapper>
         <Button
           disabled={buttonsDisabled}
           onClick={handleSignInWithEmail}
@@ -154,7 +159,7 @@ const Auth = () => {
         >
           {t("signup")}
         </Button>
-      </ButtonWraper>
+      </ButtonWrapper>
       <SocialWrapper>
         <LoginText>{t("Login with:")}</LoginText>
         <TransparentButton onClick={handleSignInWithGoogle}>

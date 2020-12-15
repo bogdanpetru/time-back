@@ -13,7 +13,8 @@ import Projects from "./views/Projects";
 import ProtectedRoute from './components/ProtectedRoute';
 import Auth from "./views/Auth";
 
-import { useAuth, AuthContext } from '@app/data/auth';
+import { useAuth } from '@app/data/auth';
+import { Loader } from "@app/components";
 
 const authServiceConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -38,13 +39,13 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-  const { loading, authService } = useAuth(authServiceConfig);
+  const { loading } = useAuth(authServiceConfig);
+  
   if (loading) {
-    return <>'loading'</>;
+    return <Loader />;
   }
 
   return (
-    <AuthContext.Provider value={authService}>
       <ThemeProvider theme={primary}>
         <GlobalStyle />
         <Container>
@@ -60,7 +61,6 @@ function App() {
           </Router>
         </Container>
       </ThemeProvider>
-    </AuthContext.Provider>
   );
 }
 

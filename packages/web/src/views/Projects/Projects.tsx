@@ -1,12 +1,10 @@
-import { useContext } from "react";
-import { AuthContext } from '@app/data/auth';
+import { signOut } from '@app/data/auth';
 import { Link } from 'react-router-dom';
 
-import CreateProject from './Create';
+import EditCreateProject from './EditCreateProject';
 
 const Projects = () => {
-  const auth = useContext(AuthContext);
-  const handleSignOut = () => auth.signOut();
+  const handleSignOut = () => signOut();
 
   return (
     <div>
@@ -14,7 +12,7 @@ const Projects = () => {
         creatte
       </Link>
 
-      <CreateProject />
+      <EditCreateProject />
     </div>
   );
 };

@@ -1,3 +1,3 @@
-export { default } from './service';
+export { default as initAuth } from './init';
 export { default as useAuth } from './useAuth';
-export { default as AuthContext } from './context';
+export * from './utils';

@@ -2,15 +2,19 @@
 
 ```ts
 
-interface User {
+interface Users {
   id: ID;
   name?: string;
   projects?: Project[];
 }
 
-interface Projects {
-
+interface Project {
+  name: string;
+  strawberries: []
 }
 
+interface Strawberry {
+
+}
 
 ```
