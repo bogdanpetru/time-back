@@ -6,7 +6,7 @@ export interface StrawberryConfig {
 }
 
 export interface Strawberry extends StrawberryConfig {
-  id: string;
+	id: string;
 }
 
 export interface ProjectDescription {

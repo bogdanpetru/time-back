@@ -7,28 +7,23 @@ const getDb = () => {
   return firebase.firestore();
 }
 
-interface CreateProject {
-  projectId?: string;
-  projectDetails: ProjectDescription;
-}
-
-export const createProject = async ({
-  projectId = null,
-  projectDetails
-}: CreateProject) : Promise<any> => {
+export const saveProject = async (
+  { projectId = null, projectDetails} : 
+  { projectId?: string, projectDetails: ProjectDescription }
+) : Promise<any> => {
   const db = getDb();
   const user = firebase.auth().currentUser;
-
-  console.log(projectDetails);
 
   const docRef = await db
     .collection('users')
     .doc(user.uid)
     .collection('projects')
-    .doc(projectId || undefined)
-    .set({
-      projectDetails
-    });
+    .doc(projectDetails.name);
 
-  console.log(docRef);
+  console.log(projectDetails.name);
+
+  await docRef.set(projectDetails, { merge: true });
+    
+
+  console.log('docref', docRef);
 };

@@ -4,11 +4,19 @@
 
 **chores**
 
-- [ ] add webpack alias for providers
+- [-] add webpack alias for providers
   - [ ] not sure this is needed because anything I would want to import should bee already a child, or it should reside ini @app/common
 - [x] think about providers vs importing services directly
 - [ ] add eslint and prettier in webpack
 - [ ] move tsconfig to root, so all projects can use the same config
+
+**security settings**
+
+- [ ] restrict users to edit their own data
+- [ ] restrict to a maximum of projects
+- [ ] restrict the length of each value
+- [ ] add validation in a cloud function
+- [ ] sanity - restrict the number of writes/reads/day
 
 **setup**
 - [x] remove create react app

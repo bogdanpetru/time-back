@@ -54,6 +54,7 @@ const InputInner = styled.input`
 `;
 interface InputProps {
   label: string;
+  required?: boolean;
   onChange: (value: string) => void;
   defaultValue?: string;
   value?: string;
@@ -85,6 +86,7 @@ const Input = (props: InputProps) => {
         <Label hasValue={hasFocus || Boolean(value)}>{props.label}</Label>
       )}
       <InputInner
+        required
         type={props.type || 'text'}
         onFocus={handleFocus}
         onBlur={handleBlur}

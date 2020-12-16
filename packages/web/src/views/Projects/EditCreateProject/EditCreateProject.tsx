@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input, Button, Title } from "@app/components";
 import { t } from "@app/data/intl";
-import { createProject } from "@app/data/projects";
+import { saveProject } from "@app/data/projects";
 
 const noop = () => {};
 
@@ -46,7 +46,7 @@ const EditCreateProject = (props: EditCreateProjectProps) => {
   const isNew = Boolean(props.id);
   const form = useForm({
     initialValues: {
-      projectName: "",
+      name: "",
       description: "",
       numberOfStrawberries: "",
       strawberrySize: "",
@@ -55,27 +55,28 @@ const EditCreateProject = (props: EditCreateProjectProps) => {
     onSubmit: () => {},
   });
 
-  const addProject = () => {
+  const addProject = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const values = Object.entries(form).reduce((acc: any, [key,  field]) => {
       acc[key] = field.value;
       return acc
     }, {});
 
-    createProject({ projectDetails: values});
+    saveProject({ projectDetails: values});
   };
 
   return (
-    <div>
+    <form onSubmit={addProject}>
       <Title center>{t("Create Project")}</Title>
-      <Input value={form.projectName.value} onChange={form.projectName.onChange} label={t("project name")}  />
+      <Input required value={form.name.value} onChange={form.name.onChange} label={t("project name")}  />
       <Input value={form.strawberrySize.value} onChange={form.strawberrySize.onChange} label={t("strawberry size")} />
       <Input value={form.numberOfStrawberries.value} onChange={form.numberOfStrawberries.onChange} label={t("number of strawberries")} />
       <Input value={form.breakSize.value} onChange={form.breakSize.onChange} label={t("break size")} />
       <Input value={form.description.value} onChange={form.description.onChange} label={t("description")} />
-      <Button primary onClick={addProject}>
+      <Button type="submit" primary>
         {t(isNew ? "edit" : "save")}
       </Button>
-    </div>
+    </form>
   );
 };
 

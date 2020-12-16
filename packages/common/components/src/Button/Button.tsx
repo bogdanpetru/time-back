@@ -31,11 +31,8 @@ const ButtonInner = styled.button<ButtonInnerProps>`
   }
 `;
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   primary?: boolean;
-  children: string;
-  disabled?: boolean;
-  onClick: () => void;
 }
 
 const Button = (props: ButtonProps) => {
