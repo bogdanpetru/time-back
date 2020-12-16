@@ -9,6 +9,8 @@
 - [x] think about providers vs importing services directly
 - [ ] add eslint and prettier in webpack
 - [ ] move tsconfig to root, so all projects can use the same config
+- [ ] clean up 
+- [ ] move useForm outside and add generics
 
 **security settings**
 

@@ -2,45 +2,13 @@ import { useState } from "react";
 import { Input, Button, Title } from "@app/components";
 import { t } from "@app/data/intl";
 import { saveProject } from "@app/data/projects";
+import useForm from '@app/hooks/useForm';
 
 const noop = () => {};
 
 interface EditCreateProjectProps {
   id?: string;
 }
-
-interface UseFormInterface {
-  initialValues: {
-    [index: string]: string;
-  };
-  onSubmit: (values: any) => void;
-}
-
-interface FormInterface {
-  [key: string]: {
-    value: any;
-    onChange: (value: any) => void
-  }
-}
-
-const useForm = ({ initialValues, onSubmit }: UseFormInterface): FormInterface => {
-  const fieldsKeys = Object.keys(initialValues).sort() || [];
-  return fieldsKeys.reduce(
-    (
-      acc: { [key: string]: { value: string; onChange: (value: any) => any } },
-      key: string
-    ) => {
-      const [value, setValue] = useState<any>(initialValues[key]);
-      acc[key] = {
-        value,
-        onChange: setValue,
-      };
-
-      return acc;
-    },
-    {}
-  );
-};
 
 const EditCreateProject = (props: EditCreateProjectProps) => {
   const isNew = Boolean(props.id);
