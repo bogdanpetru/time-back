@@ -1,1 +1,1 @@
-export { default } from './EditCreateProject';
+export { default } from './EditCreateProject'

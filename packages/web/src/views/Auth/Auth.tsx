@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
-import styled from "styled-components";
+import { useContext, useState } from 'react'
+import { Redirect, useHistory } from 'react-router-dom'
+import styled from 'styled-components'
 import {
   LogoSmall,
   LogoTextBig,
@@ -10,22 +10,22 @@ import {
   TransparentButton,
   ErrorText,
   Loader,
-} from "@app/components";
-import { t } from "@app/data/intl";
+} from '@app/components'
+import { t } from '@app/data/intl'
 
 import {
   isUserSignedIn,
   signInWithGoogle,
   signUpWithEmail,
   signInWithEmail,
-} from "@app/data/auth";
+} from '@app/data/auth'
 
 const Wrapper = styled.div`
   position: relative;
   padding-top: 74px;
   max-width: 300px;
   margin: 0 auto;
-`;
+`
 
 const LogoWrapper = styled.div`
   text-align: center;
@@ -34,35 +34,35 @@ const LogoWrapper = styled.div`
   svg {
     display: inline-block;
   }
-`;
+`
 
 const LogoGraphWrapper = styled(LogoWrapper)`
   margin-bottom: 47px;
-`;
+`
 
 const InputWrapper = styled.div`
   margin-bottom: 48px;
-`;
+`
 
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0 auto 87px;
-`;
+`
 
 const SocialWrapper = styled.div`
   align-items: center;
   max-width: 155px;
   margin: 0 auto;
   text-align: center;
-`;
+`
 
 const LoginText = styled.div`
   margin-right: 4px;
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 20px;
-`;
+`
 
 const LoaderWrapper = styled.div`
   position: absolute;
@@ -73,17 +73,17 @@ const LoaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const Auth = () => {
-  const [signingInProgress, setSignInLoading] = useState(false);
-  const [email, setEmail] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const history = useHistory();
+  const [signingInProgress, setSignInLoading] = useState(false)
+  const [email, setEmail] = useState<string>('')
+  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const history = useHistory()
 
   if (isUserSignedIn()) {
-    return <Redirect to="/" />;
+    return <Redirect to="/" />
   }
 
   if (signingInProgress) {
@@ -91,33 +91,33 @@ const Auth = () => {
       <LoaderWrapper>
         <Loader />
       </LoaderWrapper>
-    );
+    )
   }
 
   const handleSignUp = (
     signUpFn: (email: string, password: string) => Promise<any>
   ) => async () => {
-    setSignInLoading(true);
+    setSignInLoading(true)
     try {
-      await signUpFn(email, password);
-      history.push("/");
+      await signUpFn(email, password)
+      history.push('/')
     } catch (error) {
       if (error && error.message) {
-        setErrorMessage(error.message);
+        setErrorMessage(error.message)
       } else {
-        setErrorMessage(t("Failed to sign in."));
+        setErrorMessage(t('Failed to sign in.'))
       }
     } finally {
-      setSignInLoading(false);
+      setSignInLoading(false)
     }
-  };
+  }
 
-  const handleSignInWithGoogle = handleSignUp(signInWithGoogle);
-  const handleSignUpWithEmail = handleSignUp(signUpWithEmail);
-  const handleSignInWithEmail = handleSignUp(signInWithEmail);
-  const buttonsDisabled = !email || !password;
+  const handleSignInWithGoogle = handleSignUp(signInWithGoogle)
+  const handleSignUpWithEmail = handleSignUp(signUpWithEmail)
+  const handleSignInWithEmail = handleSignUp(signInWithEmail)
+  const buttonsDisabled = !email || !password
 
-  console.log("errorMessage", errorMessage);
+  console.log('errorMessage', errorMessage)
 
   return (
     <Wrapper>
@@ -130,7 +130,7 @@ const Auth = () => {
 
       <InputWrapper>
         <Input
-          label={t("email")}
+          label={t('email')}
           onChange={setEmail}
           style={{ marginBottom: 23 }}
           type="email"
@@ -150,25 +150,25 @@ const Auth = () => {
           onClick={handleSignInWithEmail}
           primary
         >
-          {t("login")}
+          {t('login')}
         </Button>
         <Button
           disabled={buttonsDisabled}
           onClick={handleSignUpWithEmail}
           primary
         >
-          {t("signup")}
+          {t('signup')}
         </Button>
       </ButtonWrapper>
       <SocialWrapper>
-        <LoginText>{t("Login with:")}</LoginText>
+        <LoginText>{t('Login with:')}</LoginText>
         <TransparentButton onClick={handleSignInWithGoogle}>
           <GoogleLogo />
         </TransparentButton>
       </SocialWrapper>
       {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Auth;
+export default Auth
