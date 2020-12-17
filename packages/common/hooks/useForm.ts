@@ -4,36 +4,50 @@ interface UseFormInterface {
   initialValues: {
     [index: string]: string
   }
+  validators?: {
+    // returns the error text
+    [index: string]: (value: any) => string
+  }
   onSubmit: (values: any) => void
 }
 
+interface FieldInterface {
+  value: any
+  onChange: (value: any) => void
+  error?: string
+}
+
 interface FormInterface {
-  [key: string]: {
-    value: any
-    onChange: (value: any) => void
-  }
+  [key: string]: FieldInterface
+  onSubmit: () => void
 }
 
 const useForm = ({
-  initialValues,
+  initialValues, // note: needs to be static, fields cannot be added/removed with this model
+  validators,
   onSubmit,
 }: UseFormInterface): FormInterface => {
-  const fieldsKeys = Object.keys(initialValues).sort() || []
-  return fieldsKeys.reduce(
-    (
-      acc: { [key: string]: { value: string; onChange: (value: any) => any } },
-      key: string
-    ) => {
-      const [value, setValue] = useState<any>(initialValues[key])
-      acc[key] = {
-        value,
-        onChange: setValue,
-      }
+  const keys = Object.keys(initialValues).sort() || []
+  const config = {}
 
-      return acc
-    },
-    {}
-  )
+  const fields = keys.reduce((acc: {[key: string]: FieldInterface}, key: string) => {
+    const [value, setValue] = useState<any>(initialValues[key])
+    const error =
+      typeof validators[key] === 'function' ? validators[key](value) : void 0
+
+    acc[key] = {
+      value,
+      onChange: setValue,
+      error,
+    }
+
+    return acc
+  }, {})
+
+  return {
+    onSubmit: () => {},
+    ..fields,
+  }
 }
 
 export default useForm

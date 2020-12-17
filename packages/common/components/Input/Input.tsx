@@ -1,9 +1,10 @@
-import { useState, useCallback } from "react";
-import styled from "styled-components";
+import { useState, useCallback } from 'react'
+import styled from 'styled-components'
 
 interface WrapperProps {
-  hasFocus?: boolean;
-  hasValue?: boolean;
+  hasFocus?: boolean
+  hasValue?: boolean
+  error?: string
 }
 
 const Wrapper = styled.div<WrapperProps>`
@@ -11,7 +12,10 @@ const Wrapper = styled.div<WrapperProps>`
   display: flex;
   padding: 0 6px;
   margin-bottom: 20px;
-  border-bottom: ${(props) => props?.theme?.input?.borderBottom};
+  border-bottom: ${(props) =>
+    props.error
+      ? props?.theme?.input?.borderBottomError
+      : props?.theme?.input?.borderBottom};
   height: ${(props) => props?.theme?.input?.height}px;
 
   ${(props) => props?.theme?.common}
@@ -19,11 +23,10 @@ const Wrapper = styled.div<WrapperProps>`
     props?.hasFocus
       ? props?.theme?.input?.background_active
       : props?.theme?.input?.background};
-`;
-
+`
 
 interface LabelProps {
-  hasValue?: boolean;
+  hasValue?: boolean
 }
 
 const Label = styled.label<LabelProps>`
@@ -33,14 +36,14 @@ const Label = styled.label<LabelProps>`
   transition: top 100ms;
   ${(props) =>
     props.hasValue
-      ? "top: 3px;"
+      ? 'top: 3px;'
       : `
     top: 13px;
     font-size: ${props.theme.label.fontSizeWithValue}px;
   `}
 
   color: ${(props) => props?.theme?.label?.color};
-`;
+`
 
 const InputInner = styled.input`
   flex: 1;
@@ -51,42 +54,49 @@ const InputInner = styled.input`
   &:focus {
     outline: 0;
   }
-`;
+`
 interface InputProps {
-  label: string;
-  required?: boolean;
-  onChange: (value: string) => void;
-  defaultValue?: string;
-  value?: string;
-  type?: string;
-  className?: string;
-  style?: object;
+  label: string
+  required?: boolean
+  onChange: (value: string) => void
+  defaultValue?: string
+  value?: string
+  type?: string
+  className?: string
+  style?: object
+  error?: string
 }
 
 const Input = (props: InputProps) => {
-  const [hasFocus, setHasFocus] = useState(false);
-  const [localValue, setValue] = useState<string>(props.defaultValue || '');
+  const [hasFocus, setHasFocus] = useState(false)
+  const [localValue, setValue] = useState<string>(props.defaultValue || '')
 
-  const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus]);
-  const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus]);
+  const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
+  const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
   const handleChange = useCallback(
     (event) => {
-      const newValue = event.target.value;
-      props?.onChange(newValue);
-      setValue(newValue);
+      const newValue = event.target.value
+      props?.onChange(newValue)
+      setValue(newValue)
     },
     [props.onChange]
-  );
+  )
 
-  const value = props.value || localValue;
+  const value = props.value || localValue
 
   return (
-    <Wrapper style={props.style} className={props.className} hasFocus={hasFocus} hasValue={Boolean(value)}>
+    <Wrapper
+      error={props.error}
+      style={props.style}
+      className={props.className}
+      hasFocus={hasFocus}
+      hasValue={Boolean(value)}
+    >
       {props.label && (
+        // TODO: find a better prop name for label
         <Label hasValue={hasFocus || Boolean(value)}>{props.label}</Label>
       )}
       <InputInner
-        required
         type={props.type || 'text'}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -94,7 +104,7 @@ const Input = (props: InputProps) => {
         value={value}
       />
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Input;
+export default Input

@@ -12,6 +12,13 @@
 - [ ] clean up 
 - [ ] move useForm outside and add generics
 
+**todos**
+
+- [ ] basic input validation on project details
+- [ ] design a project card/list view
+  - [ ] needs to have all the information
+  - [ ] with a big play button
+
 **security settings**
 
 - [ ] restrict users to edit their own data
