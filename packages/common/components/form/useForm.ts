@@ -11,12 +11,23 @@ interface UseFormInterface {
   onSubmit: (values: any) => void
 }
 
+interface Errors {
+  [key: string]: string
+}
+
+interface ChangeHandlers {
+  [key: string]: (value: any) => void
+}
+
+interface Values {
+  [key: string]: string
+}
+
 interface FormInterface {
-  [key: string]: {
-    value: any
-    onChange: (value: any) => void
-    error?: string
-  }
+  changeHandlers: ChangeHandlers
+  errors: Errors
+  onSubmit: (values: any) => void
+  values: Values
 }
 
 const useForm = ({
@@ -24,22 +35,31 @@ const useForm = ({
   validators,
   onSubmit,
 }: UseFormInterface): FormInterface => {
-  const keys = Object.keys(initialValues).sort() || []
-  const fields = {}
+  const values = {} as Values
+  const errors = {} as Errors
+  const changeHandlers = {} as ChangeHandlers
 
-  return keys.reduce((acc: FormInterface, key: string) => {
+  for (const key of Object.keys(initialValues).sort() || []) {
     const [value, setValue] = useState<any>(initialValues[key])
     const error =
       typeof validators[key] === 'function' ? validators[key](value) : void 0
 
-    acc[key] = {
-      value,
-      onChange: setValue,
-      error,
-    }
+    values[key] = value
+    errors[key] = error
+    changeHandlers[key] = setValue
+  }
 
-    return acc
-  }, {})
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    onSubmit(values)
+  }
+
+  return {
+    changeHandlers,
+    errors,
+    onSubmit: handleSubmit,
+    values,
+  }
 }
 
 export default useForm

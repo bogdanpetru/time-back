@@ -11,13 +11,7 @@ interface EditCreateProjectProps {
 const EditCreateProject = (props: EditCreateProjectProps) => {
   const isNew = Boolean(props.id)
 
-  const addProject = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const values = Object.entries(form).reduce((acc: any, [key, field]) => {
-      acc[key] = field.value
-      return acc
-    }, {})
-
+  const addProject = (values: any) => {
     saveProject({ projectDetails: values })
   }
 
@@ -41,33 +35,33 @@ const EditCreateProject = (props: EditCreateProjectProps) => {
       <Title center>{t('Create Project')}</Title>
       <Input
         required
-        error={form.name.error}
-        value={form.name.value}
-        onChange={form.name.onChange}
+        error={form.errors.name}
+        value={form.values.name}
+        onChange={form.changeHandlers.name}
         label={t('project name')}
       />
       <Input
-        value={form.strawberrySize.value}
-        error={form.strawberrySize.error}
-        onChange={form.strawberrySize.onChange}
+        error={form.errors.strawberrySize}
+        value={form.values.strawberrySize}
+        onChange={form.changeHandlers.strawberrySize}
         label={t('strawberry size')}
       />
       <Input
-        value={form.numberOfStrawberries.value}
-        error={form.numberOfStrawberries.error}
-        onChange={form.numberOfStrawberries.onChange}
+        error={form.errors.numberOfStrawberries}
+        value={form.values.numberOfStrawberries}
+        onChange={form.changeHandlers.numberOfStrawberries}
         label={t('number of strawberries')}
       />
       <Input
-        value={form.breakSize.value}
-        error={form.breakSize.error}
-        onChange={form.breakSize.onChange}
+        error={form.errors.breakSize}
+        value={form.values.breakSize}
+        onChange={form.changeHandlers.breakSize}
         label={t('break size')}
       />
       <Input
-        value={form.description.value}
-        error={form.description.error}
-        onChange={form.description.onChange}
+        error={form.errors.description}
+        value={form.values.description}
+        onChange={form.changeHandlers.description}
         label={t('description')}
       />
       <Button type="submit" primary>

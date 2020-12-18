@@ -1,16 +1,5 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist/",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true
-  },
+  "extends": "../../tsconfig.json",
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts"],
 }
