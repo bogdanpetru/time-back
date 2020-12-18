@@ -48,11 +48,11 @@ const useForm = ({
             : void 0
         setErrors({
           ...errors,
-          key: error,
+          [key]: error,
         })
         setValues({
           ...values,
-          key: value,
+          [key]: value,
         })
       }
       return acc
