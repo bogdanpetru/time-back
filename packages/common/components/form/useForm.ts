@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-interface UseFormInterface {
+interface UseFormParams {
   initialValues: {
     [index: string]: string
   }
@@ -28,29 +28,43 @@ interface FormInterface {
   errors: Errors
   onSubmit: (values: any) => void
   values: Values
+  isSubmitted: boolean
 }
 
 const useForm = ({
   initialValues, // note: needs to be static, fields cannot be added/removed with this model
   validators,
   onSubmit,
-}: UseFormInterface): FormInterface => {
-  const values = {} as Values
-  const errors = {} as Errors
-  const changeHandlers = {} as ChangeHandlers
-
-  for (const key of Object.keys(initialValues).sort() || []) {
-    const [value, setValue] = useState<any>(initialValues[key])
-    const error =
-      typeof validators[key] === 'function' ? validators[key](value) : void 0
-
-    values[key] = value
-    errors[key] = error
-    changeHandlers[key] = setValue
-  }
+}: UseFormParams): FormInterface => {
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
+  const [values, setValues] = useState<Values>(initialValues)
+  const [errors, setErrors] = useState<Errors>({})
+  const changeHandlers = Object.keys(initialValues).reduce(
+    (acc, key: string) => {
+      acc[key] = (value) => {
+        const error =
+          typeof validators[key] === 'function'
+            ? validators[key](value)
+            : void 0
+        setErrors({
+          ...errors,
+          key: error,
+        })
+        setValues({
+          ...values,
+          key: value,
+        })
+      }
+      return acc
+    },
+    {} as ChangeHandlers
+  )
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (!isSubmitted) {
+      setIsSubmitted(true)
+    }
     onSubmit(values)
   }
 
@@ -59,6 +73,7 @@ const useForm = ({
     errors,
     onSubmit: handleSubmit,
     values,
+    isSubmitted: isSubmitted,
   }
 }
 

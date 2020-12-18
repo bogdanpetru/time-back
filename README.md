@@ -106,7 +106,7 @@ Naming:
 
 ## style guide
 
-### Priniciples
+### Principles
 
 - easy to extend and refactor
 - less code is better when it does not impact readability
@@ -124,6 +124,11 @@ Naming:
 #### destructuring
 - no destructuring for props
   - easy to see what are props or other types of variables
+
+####
+- all booleans are prefixed with `is`
+
+
 ## Stack
 
 ### build/dev
