@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { Redirect, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import {
@@ -116,8 +116,6 @@ const Auth = () => {
   const handleSignUpWithEmail = handleSignUp(signUpWithEmail)
   const handleSignInWithEmail = handleSignUp(signInWithEmail)
   const buttonsDisabled = !email || !password
-
-  console.log('errorMessage', errorMessage)
 
   return (
     <Wrapper>

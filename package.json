@@ -1,7 +1,7 @@
 {
   "private": true,
   "workspaces": [
-    "./packages/common/*", 
+    "./packages/common/*",
     "./packages/web"
   ],
   "name": "time-back",
@@ -10,6 +10,7 @@
   "author": "bogdan petru pintican <bogdan.pintican@8x8.com>",
   "license": "MIT",
   "scripts": {
+    "reset": "find . -type d -name 'node_modules' -exec rm -r {} +  && yarn",
     "start-andorid": "cd ./packages/mobile && npx react-native run-android",
     "start": "yarn workspace @app/web start"
   }

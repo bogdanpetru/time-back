@@ -1,17 +1,14 @@
 import { signOut } from '@app/data/auth'
-import { Link } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
-import EditCreateProject from './EditCreateProject'
+import { CreateProject, EditProject } from './EditCreateProject'
 
 const Projects = () => {
-  const handleSignOut = () => signOut()
-
   return (
-    <div>
-      <Link to="/create">creatte</Link>
-
-      <EditCreateProject />
-    </div>
+    <Switch>
+      <Route exact path="/" component={CreateProject} />
+      <Route path="/:projectId" component={EditProject} />
+    </Switch>
   )
 }
 

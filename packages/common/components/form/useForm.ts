@@ -1,79 +1,90 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-interface UseFormParams {
-  initialValues: {
-    [index: string]: string
-  }
-  validators?: {
-    // returns the error text
-    [index: string]: (value: any) => string
-  }
+interface InputDescription {
+  name: string
+  initialValue?: any
+  isValid?: Array<(value: any) => string>
+}
+
+interface InputInterface {
+  value: any
+  onChange: (value: any) => void
+  error?: string
+  silentError?: string
+}
+
+interface InputsInterface {
+  [key: string]: InputInterface
+}
+
+interface UseForm {
+  inputs: InputsInterface
   onSubmit: (values: any) => void
-}
-
-interface Errors {
-  [key: string]: string
-}
-
-interface ChangeHandlers {
-  [key: string]: (value: any) => void
-}
-
-interface Values {
-  [key: string]: string
-}
-
-interface FormInterface {
-  changeHandlers: ChangeHandlers
-  errors: Errors
-  onSubmit: (values: any) => void
-  values: Values
   isSubmitted: boolean
 }
 
-const useForm = ({
-  initialValues, // note: needs to be static, fields cannot be added/removed with this model
-  validators,
-  onSubmit,
-}: UseFormParams): FormInterface => {
+const getErrors = (
+  value: any,
+  predicates: Array<(value: any) => string>
+): string[] => predicates?.map?.((isValid) => isValid(value)).filter(Boolean)
+
+const useForm = (
+  inputDescriptions: InputDescription[],
+  onSubmit: (values: any) => void
+): UseForm => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
-  const [values, setValues] = useState<Values>(initialValues)
-  const [errors, setErrors] = useState<Errors>({})
-  const changeHandlers = Object.keys(initialValues).reduce(
-    (acc, key: string) => {
-      acc[key] = (value) => {
-        const error =
-          typeof validators[key] === 'function'
-            ? validators[key](value)
-            : void 0
-        setErrors({
-          ...errors,
-          [key]: error,
-        })
+  const [values, setValues] = useState<{ [key: string]: any }>({})
+
+  const inputs = inputDescriptions.reduce((acc, input) => {
+    const value = values[input.name]
+    const inputErrors = getErrors(value, input.isValid)
+    acc[input.name] = {
+      value,
+      onChange: (value) =>
         setValues({
           ...values,
-          [key]: value,
-        })
-      }
-      return acc
-    },
-    {} as ChangeHandlers
-  )
+          [input.name]: value,
+        }),
+      [isSubmitted ? 'error' : 'silentError']: inputErrors
+        ? inputErrors[0]
+        : '',
+    }
+    return acc
+  }, {} as InputsInterface)
+
+  useEffect(() => {
+    const initialValues = inputDescriptions.reduce<{ [key: string]: any }>(
+      (acc, input) => {
+        acc[input.name] = input.initialValue || ''
+        return acc
+      },
+      {}
+    )
+    setValues(initialValues)
+  }, [setValues])
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!isSubmitted) {
       setIsSubmitted(true)
     }
+
+    const hasErrors = inputDescriptions.some((input) =>
+      isSubmitted
+        ? inputs[input.name]?.error?.length
+        : inputs[input.name]?.silentError?.length
+    )
+    if (hasErrors) {
+      return
+    }
+
     onSubmit(values)
   }
 
   return {
-    changeHandlers,
-    errors,
     onSubmit: handleSubmit,
-    values,
-    isSubmitted: isSubmitted,
+    inputs,
+    isSubmitted,
   }
 }
 
