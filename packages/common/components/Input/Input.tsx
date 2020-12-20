@@ -1,13 +1,11 @@
 import React, { useState, useCallback, useRef } from 'react'
 import styled from 'styled-components'
 
-interface WrapperProps {
+const Wrapper = styled.div<{
   hasFocus?: boolean
   hasValue?: boolean
   error?: string
-}
-
-const Wrapper = styled.div<WrapperProps>`
+}>`
   position: relative;
   display: flex;
   padding: 0 6px;
@@ -25,11 +23,7 @@ const Wrapper = styled.div<WrapperProps>`
       : props?.theme?.input?.background};
 `
 
-interface LabelProps {
-  hasValue?: boolean
-}
-
-const Label = styled.label<LabelProps>`
+const Label = styled.label<{ hasValue?: boolean }>`
   position: absolute;
   left: 8px;
   font-size: ${(props) => props?.theme?.label?.fontSize}px;
