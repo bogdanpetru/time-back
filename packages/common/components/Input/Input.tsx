@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
 import styled from 'styled-components'
 
 interface WrapperProps {
@@ -34,6 +34,7 @@ const Label = styled.label<LabelProps>`
   left: 8px;
   font-size: ${(props) => props?.theme?.label?.fontSize}px;
   transition: top 100ms;
+  cursor: text;
   ${(props) =>
     props.hasValue
       ? 'top: 3px;'
@@ -68,48 +69,52 @@ interface InputProps {
   name?: string
 }
 
-const Input = React.forwardRef(
-  (props: InputProps, ref: React.Ref<HTMLInputElement>) => {
-    const [hasFocus, setHasFocus] = useState(false)
-    const [localValue, setValue] = useState<string>(props.defaultValue || '')
+const Input = (props: InputProps) => {
+  const [hasFocus, setHasFocus] = useState(false)
+  const [localValue, setValue] = useState<string>(props.defaultValue || '')
+  const inputRef = useRef<HTMLInputElement>()
 
-    const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
-    const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
-    const handleChange = useCallback(
-      (event) => {
-        const newValue = event.target.value
-        props?.onChange(newValue)
-        setValue(newValue)
-      },
-      [props.onChange]
-    )
-
-    const value = props.value || localValue
-
-    return (
-      <Wrapper
-        error={props.error}
-        style={props.style}
-        className={props.className}
-        hasFocus={hasFocus}
-        hasValue={Boolean(value)}
-      >
-        {props.label && (
-          // TODO: find a better prop name for label
-          <Label hasValue={hasFocus || Boolean(value)}>{props.label}</Label>
-        )}
-        <InputInner
-          ref={ref}
-          name={props.name}
-          type={props.type || 'text'}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          value={value}
-        />
-      </Wrapper>
-    )
+  const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
+  const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
+  const handleChange = useCallback(
+    (event) => {
+      const newValue = event.target.value
+      props?.onChange(newValue)
+      setValue(newValue)
+    },
+    [props.onChange]
+  )
+  const handleLabelClick = () => {
+    inputRef?.current?.focus()
   }
-)
+
+  const value = props.value || localValue
+
+  return (
+    <Wrapper
+      error={props.error}
+      style={props.style}
+      className={props.className}
+      hasFocus={hasFocus}
+      hasValue={Boolean(value)}
+    >
+      {props.label && (
+        // TODO: find a better prop name for label
+        <Label onClick={handleLabelClick} hasValue={hasFocus || Boolean(value)}>
+          {props.label}
+        </Label>
+      )}
+      <InputInner
+        ref={inputRef}
+        name={props.name}
+        type={props.type || 'text'}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        value={value}
+      />
+    </Wrapper>
+  )
+}
 
 export default Input

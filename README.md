@@ -19,6 +19,11 @@
   - [ ] needs to have all the information
   - [ ] with a big play button
 
+**before publish**
+- [ ] add firebase security rules
+- [ ] disable project
+- [ ] create new project (so the keys were not compromised)
+
 **security settings**
 
 - [ ] restrict users to edit their own data

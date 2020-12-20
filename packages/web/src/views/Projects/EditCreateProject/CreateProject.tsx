@@ -1,4 +1,5 @@
-import { Input, Button, Title } from '@app/components'
+import { useState } from 'react'
+import { Input, Button, Title, Loader } from '@app/components'
 import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
 import { saveProject } from '@app/data/projects'
@@ -12,6 +13,7 @@ interface CreateProjectProps {
 }
 
 const CreateProject = (props: CreateProjectProps) => {
+  const [isSaving, setIsSaving] = useState<boolean>(false)
   const history = useHistory()
   const form = useForm(
     [
@@ -27,10 +29,17 @@ const CreateProject = (props: CreateProjectProps) => {
       { name: 'description' },
     ],
     async (values: any) => {
+      setIsSaving(true)
       const docId = await saveProject({ projectDetails: values })
+      setIsSaving(false)
+      // TODO: add error handling
       history.push(`/${docId}`)
     }
   )
+
+  if (isSaving) {
+    return <Loader />
+  }
 
   return (
     <form onSubmit={form.onSubmit}>
