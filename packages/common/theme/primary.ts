@@ -4,6 +4,7 @@ const gray100 = '#F2F2F2'
 const gray200 = '#C4C4C4'
 const gray300 = '#E5E5E5'
 const gray400 = '#DDDCDC'
+const gray500 = '#DADADA'
 const yellow100 = '#F8BD00'
 const yellow200 = '#EEB600'
 const red = '#E00202'
@@ -59,15 +60,22 @@ const loader = {
 
 const common = `font-family: 'Inconsolata', monospace;`
 
+const list = {
+  item: {
+    borderColor: gray500,
+  },
+}
+
 const theme = {
-  input,
-  common,
-  label,
-  primary,
   button,
+  common,
   error,
-  text,
+  input,
+  label,
+  list,
   loader,
+  primary,
+  text,
   title,
 }
 

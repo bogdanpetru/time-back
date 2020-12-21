@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Input, Button, Title, Loader, DefaultView } from '@app/components'
+import { Input, Button, Loader } from '@app/components'
+import DefaultView from '../../../components/DefaultView'
 import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
 import { saveProject } from '@app/data/projects'
@@ -53,13 +54,12 @@ const CreateProject = (props: CreateProjectProps) => {
   )
 
   return (
-    <DefaultView>
+    <DefaultView
+      title={
+        form?.inputs?.name?.value || props.project?.name || t('Create Project')
+      }
+    >
       <form onSubmit={form.onSubmit}>
-        <Title center>
-          {form?.inputs?.name?.value ||
-            props.project?.name ||
-            t('Create Project')}
-        </Title>
         <Input {...form.inputs.name} label={t('project name')} />
         <Input {...form.inputs.strawberrySize} label={t('strawberry size')} />
         <Input

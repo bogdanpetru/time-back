@@ -1,5 +1,5 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*", "../common/components/DefaultView.tsx"],
-  "exclude": ["node_modules", "**/*.spec.ts"],
+  "include": ["src/**/*", "src/components/DefaultView.tsx"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }
