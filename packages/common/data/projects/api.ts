@@ -14,18 +14,25 @@ export const getProjectsRef = () => {
 }
 
 export const saveProject = async ({
-  projectId = null,
+  projectId,
   projectDetails,
 }: {
   projectId?: string
   projectDetails: ProjectDescription
 }): Promise<string> => {
-  const docRef = getProjectsRef().doc(projectDetails.name)
+  const docRef = getProjectsRef().doc(projectId)
   await docRef.set(projectDetails, { merge: true })
   return docRef.id
 }
 
-export const getProject = async (id: string) => {
+export const getProject = async (projectId: string) => {
   const docRef = getProjectsRef()
-  return await docRef.doc(id).get()
+  return (await docRef.doc(projectId).get()).data()
+}
+
+export const getAllProjects = async () => {
+  return (await getProjectsRef().get()).docs.map((item) => ({
+    ...item.data(),
+    id: item.id,
+  }))
 }

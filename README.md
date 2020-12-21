@@ -11,6 +11,8 @@
 - [ ] move tsconfig to root, so all projects can use the same config
 - [ ] clean up 
 - [ ] move useForm outside and add generics
+- [ ] add types to api
+- [ ] add data validation in firebase
 
 **todos**
 
@@ -141,3 +143,10 @@ Naming:
 The app uses vanilla **webpack**. I've tired to  use parcel and create-react-app.
 
 Both alternatives (I create-react-app uses webpack) were hard to work with with typescript, yarn packages, web and react-native.
+
+## URLs
+
+Project url uses the projects name. To have this:
+- name must be unique
+- spaces are replaced with `-` 
+- to be able to replace spaces with `-`, `project-name` and `project name` are the same

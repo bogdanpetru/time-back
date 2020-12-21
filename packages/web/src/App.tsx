@@ -28,7 +28,7 @@ const authServiceConfig = {
 }
 
 const Container = styled.div`
-  max-width: 600px;
+  max-width: 480px;
   margin: 0 auto;
 `
 

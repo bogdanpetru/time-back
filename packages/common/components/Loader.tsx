@@ -1,7 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
+import FullView from './FullView'
 
-const Wrapper = styled.div`
+const LoaderWrapper = styled(FullView)`
+  background: rgba(255, 255, 255, 0.8);
+`
+
+const LoaderInner = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -54,11 +59,13 @@ const Loader = () => {
   }, [currentIndex])
 
   return (
-    <Wrapper>
-      {[...Array(numOfBullets)].map((_, index) => (
-        <Bullet key={index} active={index === currentIndex} />
-      ))}
-    </Wrapper>
+    <LoaderWrapper>
+      <LoaderInner>
+        {[...Array(numOfBullets)].map((_, index) => (
+          <Bullet key={index} active={index === currentIndex} />
+        ))}
+      </LoaderInner>
+    </LoaderWrapper>
   )
 }
 
