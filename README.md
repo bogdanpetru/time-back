@@ -14,6 +14,11 @@
 - [ ] add types to api
 - [ ] add data validation in firebase
 - [ ] add types to theme
+- [ ] add stats document
+  - [ ] number of projects
+  - [ ] key for each project with how many intervals it has
+- [ ] limit the amount of projects per user
+- [ ] limit the amount of intervals in a period of time
 
 **todos**
 

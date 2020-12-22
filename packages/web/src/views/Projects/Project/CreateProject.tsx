@@ -57,7 +57,14 @@ const CreateProject = (props: CreateProjectProps) => {
   useDocumentTitle(title)
 
   return (
-    <DefaultView title={title}>
+    <DefaultView
+      title={title}
+      footer={
+        <Button onClick={form.onSubmit} type="submit" primary>
+          {t(props.project ? 'edit' : 'save')}
+        </Button>
+      }
+    >
       <form onSubmit={form.onSubmit}>
         <Input {...form.inputs.name} label={t('project name')} />
         <Input {...form.inputs.strawberrySize} label={t('strawberry size')} />
@@ -76,9 +83,6 @@ const CreateProject = (props: CreateProjectProps) => {
           type="text"
           label={t('description')}
         />
-        <Button type="submit" primary>
-          {t(props.project ? 'edit' : 'save')}
-        </Button>
       </form>
       {isSaving && <Loader />}
     </DefaultView>
