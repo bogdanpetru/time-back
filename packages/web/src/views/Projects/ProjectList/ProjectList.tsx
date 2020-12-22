@@ -12,6 +12,7 @@ import {
   Loader,
   TransparentButton,
   useDocumentTitle,
+  Button,
 } from '@app/components'
 import { Project } from '@app/data/projects'
 import DefaultView from '../../../components/DefaultView'
@@ -22,6 +23,10 @@ const ActionButton = styled(TransparentButton)`
   svg {
     cursor: pointer;
   }
+`
+
+const ProjectListInner = styled(List)`
+  min-height: 400px;
 `
 
 const ProjectList = () => {
@@ -47,10 +52,21 @@ const ProjectList = () => {
     history.push(`/go/${projectId}`)
   }
 
+  const newProject = () => {
+    history.push(`/new`)
+  }
+
   return (
-    <DefaultView title={t('strawberries')}>
+    <DefaultView
+      title={t('strawberries')}
+      footer={
+        <Button onClick={newProject} primary>
+          {t('new project')}
+        </Button>
+      }
+    >
       {isLoading && <Loader />}
-      <List>
+      <ProjectListInner>
         {projects.map((project) => (
           <ListItem key={project.id} onClick={handlePlay(project.id)}>
             {project.name}
@@ -69,7 +85,7 @@ const ProjectList = () => {
             </ActionButton>
           </ListItem>
         ))}
-      </List>
+      </ProjectListInner>
     </DefaultView>
   )
 }

@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import { LogoText, Title, TransparentButton } from '@app/components'
+import { LogoText, Title, TransparentButton, Footer } from '@app/components'
 
 const DefaultViewWrapper = styled.div`
   padding-top: 10px;
@@ -11,7 +11,10 @@ const LogoWrapper = styled.div`
   margin-bottom: 30px;
 `
 
-const DefaultView: FunctionComponent<{ title?: string }> = (props) => {
+const DefaultView: FunctionComponent<{
+  title?: string
+  footer?: React.ReactElement
+}> = (props) => {
   const history = useHistory()
 
   const logoClick = () => {
@@ -27,6 +30,7 @@ const DefaultView: FunctionComponent<{ title?: string }> = (props) => {
       </LogoWrapper>
       {props.title && <Title center>{props.title}</Title>}
       {props.children}
+      {props.footer && <Footer>{props.footer}</Footer>}
     </DefaultViewWrapper>
   )
 }
