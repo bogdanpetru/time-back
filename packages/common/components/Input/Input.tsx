@@ -93,7 +93,6 @@ const Input = (props: InputProps) => {
       hasValue={Boolean(value)}
     >
       {props.label && (
-        // TODO: find a better prop name for label
         <Label onClick={handleLabelClick} hasValue={hasFocus || Boolean(value)}>
           {props.label}
         </Label>

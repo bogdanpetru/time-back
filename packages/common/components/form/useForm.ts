@@ -30,7 +30,8 @@ const getErrors = (
 
 const useForm = (
   inputDescriptions: InputDescription[],
-  onSubmit: (values: any) => void
+  onSubmit: (values: any) => void,
+  options: { initialValues: { [key: string]: any } } = { initialValues: {} }
 ): UseForm => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
   const [values, setValues] = useState<{ [key: string]: any }>({})
@@ -58,7 +59,7 @@ const useForm = (
         acc[input.name] = input.initialValue || ''
         return acc
       },
-      {}
+      { ...options.initialValues }
     )
     setValues(initialValues)
   }, [setValues])

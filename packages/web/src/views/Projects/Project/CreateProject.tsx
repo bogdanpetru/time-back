@@ -3,15 +3,13 @@ import { Input, Button, Loader } from '@app/components'
 import DefaultView from '../../../components/DefaultView'
 import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
-import { saveProject } from '@app/data/projects'
-import useForm from '@app/components/form/useForm'
+import { saveProject, Project } from '@app/data/projects'
+import useForm from '@app/components/Form/useForm'
 
-import { isRequired } from '@app/components/form/validators'
+import { isRequired } from '@app/components/Form/validators'
 
 interface CreateProjectProps {
-  project?: {
-    [key: string]: any
-  }
+  project?: Project
 }
 
 const CreateProject = (props: CreateProjectProps) => {

@@ -10,10 +10,11 @@ import {
   Spacer,
   Loader,
 } from '@app/components'
+import { Project } from '@app/data/projects'
 import DefaultView from '../../../components/DefaultView'
 
 const ProjectList = () => {
-  const [projects, setProjects] = useState<any>([])
+  const [projects, setProjects] = useState<Project[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const history = useHistory()
   useEffect(() => {
@@ -33,8 +34,8 @@ const ProjectList = () => {
     <DefaultView title={t('strawberries')}>
       {isLoading && <Loader />}
       <List>
-        {projects.map((project: any) => (
-          <ListItem onClick={handleItemClick(project.id)}>
+        {projects.map((project) => (
+          <ListItem key={project.id} onClick={handleItemClick(project.id)}>
             {project.name}
             <Spacer />
             <PlayIcon />

@@ -10,6 +10,7 @@ const yellow200 = '#EEB600'
 const red = '#E00202'
 
 const primary = darkBlue
+const highlight = yellow100
 
 const input = {
   background_active: lightBlue,
@@ -66,6 +67,11 @@ const list = {
   },
 }
 
+const toast = {
+  background: highlight,
+  color: primary,
+}
+
 const theme = {
   button,
   common,
@@ -77,6 +83,7 @@ const theme = {
   primary,
   text,
   title,
+  toast,
 }
 
 export default theme

@@ -14,7 +14,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Auth from './views/Auth'
 
 import { useAuth } from '@app/data/auth'
-import { Loader } from '@app/components'
+import { Loader, ToastContainer } from '@app/components'
 
 const authServiceConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -48,18 +48,20 @@ function App() {
   return (
     <ThemeProvider theme={primary}>
       <GlobalStyle />
-      <Container>
-        <Router>
-          <Switch>
-            <Route path="/login">
-              <Auth />
-            </Route>
-            <ProtectedRoute path="/">
-              <Projects />
-            </ProtectedRoute>
-          </Switch>
-        </Router>
-      </Container>
+      <ToastContainer>
+        <Container>
+          <Router>
+            <Switch>
+              <Route path="/login">
+                <Auth />
+              </Route>
+              <ProtectedRoute path="/">
+                <Projects />
+              </ProtectedRoute>
+            </Switch>
+          </Router>
+        </Container>
+      </ToastContainer>
     </ThemeProvider>
   )
 }

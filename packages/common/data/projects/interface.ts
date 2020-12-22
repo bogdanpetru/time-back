@@ -1,25 +1,23 @@
 export interface StrawberryConfig {
-  startTime?: number;
-  endTime?: number;
-  notes?: string;
-  name?: string;
+  startTime?: number
+  endTime?: number
+  notes?: string
+  name?: string
 }
 
 export interface Strawberry extends StrawberryConfig {
-	id: string;
+  id: string
 }
 
 export interface ProjectDescription {
-	name: string;
-	description?: string;
-	numberOfStrawberries?: number;
-	strawberrySize: number;
-	breakSize?: number;
-	breakLongSize?: number;
-	breakLongNth?: number;
-	strawberries?: Strawberry[],
+  name: string
+  strawberrySize: number
+  breakSize?: number
+  description?: string
+  numberOfStrawberries?: number
+  strawberries?: Strawberry[]
 }
 
 export interface Project extends ProjectDescription {
-  id: string;
+  id: string
 }

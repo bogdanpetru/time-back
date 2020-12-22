@@ -13,6 +13,7 @@
 - [ ] move useForm outside and add generics
 - [ ] add types to api
 - [ ] add data validation in firebase
+- [ ] add types to theme
 
 **todos**
 

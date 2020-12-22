@@ -1,5 +1,5 @@
 import { Switch, Route } from 'react-router-dom'
-import { CreateProject, EditProject } from './EditCreateProject'
+import { CreateProject, EditProject } from './Project'
 import ProjectList from './ProjectList'
 
 const Projects = () => {
