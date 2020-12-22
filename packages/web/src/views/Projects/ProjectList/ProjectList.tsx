@@ -11,6 +11,7 @@ import {
   Spacer,
   Loader,
   TransparentButton,
+  useDocumentTitle,
 } from '@app/components'
 import { Project } from '@app/data/projects'
 import DefaultView from '../../../components/DefaultView'
@@ -26,6 +27,7 @@ const ActionButton = styled(TransparentButton)`
 const ProjectList = () => {
   const [projects, setProjects] = useState<Project[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  useDocumentTitle(t('Project List'))
   const history = useHistory()
   useEffect(() => {
     ;(async () => {

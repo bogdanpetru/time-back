@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Input, Button, Loader } from '@app/components'
-import DefaultView from '../../../components/DefaultView'
+import { Input, Button, Loader, useDocumentTitle } from '@app/components'
+import DefaultView from '../../../components/DefaultView' // TODO: add alias or move to components
 import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
 import { saveProject, Project } from '@app/data/projects'
@@ -51,12 +51,13 @@ const CreateProject = (props: CreateProjectProps) => {
     }
   )
 
+  const title =
+    form?.inputs?.name?.value || props.project?.name || t('Create Project')
+
+  useDocumentTitle(title)
+
   return (
-    <DefaultView
-      title={
-        form?.inputs?.name?.value || props.project?.name || t('Create Project')
-      }
-    >
+    <DefaultView title={title}>
       <form onSubmit={form.onSubmit}>
         <Input {...form.inputs.name} label={t('project name')} />
         <Input {...form.inputs.strawberrySize} label={t('strawberry size')} />

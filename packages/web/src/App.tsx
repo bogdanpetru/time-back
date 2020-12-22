@@ -1,20 +1,17 @@
-import React, { useState, useEffect, createContext } from 'react'
+import React from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
-// theming
 import { ThemeProvider } from 'styled-components'
 import { primary } from '@app/theme'
 
-// routing
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-// views
 import Projects from './views/Projects'
 import ProtectedRoute from './components/ProtectedRoute'
 import Auth from './views/Auth'
 
 import { useAuth } from '@app/data/auth'
-import { Loader, ToastContainer } from '@app/components'
+import { Loader, ToastContainer, DocumentTitle } from '@app/components'
 
 const authServiceConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -46,11 +43,11 @@ function App() {
   }
 
   return (
-    <ThemeProvider theme={primary}>
-      <GlobalStyle />
-      <ToastContainer>
-        <Container>
-          <Router>
+    <Router>
+      <ThemeProvider theme={primary}>
+        <GlobalStyle />
+        <ToastContainer>
+          <Container>
             <Switch>
               <Route path="/login">
                 <Auth />
@@ -59,10 +56,10 @@ function App() {
                 <Projects />
               </ProtectedRoute>
             </Switch>
-          </Router>
-        </Container>
-      </ToastContainer>
-    </ThemeProvider>
+          </Container>
+        </ToastContainer>
+      </ThemeProvider>
+    </Router>
   )
 }
 
