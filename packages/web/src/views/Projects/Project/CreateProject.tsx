@@ -46,7 +46,7 @@ const CreateProject = (props: CreateProjectProps) => {
       })
 
       if (!projectId) {
-        history.push(`/p/${savedProjectId}`)
+        history.push(`/project/${savedProjectId}`)
       }
     }
   )

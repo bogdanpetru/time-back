@@ -45,11 +45,11 @@ const ProjectList = () => {
 
   const handleEdit = (projectId: string) => (event: MouseEvent) => {
     event.stopPropagation()
-    history.push(`/p/${projectId}`)
+    history.push(`/project/${projectId}`)
   }
 
   const handlePlay = (projectId: string) => () => {
-    history.push(`/go/${projectId}`)
+    history.push(`/strawberry/${projectId}`)
   }
 
   const newProject = () => {
