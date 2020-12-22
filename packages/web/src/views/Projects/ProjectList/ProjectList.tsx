@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, MouseEvent } from 'react'
 import { useHistory } from 'react-router-dom'
+import styled from 'styled-components'
 import { getAllProjects } from '@app/data/projects'
 import { t } from '@app/data/intl'
 import {
@@ -9,9 +10,18 @@ import {
   EditIcon,
   Spacer,
   Loader,
+  TransparentButton,
 } from '@app/components'
 import { Project } from '@app/data/projects'
 import DefaultView from '../../../components/DefaultView'
+
+const ActionButton = styled(TransparentButton)`
+  padding: 0 10px;
+  height: 100%;
+  svg {
+    cursor: pointer;
+  }
+`
 
 const ProjectList = () => {
   const [projects, setProjects] = useState<Project[]>([])
@@ -26,8 +36,13 @@ const ProjectList = () => {
     })()
   }, [setProjects])
 
-  const handleItemClick = (projectId: string) => () => {
+  const handleEdit = (projectId: string) => (event: MouseEvent) => {
+    event.stopPropagation()
     history.push(`/p/${projectId}`)
+  }
+
+  const handlePlay = (projectId: string) => () => {
+    history.push(`/go/${projectId}`)
   }
 
   return (
@@ -35,11 +50,21 @@ const ProjectList = () => {
       {isLoading && <Loader />}
       <List>
         {projects.map((project) => (
-          <ListItem key={project.id} onClick={handleItemClick(project.id)}>
+          <ListItem key={project.id} onClick={handlePlay(project.id)}>
             {project.name}
             <Spacer />
-            <PlayIcon />
-            <EditIcon />
+            <ActionButton
+              title={t('edit project')}
+              onClick={handleEdit(project.id)}
+            >
+              <EditIcon />
+            </ActionButton>
+            <ActionButton
+              title={t('start project')}
+              onClick={handlePlay(project.id)}
+            >
+              <PlayIcon />
+            </ActionButton>
           </ListItem>
         ))}
       </List>

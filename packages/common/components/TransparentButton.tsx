@@ -1,25 +1,33 @@
-import styled from 'styled-components';
-
+import { FunctionComponent } from 'react'
+import styled from 'styled-components'
 
 const Button = styled.button`
   border: 0;
   background-color: transparent;
 
-  :focus, :active {
+  :focus,
+  :active {
     outline: none;
   }
   :focus {
     cursor: pointer;
   }
-`;
+`
 
 interface ButtonProps {
-  onClick: () => void;
-  children: React.ReactNode;
+  onClick: (event: React.MouseEvent) => void
+  className?: string
+  title?: string
 }
 
-const TransparentButton = (props: ButtonProps) => (
-  <Button onClick={props.onClick}>{props.children}</Button>
-);
+const TransparentButton: FunctionComponent<ButtonProps> = (props) => (
+  <Button
+    className={props.className}
+    onClick={props.onClick}
+    title={props.title}
+  >
+    {props.children}
+  </Button>
+)
 
 export default TransparentButton

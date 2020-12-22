@@ -53,4 +53,8 @@ const ToastContainer: FunctionComponent<ToastContainerProps> = (props) => {
   )
 }
 
+ToastContainer.defaultProps = {
+  defaultExpireTime: 2000,
+}
+
 export default ToastContainer
