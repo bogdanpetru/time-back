@@ -73,6 +73,11 @@ const toast = {
   color: primary,
 }
 
+const timer = {
+  fontSize: 76,
+  color: primary,
+}
+
 const theme = {
   button,
   common,
@@ -85,6 +90,7 @@ const theme = {
   text,
   title,
   toast,
+  timer,
 }
 
 export default theme

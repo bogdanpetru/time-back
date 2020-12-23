@@ -4,9 +4,9 @@ import DefaultView from '../../../components/DefaultView' // TODO: add alias or 
 import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
 import { saveProject, Project } from '@app/data/projects'
-import useForm from '@app/components/Form/useForm'
+import useForm from '@app/components/src/Form/useForm'
 
-import { isRequired } from '@app/components/Form/validators'
+import { isRequired } from '@app/components/src/Form/validators'
 
 interface CreateProjectProps {
   project?: Project

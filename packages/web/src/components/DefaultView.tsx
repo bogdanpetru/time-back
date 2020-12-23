@@ -7,7 +7,7 @@ const DefaultViewWrapper = styled.div`
   padding-top: 10px;
 `
 const LogoWrapper = styled.div`
-  text-align: center;s
+  text-align: center;
   margin-bottom: 30px;
 `
 

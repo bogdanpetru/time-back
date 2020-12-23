@@ -1,6 +1,8 @@
 export interface StrawberryConfig {
   startTime?: number
-  endTime?: number
+  length: number
+  paused: boolean
+  timeSpent: number[]
   notes?: string
   name?: string
 }
