@@ -12,6 +12,10 @@ const Button = styled.button`
   :focus {
     cursor: pointer;
   }
+
+  * {
+    cursor: pointer;
+  }
 `
 
 interface ButtonProps {

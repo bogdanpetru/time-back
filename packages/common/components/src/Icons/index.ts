@@ -1,2 +1,6 @@
 export { default as EditIcon } from './Edit'
 export { default as PlayIcon } from './Play'
+export { default as DeleteIcon } from './Delete'
+export { default as PlayBigIcon } from './PlayBig'
+export { default as PlusIcon } from './Plus'
+export { default as PauseIcon } from './Pause'

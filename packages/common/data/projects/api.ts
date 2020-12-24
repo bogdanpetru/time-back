@@ -1,6 +1,22 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-import { ProjectDescription, Project } from './interface'
+import {
+  ProjectDescription,
+  Project,
+  Strawberry,
+  StrawberryConfig,
+} from './interface'
+
+const mapStrawberry = (data: firebase.firestore.DocumentData): Strawberry => ({
+  id: data.id,
+  size: parseInt(data.size, 10) * 1000 * 60,
+  name: data.name,
+  timeSpent: data.timeSpent,
+  startTime: data.startTime,
+  running: Boolean(data.running),
+  notes: data.notes,
+  finished: data.finished,
+})
 
 const mapProject = (data: firebase.firestore.DocumentData): Project => ({
   id: data.id,
@@ -10,6 +26,7 @@ const mapProject = (data: firebase.firestore.DocumentData): Project => ({
   description: data.description,
   numberOfStrawberries: data.numberOfStrawberries,
   strawberries: data.strawberries,
+  currentStrawBerry: mapStrawberry(data.currentStrawBerry),
 })
 
 const getDb = () => {
@@ -31,7 +48,19 @@ export const saveProject = async ({
   projectDetails: ProjectDescription
 }): Promise<string> => {
   const docRef = getProjectsRef().doc(projectId)
-  await docRef.set(projectDetails, { merge: true })
+  await docRef.set(
+    {
+      name: projectDetails.name,
+      strawberrySize: projectDetails.strawberrySize,
+      numberOfStrawberries: projectDetails.numberOfStrawberries,
+      breakSize: projectDetails.breakSize,
+      description: projectDetails.description,
+      currentStrawBerry: {
+        size: projectDetails.strawberrySize,
+      },
+    },
+    { merge: true }
+  )
   return docRef.id
 }
 
@@ -53,4 +82,41 @@ export const getAllProjects = async (): Promise<Project[]> => {
       ...item.data(),
     })
   )
+}
+
+export const getStrawberry = async (projectId: string): Promise<Strawberry> => {
+  const project = await getProject(projectId)
+
+  return mapStrawberry(project.currentStrawBerry)
+}
+
+export const startStrawberry = async (projectId: string): Promise<number> => {
+  const startTime = Date.now()
+  await getProjectsRef()
+    .doc(projectId)
+    .set(
+      {
+        currentStrawBerry: {
+          running: true,
+          startTime: firebase.firestore.FieldValue.arrayUnion(startTime),
+        },
+      },
+      { merge: true }
+    )
+
+  return startTime
+}
+
+export const pauseStrawberry = async (projectId: string, timeSpent: number) => {
+  await getProjectsRef()
+    .doc(projectId)
+    .set(
+      {
+        currentStrawBerry: {
+          running: false,
+          timeSpent: firebase.firestore.FieldValue.arrayUnion(timeSpent),
+        },
+      },
+      { merge: true }
+    )
 }

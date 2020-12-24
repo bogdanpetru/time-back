@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { getProject, Project } from '@app/data/projects'
 import { useHistory, useParams } from 'react-router-dom'
 import { t } from '@app/data/intl'
-import { Loader, useToast } from '@app/components'
+import { useToast } from '@app/components'
 
 const useProject = (
   projectId: string
