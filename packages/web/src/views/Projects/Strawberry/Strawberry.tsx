@@ -25,7 +25,11 @@ const Strawberry = () => {
     }
     const currentTime =
       strawberry.size - (strawberry.timeSpent?.reduce(addArray, 0) || 0)
-    setTime(currentTime)
+    const timeFromPreviousStart = strawberry.startTime
+      ? Date.now() - last(strawberry.startTime)
+      : 0
+
+    setTime(currentTime - timeFromPreviousStart)
   }, [strawberry])
 
   useEffect(() => {
@@ -64,6 +68,7 @@ const Strawberry = () => {
       setStrawberry((strawberry) => ({
         ...strawberry,
         running: false,
+        timeSpent: [...strawberry.timeSpent, timeSpent],
       }))
     } else {
       const startTime = await startStrawberry(params.projectId)
