@@ -4,14 +4,14 @@
 
 **chores**
 
-- [-] add webpack alias for providers
+- [x] add webpack alias for providers
   - [ ] not sure this is needed because anything I would want to import should bee already a child, or it should reside ini @app/common
 - [x] think about providers vs importing services directly
 - [ ] add eslint and prettier in webpack
 - [ ] move tsconfig to root, so all projects can use the same config
 - [ ] clean up 
 - [ ] move useForm outside and add generics
-- [ ] add types to api
+- [X] add types to api
 - [ ] add data validation in firebase
 - [ ] add types to theme
 - [ ] add stats document
@@ -156,3 +156,4 @@ Project url uses the projects name. To have this:
 - name must be unique
 - spaces are replaced with `-` 
 - to be able to replace spaces with `-`, `project-name` and `project name` are the same
+

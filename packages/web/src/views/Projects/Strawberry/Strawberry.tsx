@@ -9,7 +9,10 @@ import {
 import DefaultView from '../../../components/DefaultView'
 import useProject from '../useProject'
 
-const addArray = (acc: number, item: number): number => acc + item
+const nowInSeconds = (): number => Math.floor(Date.now() / 1000) * 1000
+
+const addArray = (arr: number[]): number =>
+  arr?.reduce((acc: number, item: number): number => acc + item, 0) || 0
 const last = (collection: any[]): any =>
   Array.isArray(collection) ? collection[collection.length - 1] : null
 
@@ -23,13 +26,22 @@ const Strawberry = () => {
     if (!strawberry) {
       return
     }
-    const currentTime =
-      strawberry.size - (strawberry.timeSpent?.reduce(addArray, 0) || 0)
-    const timeFromPreviousStart = strawberry.startTime
-      ? Date.now() - last(strawberry.startTime)
-      : 0
 
-    setTime(currentTime - timeFromPreviousStart)
+    if (!strawberry?.startTime.length) {
+      setTime(strawberry.size)
+      return
+    }
+
+    const timeLeft =
+      strawberry.size -
+      ((strawberry?.timeSpent && addArray(strawberry.timeSpent)) || 0)
+
+    const timeFromPreviousStart =
+      strawberry.running && strawberry.startTime.length
+        ? nowInSeconds() - last(strawberry.startTime)
+        : 0
+
+    setTime(timeLeft - timeFromPreviousStart)
   }, [strawberry])
 
   useEffect(() => {
@@ -62,21 +74,24 @@ const Strawberry = () => {
 
   const handleStopStart = async () => {
     if (strawberry?.running) {
-      const lastStartTime = last(strawberry.startTime)
-      const timeSpent = Date.now() - lastStartTime
-      await pauseStrawberry(params.projectId, timeSpent)
+      const timeSpent = // it is important when pausing that the timer does not change
+        strawberry.size -
+        time -
+        (strawberry?.timeSpent ? addArray(strawberry.timeSpent) : 0)
       setStrawberry((strawberry) => ({
         ...strawberry,
         running: false,
         timeSpent: [...strawberry.timeSpent, timeSpent],
       }))
+      await pauseStrawberry(params.projectId, timeSpent)
     } else {
-      const startTime = await startStrawberry(params.projectId)
+      const startTime = nowInSeconds()
       setStrawberry((strawberry) => ({
         ...strawberry,
         running: true,
         startTime: [...(strawberry?.startTime || []), startTime],
       }))
+      await startStrawberry(params.projectId, startTime)
     }
   }
 

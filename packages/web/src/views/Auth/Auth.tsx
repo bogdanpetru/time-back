@@ -119,9 +119,6 @@ const Auth = () => {
 
   return (
     <Wrapper>
-      <LogoGraphWrapper>
-        <LogoSmall />
-      </LogoGraphWrapper>
       <LogoWrapper>
         <LogoTextBig />
       </LogoWrapper>
@@ -159,7 +156,6 @@ const Auth = () => {
         </Button>
       </ButtonWrapper>
       <SocialWrapper>
-        <LoginText>{t('Login with:')}</LoginText>
         <TransparentButton onClick={handleSignInWithGoogle}>
           <GoogleLogo />
         </TransparentButton>

@@ -1,18 +1,13 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-import {
-  ProjectDescription,
-  Project,
-  Strawberry,
-  StrawberryConfig,
-} from './interface'
+import { ProjectDescription, Project, Strawberry } from './interface'
 
 const mapStrawberry = (data: firebase.firestore.DocumentData): Strawberry => ({
   id: data.id,
   size: parseInt(data.size, 10) * 1000 * 60,
   name: data.name,
-  timeSpent: data.timeSpent,
-  startTime: data.startTime,
+  timeSpent: data.timeSpent || [],
+  startTime: data.startTime || [],
   running: Boolean(data.running),
   notes: data.notes,
   finished: data.finished,
@@ -26,7 +21,7 @@ const mapProject = (data: firebase.firestore.DocumentData): Project => ({
   description: data.description,
   numberOfStrawberries: data.numberOfStrawberries,
   strawberries: data.strawberries,
-  currentStrawBerry: mapStrawberry(data.currentStrawBerry),
+  currentStrawBerry: mapStrawberry(data.currentStrawBerry || {}),
 })
 
 const getDb = () => {
@@ -48,6 +43,20 @@ export const saveProject = async ({
   projectDetails: ProjectDescription
 }): Promise<string> => {
   const docRef = getProjectsRef().doc(projectId)
+
+  let editOrSaveSpecificData = null
+  if (projectId) {
+    editOrSaveSpecificData = {
+      'currentStrawBerry.size': projectDetails.strawberrySize,
+    }
+  } else {
+    editOrSaveSpecificData = {
+      currentStrawBerry: {
+        size: projectDetails.strawberrySize,
+      },
+    }
+  }
+
   await docRef.set(
     {
       name: projectDetails.name,
@@ -55,9 +64,7 @@ export const saveProject = async ({
       numberOfStrawberries: projectDetails.numberOfStrawberries,
       breakSize: projectDetails.breakSize,
       description: projectDetails.description,
-      currentStrawBerry: {
-        size: projectDetails.strawberrySize,
-      },
+      ...editOrSaveSpecificData,
     },
     { merge: true }
   )
@@ -90,8 +97,10 @@ export const getStrawberry = async (projectId: string): Promise<Strawberry> => {
   return mapStrawberry(project.currentStrawBerry)
 }
 
-export const startStrawberry = async (projectId: string): Promise<number> => {
-  const startTime = Date.now()
+export const startStrawberry = async (
+  projectId: string,
+  startTime: number
+): Promise<number> => {
   await getProjectsRef()
     .doc(projectId)
     .set(
