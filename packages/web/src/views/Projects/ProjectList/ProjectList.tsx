@@ -26,7 +26,7 @@ const ActionButton = styled(TransparentButton)`
 `
 
 const ProjectListInner = styled(List)`
-  min-height: 400px;
+  min-height: 130px;
 `
 
 const ProjectList = () => {

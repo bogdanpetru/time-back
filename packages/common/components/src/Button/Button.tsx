@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 interface ButtonInnerProps {
-  primary?: boolean;
+  primary?: boolean
 }
 
 const ButtonInner = styled.button<ButtonInnerProps>`
@@ -14,6 +14,7 @@ const ButtonInner = styled.button<ButtonInnerProps>`
   font-size: ${(props) => props?.theme?.button?.fontSize}px;
   padding: ${(props) => props?.theme?.button?.padding};
   border: 0;
+  border-radius: 3px;
   cursor: pointer;
 
   :disabled {
@@ -29,16 +30,14 @@ const ButtonInner = styled.button<ButtonInnerProps>`
         ? props?.theme?.button?.primary?.activeBackground
         : props?.theme?.button?.secondary?.activeBackground};
   }
-`;
+`
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  primary?: boolean;
+  primary?: boolean
 }
 
 const Button = (props: ButtonProps) => {
-  return (
-    <ButtonInner {...props}/>
-  );
-};
+  return <ButtonInner {...props} />
+}
 
-export default Button;
+export default Button

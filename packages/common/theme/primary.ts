@@ -31,7 +31,7 @@ const label = {
 const button = {
   fontSize: 18,
   color: primary,
-  padding: '7px 10px',
+  padding: '10px 20px',
   primary: {
     background: yellow100,
     activeBackground: yellow200,

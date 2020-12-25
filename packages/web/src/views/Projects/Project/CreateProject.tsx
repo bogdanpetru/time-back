@@ -44,8 +44,10 @@ const CreateProject = (props: CreateProjectProps) => {
         projectId,
         projectDetails: values,
       })
-
-      if (!projectId) {
+      setIsSaving(false)
+      if (projectId) {
+        history.push(`/strawberry/${projectId}`)
+      } else {
         history.push(`/project/${savedProjectId}`)
       }
     }
