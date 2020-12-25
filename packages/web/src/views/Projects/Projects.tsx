@@ -1,5 +1,5 @@
 import { Switch, Route } from 'react-router-dom'
-import { CreateProject, EditProject } from './Project'
+import { CreateProject, EditProject } from './EditProject'
 import Strawberry from './Strawberry'
 import ProjectList from './ProjectList'
 

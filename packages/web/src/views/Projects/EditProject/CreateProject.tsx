@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Input, Button, Loader, useDocumentTitle } from '@app/components'
-import DefaultView from '../../../components/DefaultView' // TODO: add alias or move to components
+import DefaultView from '@app/web/components/DefaultView'
 import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
 import { saveProject, Project } from '@app/data/projects'

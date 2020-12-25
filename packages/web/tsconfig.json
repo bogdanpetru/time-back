@@ -1,5 +1,11 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*", "src/components/DefaultView.tsx"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"],
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@app/web/*": ["./*"]
+    }
+  }
 }

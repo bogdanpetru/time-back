@@ -15,7 +15,7 @@ import {
   Button,
 } from '@app/components'
 import { Project } from '@app/data/projects'
-import DefaultView from '../../../components/DefaultView'
+import DefaultView from '@app/web/components/DefaultView'
 
 const ActionButton = styled(TransparentButton)`
   padding: 0 10px;

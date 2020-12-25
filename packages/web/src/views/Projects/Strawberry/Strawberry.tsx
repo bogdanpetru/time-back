@@ -1,14 +1,14 @@
 import { useParams } from 'react-router-dom'
 import { Loader, Timer } from '@app/components'
 import { Strawberry } from '@app/data/projects'
-import DefaultView from '../../../components/DefaultView'
+import DefaultView from '@app/web/components/DefaultView'
 import useProject from '../useProject'
-import useStrawberry from '../useStrawberry'
+import useStrawberry from './useStrawberry'
 
 const Strawberry = () => {
   const params = useParams<{ projectId: string }>()
   const { project, loading } = useProject(params.projectId)
-  const { handleStopStart, strawberry, time } = useStrawberry(project)
+  const { onStop, onStart, strawberry, time } = useStrawberry(project)
 
   if (loading) {
     return <Loader />
@@ -17,7 +17,7 @@ const Strawberry = () => {
   return (
     <DefaultView title={project.name}>
       <Timer
-        onStopStart={handleStopStart}
+        onStopStart={strawberry?.running ? onStop : onStart}
         running={strawberry?.running}
         timePassed={time}
       />

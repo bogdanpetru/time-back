@@ -7,7 +7,7 @@
   paused: boolean
 }
 ```
-- at first it is counted the time from when the interval is started
-- when pause is hit, the time spent is saved with a flag
-- when starting again, it can be after a refresh, or later
-  - it takes into account: the time spent + and counts up from the time it is playied again
+
+The timer is not exact. When it is stopped, the extra milliseconds are discarded.
+This has the effect that always when the timer is tarted, it will take one second to change.
+
