@@ -14,6 +14,7 @@ const LogoWrapper = styled.div`
 const DefaultView: FunctionComponent<{
   title?: string
   footer?: React.ReactElement
+  className?: string
 }> = (props) => {
   const history = useHistory()
 
@@ -22,7 +23,7 @@ const DefaultView: FunctionComponent<{
   }
 
   return (
-    <DefaultViewWrapper>
+    <DefaultViewWrapper className={props.className}>
       <LogoWrapper>
         <TransparentButton onClick={logoClick}>
           <LogoText />

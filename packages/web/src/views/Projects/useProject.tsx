@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getProject, Project } from '@app/data/projects'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
 import { useToast } from '@app/components'
 
@@ -18,7 +18,8 @@ const useProject = (
   useEffect(() => {
     ;(async () => {
       try {
-        setProject(await getProject(projectId))
+        const projectData = await getProject(projectId)
+        setProject(projectData)
         setLoading(false)
       } catch (error) {
         toast({

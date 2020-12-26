@@ -24,11 +24,6 @@ const authServiceConfig = {
   measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 }
 
-const Container = styled.div`
-  max-width: 480px;
-  margin: 0 auto;
-`
-
 const GlobalStyle = createGlobalStyle`
   html {
     ${primary.common}
@@ -47,16 +42,14 @@ function App() {
       <ThemeProvider theme={primary}>
         <GlobalStyle />
         <ToastContainer>
-          <Container>
-            <Switch>
-              <Route path="/login">
-                <Auth />
-              </Route>
-              <ProtectedRoute path="/">
-                <Projects />
-              </ProtectedRoute>
-            </Switch>
-          </Container>
+          <Switch>
+            <Route path="/login">
+              <Auth />
+            </Route>
+            <ProtectedRoute path="/">
+              <Projects />
+            </ProtectedRoute>
+          </Switch>
         </ToastContainer>
       </ThemeProvider>
     </Router>
