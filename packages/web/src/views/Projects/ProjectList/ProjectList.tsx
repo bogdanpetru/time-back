@@ -32,7 +32,6 @@ const ProjectListInner = styled(List)`
 const ProjectList = () => {
   const [projects, setProjects] = useState<Project[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  useDocumentTitle(t('Project List'))
 
   const history = useHistory()
   useEffect(() => {

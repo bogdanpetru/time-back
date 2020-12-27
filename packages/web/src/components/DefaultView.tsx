@@ -6,17 +6,23 @@ import {
   Title,
   TransparentButton,
   Footer,
-  LogoSmall,
+  BackIcon,
 } from '@app/components'
 
 const DefaultViewWrapper = styled.div`
-  padding-top: 10px;
   max-width: 460px;
   margin: 0 auto;
+  padding: 10px;
 `
 const LogoWrapper = styled.div`
   text-align: center;
   margin-bottom: 30px;
+`
+
+const BackButton = styled(TransparentButton)`
+  position: absolute;
+  top: 24px;
+  left: 0;
 `
 
 const DefaultView: FunctionComponent<{
@@ -25,13 +31,18 @@ const DefaultView: FunctionComponent<{
   className?: string
 }> = (props) => {
   const history = useHistory()
-
+  const isHome = history.location.pathname === '/'
   const logoClick = () => {
     history.push('/')
   }
 
   return (
     <DefaultViewWrapper className={props.className}>
+      {!isHome && (
+        <BackButton onClick={() => history.goBack()}>
+          <BackIcon />
+        </BackButton>
+      )}
       <LogoWrapper>
         <TransparentButton onClick={logoClick}>
           <LogoText />
