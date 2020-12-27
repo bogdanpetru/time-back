@@ -119,6 +119,9 @@ const Auth = () => {
 
   return (
     <Wrapper>
+      <LogoGraphWrapper>
+        <LogoSmall />
+      </LogoGraphWrapper>
       <LogoWrapper>
         <LogoTextBig />
       </LogoWrapper>

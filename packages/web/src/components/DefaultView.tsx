@@ -1,10 +1,18 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import { LogoText, Title, TransparentButton, Footer } from '@app/components'
+import {
+  LogoText,
+  Title,
+  TransparentButton,
+  Footer,
+  LogoSmall,
+} from '@app/components'
 
 const DefaultViewWrapper = styled.div`
   padding-top: 10px;
+  max-width: 460px;
+  margin: 0 auto;
 `
 const LogoWrapper = styled.div`
   text-align: center;
