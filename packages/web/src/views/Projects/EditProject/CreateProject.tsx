@@ -3,7 +3,7 @@ import { Input, Button, Loader, useDocumentTitle } from '@app/components'
 import DefaultView from '@app/web/components/DefaultView'
 import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
-import { saveProject, Project } from '@app/data/projects'
+import { saveProject, Project, deleteProject } from '@app/data/projects'
 import useForm from '@app/components/src/Form/useForm'
 
 import { isRequired } from '@app/components/src/Form/validators'
@@ -58,13 +58,27 @@ const CreateProject = (props: CreateProjectProps) => {
 
   useDocumentTitle(title)
 
+  const onDelete = async () => {
+    setIsSaving(true)
+    await deleteProject(props.project.id)
+    history.push('/')
+  }
+
   return (
     <DefaultView
       title={title}
       footer={
-        <Button onClick={form.onSubmit} type="submit" primary>
-          {t(props.project ? 'edit' : 'save')}
-        </Button>
+        <>
+          <Button onClick={form.onSubmit} type="submit" primary>
+            {t(props.project ? 'edit' : 'save')}
+          </Button>
+
+          {props.project && (
+            <Button onClick={onDelete} type="submit">
+              {t('delete')}
+            </Button>
+          )}
+        </>
       }
     >
       <form onSubmit={form.onSubmit}>

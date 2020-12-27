@@ -6,6 +6,7 @@ interface ButtonInnerProps {
 
 const ButtonInner = styled.button<ButtonInnerProps>`
   min-width: 100px;
+  margin: 0 5px;
   color: ${(props) => props?.theme?.button?.color};
   background: ${(props) =>
     props.primary

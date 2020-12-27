@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import invariant from 'invariant'
 import { ProjectDescription, Project, Strawberry } from './interface'
 
 const mapStrawberry = (data: firebase.firestore.DocumentData): Strawberry => ({
@@ -71,6 +72,9 @@ export const saveProject = async ({
   return docRef.id
 }
 
+export const deleteProject = (projectId: string) =>
+  getProjectsRef().doc(projectId).delete()
+
 export const getProject = async (projectId: string): Promise<Project> => {
   const docRef = getProjectsRef()
   const project = (await docRef.doc(projectId).get()).data()
@@ -79,7 +83,7 @@ export const getProject = async (projectId: string): Promise<Project> => {
     throw new Error(`Could not find project with id ${projectId}`)
   }
 
-  return mapProject(project)
+  return mapProject({ ...project, id: projectId })
 }
 
 export const getAllProjects = async (): Promise<Project[]> => {
@@ -91,16 +95,12 @@ export const getAllProjects = async (): Promise<Project[]> => {
   )
 }
 
-export const getStrawberry = async (projectId: string): Promise<Strawberry> => {
-  const project = await getProject(projectId)
-
-  return mapStrawberry(project.currentStrawBerry)
-}
-
 export const startStrawberry = async (
   projectId: string,
   startTime: number
 ): Promise<number> => {
+  invariant(projectId, 'cannot start a interval without a project-id')
+
   await getProjectsRef()
     .doc(projectId)
     .set(
@@ -117,6 +117,8 @@ export const startStrawberry = async (
 }
 
 export const pauseStrawberry = async (projectId: string, timeSpent: number) => {
+  invariant(projectId, 'cannot start a interval without a project-id')
+
   await getProjectsRef()
     .doc(projectId)
     .set(
