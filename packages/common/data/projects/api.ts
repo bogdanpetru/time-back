@@ -1,29 +1,9 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import invariant from 'invariant'
+
 import { ProjectDescription, Project, Strawberry } from './interface'
-
-const mapStrawberry = (data: firebase.firestore.DocumentData): Strawberry => ({
-  id: data.id,
-  size: parseInt(data.size, 10) * 1000 * 60,
-  name: data.name,
-  timeSpent: data.timeSpent || [],
-  startTime: data.startTime || [],
-  running: Boolean(data.running),
-  notes: data.notes,
-  finished: data.finished,
-})
-
-const mapProject = (data: firebase.firestore.DocumentData): Project => ({
-  id: data.id,
-  name: data.name,
-  strawberrySize: data.strawberrySize,
-  breakSize: data.breakSize,
-  description: data.description,
-  numberOfStrawberries: data.numberOfStrawberries,
-  strawberries: data.strawberries,
-  currentStrawBerry: mapStrawberry(data.currentStrawBerry || {}),
-})
+import { mapProject, mapStrawberry } from './map'
 
 const getDb = () => {
   return firebase.firestore()
@@ -32,7 +12,6 @@ const getDb = () => {
 export const getProjectsRef = () => {
   const db = getDb()
   const user = firebase.auth().currentUser
-
   return db.collection('users').doc(user.uid).collection('projects')
 }
 
@@ -48,6 +27,7 @@ export const saveProject = async ({
   let editOrSaveSpecificData = null
   if (projectId) {
     editOrSaveSpecificData = {
+      // TODO fix
       'currentStrawBerry.size': projectDetails.strawberrySize,
     }
   } else {
@@ -93,6 +73,26 @@ export const getAllProjects = async (): Promise<Project[]> => {
       ...item.data(),
     })
   )
+}
+
+export const stopStrawberry = async (
+  project: Project,
+  strawberry: Strawberry
+) => {
+  const newStrawberry = mapStrawberry({
+    size: project.strawberrySize,
+  })
+
+  const projectRef = getProjectsRef().doc(project.id)
+  await projectRef.set(
+    {
+      currentStrawBerry: newStrawberry,
+    },
+    { merge: true }
+  )
+  await projectRef.collection('strawberries').doc().set(strawberry)
+
+  return newStrawberry
 }
 
 export const startStrawberry = async (

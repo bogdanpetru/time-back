@@ -5,8 +5,9 @@ import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
 import { saveProject, Project, deleteProject } from '@app/data/projects'
 import useForm from '@app/components/src/Form/useForm'
+import { MINUTE_UNIT } from '@app/utils'
 
-import { isRequired } from '@app/components/src/Form/validators'
+import { isRequired, isNumber } from '@app/components/src/Form/validators'
 
 interface CreateProjectProps {
   project?: Project
@@ -24,8 +25,8 @@ const CreateProject = (props: CreateProjectProps) => {
       },
       {
         name: 'strawberrySize',
-        isValid: [isRequired],
-        initialValue: props.project?.strawberrySize || 20,
+        isValid: [isRequired, isNumber],
+        initialValue: props.project?.strawberrySize / MINUTE_UNIT || 20,
       },
       {
         name: 'numberOfStrawberries',
@@ -33,7 +34,7 @@ const CreateProject = (props: CreateProjectProps) => {
       },
       {
         name: 'breakSize',
-        initialValue: props.project?.breakSize || 10,
+        initialValue: props.project?.breakSize / MINUTE_UNIT || 10,
       },
       { name: 'description', initialValue: props.project?.description },
     ],
@@ -42,13 +43,16 @@ const CreateProject = (props: CreateProjectProps) => {
       const projectId = props?.project?.id || void 0
       const savedProjectId = await saveProject({
         projectId,
-        projectDetails: values,
+        projectDetails: {
+          ...values,
+          strawberrySize: values.strawberrySize * MINUTE_UNIT,
+          breakSize: values.breakSize * MINUTE_UNIT,
+        },
       })
       setIsSaving(false)
-      if (projectId) {
-        history.push(`/strawberry/${projectId}`)
-      } else {
-        history.push(`/project/${savedProjectId}`)
+
+      if (!projectId) {
+        history.push(`/strawberry/${savedProjectId}`)
       }
     }
   )

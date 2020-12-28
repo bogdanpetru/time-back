@@ -34,7 +34,7 @@ const TimerWrapper = styled.div`
 interface TimerProps {
   timePassed: number
   running: boolean
-  onStopStart: () => void
+  onPauseStart: () => void
 }
 
 const Timer: FunctionComponent<TimerProps> = (props) => {
@@ -49,7 +49,7 @@ const Timer: FunctionComponent<TimerProps> = (props) => {
         <TimerInner>{formatTime(props.timePassed)}</TimerInner>
       </TimerWrapper>
       <ControlsWrapper>
-        <TransparentButton onClick={props.onStopStart}>
+        <TransparentButton onClick={props.onPauseStart}>
           {props.running ? <PauseIcon /> : <PlayBigIcon />}
         </TransparentButton>
       </ControlsWrapper>

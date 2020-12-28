@@ -2,31 +2,41 @@ import { useState, useEffect } from 'react'
 import {
   startStrawberry,
   pauseStrawberry,
+  stopStrawberry,
   Strawberry,
   Project,
 } from '@app/data/projects'
 import { addArray, nowInSeconds, last } from './utils'
 
-const useTick = (
-  strawberry: Strawberry,
+const useTick = ({
+  strawberry,
+  setTime,
+  onStrawberryFinish,
+  time,
+}: {
+  strawberry: Strawberry
   setTime: React.Dispatch<React.SetStateAction<number>>
-) => {
+  onStrawberryFinish: () => void
+  time: number
+}) => {
   useEffect(() => {
     if (!strawberry?.running) {
       return
     }
-    let timeoutId: number = null
-    function tick() {
-      timeoutId = setTimeout(() => {
-        setTime((localTime: number) => localTime - 1000)
-        tick()
-      }, 1000)
-    }
-    tick()
+
+    const timeoutId = setTimeout(() => {
+      const newTime = time - 1000
+      if (!newTime) {
+        onStrawberryFinish()
+      }
+
+      setTime(newTime || strawberry.size)
+    }, 100)
+
     return () => {
       clearTimeout(timeoutId)
     }
-  }, [strawberry?.running, setTime])
+  }, [strawberry?.running, setTime, time])
 }
 
 const useUpdateTimeOnStrawberryChange = (
@@ -64,9 +74,19 @@ const useStrawberry = (project: Project) => {
   }, [project])
 
   useUpdateTimeOnStrawberryChange(strawberry, setTime)
-  useTick(strawberry, setTime)
 
-  const onStop = async () => {
+  const onStrawberryFinish = async () => {
+    setStrawberry({
+      ...strawberry,
+      running: false,
+    })
+    const newStrawberry = await stopStrawberry(project, strawberry)
+    setStrawberry(newStrawberry)
+  }
+
+  useTick({ strawberry, setTime, onStrawberryFinish, time })
+
+  const onPause = async () => {
     const timeSpent = // it is important when pausing that the timer does not change
       strawberry.size -
       time -
@@ -92,7 +112,7 @@ const useStrawberry = (project: Project) => {
 
   return {
     onStart,
-    onStop,
+    onPause,
     strawberry,
     time,
   }

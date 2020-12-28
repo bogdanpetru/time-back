@@ -38,6 +38,10 @@ const ProjectList = () => {
     ;(async () => {
       setIsLoading(true)
       const projects = await getAllProjects()
+      if (!projects?.length) {
+        history.push('/new')
+        return
+      }
       setProjects(projects)
       setIsLoading(false)
     })()
@@ -67,24 +71,25 @@ const ProjectList = () => {
     >
       {isLoading && <Loader />}
       <ProjectListInner>
-        {projects.map((project) => (
-          <ListItem key={project.id} onClick={handlePlay(project.id)}>
-            {project.name}
-            <Spacer />
-            <ActionButton
-              title={t('edit project')}
-              onClick={handleEdit(project.id)}
-            >
-              <EditIcon />
-            </ActionButton>
-            <ActionButton
-              title={t('start project')}
-              onClick={handlePlay(project.id)}
-            >
-              <PlayIcon />
-            </ActionButton>
-          </ListItem>
-        ))}
+        {Boolean(projects?.length) &&
+          projects.map((project) => (
+            <ListItem key={project.id} onClick={handlePlay(project.id)}>
+              {project.name}
+              <Spacer />
+              <ActionButton
+                title={t('edit project')}
+                onClick={handleEdit(project.id)}
+              >
+                <EditIcon />
+              </ActionButton>
+              <ActionButton
+                title={t('start project')}
+                onClick={handlePlay(project.id)}
+              >
+                <PlayIcon />
+              </ActionButton>
+            </ListItem>
+          ))}
       </ProjectListInner>
     </DefaultView>
   )

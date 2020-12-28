@@ -14,7 +14,7 @@ const Wrapper = styled(DefaultView)`
 const Strawberry = () => {
   const params = useParams<{ projectId: string }>()
   const { project, loading } = useProject(params.projectId)
-  const { onStop, onStart, strawberry, time } = useStrawberry(project)
+  const { onPause, onStart, strawberry, time } = useStrawberry(project)
 
   if (loading) {
     return <Loader />
@@ -25,7 +25,7 @@ const Strawberry = () => {
       <Wave />
       <Wrapper title={project.name}>
         <Timer
-          onStopStart={strawberry?.running ? onStop : onStart}
+          onPauseStart={strawberry?.running ? onPause : onStart}
           running={strawberry?.running}
           timePassed={time}
         />

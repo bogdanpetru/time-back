@@ -56,7 +56,7 @@ interface InputProps {
   onChange: (value: string) => void
   defaultValue?: string
   value?: string
-  type?: string
+  type: string
   className?: string
   style?: object
   error?: string
@@ -100,7 +100,7 @@ const Input = (props: InputProps) => {
       <InputInner
         ref={inputRef}
         name={props.name}
-        type={props.type || 'text'}
+        type={props.type}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleChange}
@@ -108,6 +108,10 @@ const Input = (props: InputProps) => {
       />
     </Wrapper>
   )
+}
+
+Input.defaultProps = {
+  type: 'text',
 }
 
 export default Input
