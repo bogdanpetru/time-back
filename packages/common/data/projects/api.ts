@@ -75,10 +75,7 @@ export const getAllProjects = async (): Promise<Project[]> => {
   )
 }
 
-export const stopStrawberry = async (
-  project: Project,
-  strawberry: Strawberry
-) => {
+export const resetStrawberry = async (project: Project) => {
   const newStrawberry = mapStrawberry({
     size: project.strawberrySize,
   })
@@ -90,6 +87,16 @@ export const stopStrawberry = async (
     },
     { merge: true }
   )
+
+  return newStrawberry
+}
+
+export const stopStrawberry = async (
+  project: Project,
+  strawberry: Strawberry
+) => {
+  const projectRef = getProjectsRef().doc(project.id)
+  const newStrawberry = await resetStrawberry(project)
   await projectRef.collection('strawberries').doc().set(strawberry)
 
   return newStrawberry

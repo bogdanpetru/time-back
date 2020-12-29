@@ -3,6 +3,7 @@ import {
   startStrawberry,
   pauseStrawberry,
   stopStrawberry,
+  resetStrawberry,
   Strawberry,
   Project,
 } from '@app/data/projects'
@@ -31,7 +32,7 @@ const useTick = ({
       }
 
       setTime(newTime || strawberry.size)
-    }, 100)
+    }, 1000)
 
     return () => {
       clearTimeout(timeoutId)
@@ -110,9 +111,15 @@ const useStrawberry = (project: Project) => {
     await startStrawberry(project.id, startTime)
   }
 
+  const onReset = async () => {
+    const newStrawberry = await resetStrawberry(project)
+    setStrawberry(newStrawberry)
+  }
+
   return {
     onStart,
     onPause,
+    onReset,
     strawberry,
     time,
   }

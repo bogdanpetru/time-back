@@ -3,7 +3,7 @@ import { useEffect, useState, memo } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  padding-top: 200px;
+  padding-top: 300px;
   display: flex;
   flex-direction: column;
   position: absolute;
