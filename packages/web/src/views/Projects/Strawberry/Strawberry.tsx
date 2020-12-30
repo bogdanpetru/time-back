@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { resetStrawberry } from '@app/data/projects/api'
 import { Loader, Timer, Wave } from '@app/components'
 import { Strawberry } from '@app/data/projects'
 import DefaultView from '@app/web/components/DefaultView'
+import { isNumber } from '@app/utils'
 import useProject from '../useProject'
 import useStrawberry from './useStrawberry'
 
@@ -18,13 +18,17 @@ const Strawberry = () => {
   const { onPause, onStart, strawberry, time, onReset } = useStrawberry(project)
   const showResetButton = Boolean(strawberry?.size) && strawberry?.size !== time
 
+  let timeSpentRatio: number = null
+  if (isNumber(strawberry?.size) && isNumber(time)) {
+    timeSpentRatio = time / strawberry?.size
+  }
   if (loading) {
     return <Loader />
   }
 
   return (
     <>
-      <Wave />
+      <Wave level={timeSpentRatio} />
       <Wrapper title={project.name}>
         <Timer
           onPauseStart={strawberry?.running ? onPause : onStart}

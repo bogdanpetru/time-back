@@ -1,9 +1,9 @@
-import { useEffect, useState, memo } from 'react'
+import { FunctionComponent, useEffect, useState, memo } from 'react'
 
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  padding-top: 300px;
+  transition: padding-top 2000ms ease;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -88,7 +88,11 @@ const getWavePath = (height: number, width: number) => {
   return `M ${firstPoint[0]} ${firstPoint[1]} ${path} V ${height} H -${width} Z`
 }
 
-const Wave = memo(() => {
+interface WaveProps {
+  level?: number
+}
+
+const Wave: FunctionComponent<WaveProps> = memo((props) => {
   const [paths, setPaths] = useState<string[]>(null)
   const [width, setWidth] = useState<number>(null)
   const [height, setHeight] = useState<number>(50)
@@ -108,7 +112,11 @@ const Wave = memo(() => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper
+      style={{
+        paddingTop: props?.level ? `${props.level * 90}vh` : '90px',
+      }}
+    >
       {Boolean(paths.length) && (
         <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
           <path stroke="transparent" fill="#bcf5ff">

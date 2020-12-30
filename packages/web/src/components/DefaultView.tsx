@@ -10,6 +10,7 @@ import {
 } from '@app/components'
 
 const DefaultViewWrapper = styled.div`
+  position: relative;
   max-width: 460px;
   margin: 0 auto;
   padding: 10px;

@@ -20,6 +20,9 @@ export interface ProjectDescription {
   numberOfStrawberries?: number
   strawberries?: Strawberry[]
   currentStrawBerry?: Strawberry
+  statistics: {
+    totalStrawberries: number
+  }
 }
 
 export interface Project extends ProjectDescription {
