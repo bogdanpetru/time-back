@@ -1,3 +1,8 @@
+export enum StrawberryType {
+  STRAWBERRY_TYPE_INTERVAL = 'STRAWBERRY_TYPE_INTERVAL',
+  STRAWBERRY_TYPE_PAUSE = 'STRAWBERRY_TYPE_INTERVAL',
+}
+
 export interface StrawberryConfig {
   size: number
   timeSpent?: number[]
@@ -6,6 +11,7 @@ export interface StrawberryConfig {
   notes?: string
   name?: string
   finished?: boolean
+  type?: StrawberryType
 }
 
 export interface Strawberry extends StrawberryConfig {

@@ -86,11 +86,11 @@ const CreateProject = (props: CreateProjectProps) => {
       }
     >
       <form onSubmit={form.onSubmit}>
-        <Input {...form.inputs.name} label={t('project name')} />
-        <Input {...form.inputs.strawberrySize} label={t('strawberry size')} />
+        <Input {...form.inputs.name} label={t('name')} />
+        <Input {...form.inputs.strawberrySize} label={t('size')} />
         <Input
           {...form.inputs.numberOfStrawberries}
-          label={t('number of strawberries')}
+          label={t('number')}
           type="number"
         />
         <Input

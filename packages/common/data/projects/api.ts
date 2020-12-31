@@ -5,9 +5,7 @@ import invariant from 'invariant'
 import { ProjectDescription, Project, Strawberry } from './interface'
 import { mapProject, mapStrawberry } from './map'
 
-const getDb = () => {
-  return firebase.firestore()
-}
+const getDb = () => firebase.firestore()
 
 export const getProjectsRef = () => {
   const db = getDb()
@@ -91,13 +89,19 @@ export const resetStrawberry = async (project: Project) => {
   return newStrawberry
 }
 
-export const stopStrawberry = async (
+const archiveStrawberry = async (projectId: string, strawberry: Strawberry) =>
+  getProjectsRef()
+    .doc(projectId)
+    .collection('strawberries')
+    .doc()
+    .set(strawberry)
+
+export const createNewStrawberry = async (
   project: Project,
   strawberry: Strawberry
 ) => {
-  const projectRef = getProjectsRef().doc(project.id)
   const newStrawberry = await resetStrawberry(project)
-  await projectRef.collection('strawberries').doc().set(strawberry)
+  await archiveStrawberry(project.id, strawberry)
 
   return newStrawberry
 }

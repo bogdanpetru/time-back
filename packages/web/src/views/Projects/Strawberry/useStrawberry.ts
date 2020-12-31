@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import {
   startStrawberry,
   pauseStrawberry,
-  stopStrawberry,
+  createNewStrawberry,
   resetStrawberry,
   Strawberry,
   Project,
@@ -81,7 +81,7 @@ const useStrawberry = (project: Project) => {
       ...strawberry,
       running: false,
     })
-    const newStrawberry = await stopStrawberry(project, strawberry)
+    const newStrawberry = await createNewStrawberry(project, strawberry)
     setStrawberry(newStrawberry)
   }
 

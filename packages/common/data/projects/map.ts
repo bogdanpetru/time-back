@@ -1,5 +1,5 @@
 import { removeUndefinedKeys } from '@app/utils'
-import { Project, Strawberry } from './interface'
+import { Project, Strawberry, StrawberryType } from './interface'
 
 export const mapStrawberry = (data: any): Strawberry =>
   removeUndefinedKeys<Strawberry>({
@@ -11,6 +11,7 @@ export const mapStrawberry = (data: any): Strawberry =>
     running: Boolean(data.running),
     notes: data.notes,
     finished: data.finished,
+    type: data.type || StrawberryType.STRAWBERRY_TYPE_INTERVAL,
   })
 
 export const mapProject = (data: any): Project =>
