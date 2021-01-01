@@ -26,9 +26,10 @@ const useTick = ({
     }
 
     const timeoutId = setTimeout(() => {
-      const newTime = time - 1000
-      if (!newTime) {
+      let newTime = time - 1000
+      if (newTime <= 0) {
         onStrawberryFinish()
+        newTime = 0
       }
 
       setTime(newTime || strawberry.size)

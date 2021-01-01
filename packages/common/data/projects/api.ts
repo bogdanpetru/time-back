@@ -7,7 +7,6 @@ import {
   Project,
   Strawberry,
   StrawberryType,
-  StrawberryConfig,
 } from './interface'
 import { mapProject, mapStrawberry } from './map'
 
