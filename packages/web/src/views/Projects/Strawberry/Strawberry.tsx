@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { Loader, Timer, Wave, CoffeeIcon, TickerIcon } from '@app/components'
-import { StrawberryType } from '@app/data/projects'
+import { Loader, Timer, Wave } from '@app/components'
 import { Strawberry } from '@app/data/projects'
 import DefaultView from '@app/web/components/DefaultView'
 import { isNumber } from '@app/utils'
@@ -37,19 +36,12 @@ const Strawberry = () => {
     <>
       <Wave level={timeSpentRatio} />
       <Wrapper title={project.name}>
-        <IconWrapper>
-          {strawberry?.running &&
-            (strawberry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL ? (
-              <TickerIcon />
-            ) : (
-              <CoffeeIcon />
-            ))}
-        </IconWrapper>
         <Timer
           onPauseStart={strawberry?.running ? onPause : onStart}
           onReset={showResetButton && onReset}
           running={strawberry?.running}
           timePassed={time}
+          type={strawberry.type}
         />
       </Wrapper>
     </>

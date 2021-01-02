@@ -18,16 +18,16 @@ const TickerWrapper = styled.svg`
 
 const Ticker = () => (
   <TickerWrapper
-    width="52"
-    height="60"
-    viewBox="0 0 52 60"
+    width="24"
+    height="28"
+    viewBox="0 0 24 28"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"
-      d="M25.4173 37.2037C27.0484 37.2037 28.3706 35.88 28.3706 34.2472C28.3706 32.6144 27.0484 31.2907 25.4173 31.2907C23.7863 31.2907 22.4641 32.6144 22.4641 34.2472C22.4641 35.88 23.7863 37.2037 25.4173 37.2037Z"
+      d="M11.8947 17.0281C12.6255 17.0281 13.2179 16.4351 13.2179 15.7035C13.2179 14.9719 12.6255 14.3788 11.8947 14.3788C11.1639 14.3788 10.5715 14.9719 10.5715 15.7035C10.5715 16.4351 11.1639 17.0281 11.8947 17.0281Z"
       stroke="#124551"
       strokeWidth="2"
       strokeLinecap="round"
@@ -35,30 +35,21 @@ const Ticker = () => (
     />
     <path
       className="rotate"
-      d="M36.2035 23.2203L27.8413 31.5825"
+      d="M16.7274 10.7629L12.9808 14.5096"
       stroke="#124551"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
-      d="M47.5002 11.9828L43.7413 15.7458"
+      d="M21.7888 5.72797L20.1047 7.41396"
       stroke="#124551"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
-      d="M49.7972 13.4462L46.0383 9.68323"
-      stroke="#124551"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M50.0185 34.2768C50.0185 20.7538 39.068 9.79126 25.5599 9.79126C12.0518 9.79126 1.10132 20.7538 1.10132 34.2768C1.10132 47.7997 12.0518 58.7623 25.5599 58.7623C39.068 58.7623 50.0185 47.7997 50.0185 34.2768Z"
+      d="M22.818 6.38368L21.1339 4.69769"
       stroke="#124551"
       strokeWidth="2"
       strokeLinecap="round"
@@ -67,13 +58,22 @@ const Ticker = () => (
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"
-      d="M25.4174 9.73469C27.708 9.73469 29.565 7.8757 29.565 5.58253C29.565 3.28935 27.708 1.43036 25.4174 1.43036C23.1267 1.43036 21.2698 3.28935 21.2698 5.58253C21.2698 7.8757 23.1267 9.73469 25.4174 9.73469Z"
+      d="M22.9172 15.7167C22.9172 9.65782 18.0109 4.74609 11.9586 4.74609C5.90633 4.74609 1 9.65782 1 15.7167C1 21.7757 5.90633 26.6874 11.9586 26.6874C18.0109 26.6874 22.9172 21.7757 22.9172 15.7167Z"
       stroke="#124551"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-  </TickerWrapper>
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M11.8948 4.72073C12.9211 4.72073 13.7531 3.88782 13.7531 2.86036C13.7531 1.83291 12.9211 1 11.8948 1C10.8684 1 10.0364 1.83291 10.0364 2.86036C10.0364 3.88782 10.8684 4.72073 11.8948 4.72073Z"
+      stroke="#124551"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
 )
 
 export default Ticker

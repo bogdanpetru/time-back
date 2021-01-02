@@ -8,8 +8,8 @@
   - [ ] not sure this is needed because anything I would want to import should bee already a child, or it should reside ini @app/common
 - [x] think about providers vs importing services directly
 - [ ] add eslint and prettier in webpack
-- [ ] move tsconfig to root, so all projects can use the same config
-- [ ] clean up 
+- [x] move tsconfig to root, so all projects can use the same config
+- [x] clean up 
 - [ ] move useForm outside and add generics
 - [X] add types to api
 - [ ] add data validation in firebase
@@ -19,6 +19,8 @@
   - [ ] key for each project with how many intervals it has
 - [ ] limit the amount of projects per user
 - [ ] limit the amount of intervals in a period of time
+- [ ] when pause is reset, it is changed to interval
+
 
 **todos**
 

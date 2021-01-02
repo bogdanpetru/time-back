@@ -1,6 +1,13 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { PlayBigIcon, PauseIcon, DeleteIcon } from '@app/components'
+import { StrawberryType } from '@app/data/projects'
+import {
+  PlayBigIcon,
+  PauseIcon,
+  DeleteIcon,
+  CoffeeIcon,
+  TickerIcon,
+} from '@app/components'
 
 import { formatTime } from './utils'
 import TransparentButton from '../TransparentButton'
@@ -31,30 +38,51 @@ const TimerWrapper = styled.div`
   position: relative;
 `
 
+const IconWrapper = styled.div`
+  position: absolute;
+  top: 15;
+  right: -30px;
+`
+
+const iconMap = {
+  [StrawberryType.STRAWBERRY_TYPE_INTERVAL]: TickerIcon,
+  [StrawberryType.STRAWBERRY_TYPE_PAUSE]: CoffeeIcon,
+}
+
 interface TimerProps {
   timePassed: number
   running: boolean
   onPauseStart: () => void
   onReset?: () => void
+  type?: StrawberryType
 }
 
-const Timer: FunctionComponent<TimerProps> = (props) => (
-  <Wrapper>
-    <TimerWrapper>
-      {props.onReset && (
-        <DeleteButton onClick={props.onReset}>
-          <DeleteIcon />
-        </DeleteButton>
-      )}
-      <TimerInner>{formatTime(props.timePassed)}</TimerInner>
-    </TimerWrapper>
-    <ControlsWrapper>
-      <TransparentButton onClick={props.onPauseStart}>
-        {props.running ? <PauseIcon /> : <PlayBigIcon />}
-      </TransparentButton>
-    </ControlsWrapper>
-  </Wrapper>
-)
+const Timer: FunctionComponent<TimerProps> = (props) => {
+  const Icon = iconMap[props.type]
+
+  return (
+    <Wrapper>
+      <TimerWrapper>
+        {props.onReset && (
+          <DeleteButton onClick={props.onReset}>
+            <DeleteIcon />
+          </DeleteButton>
+        )}
+        {props.running && (
+          <IconWrapper>
+            <Icon />
+          </IconWrapper>
+        )}
+        <TimerInner>{formatTime(props.timePassed)}</TimerInner>
+      </TimerWrapper>
+      <ControlsWrapper>
+        <TransparentButton onClick={props.onPauseStart}>
+          {props.running ? <PauseIcon /> : <PlayBigIcon />}
+        </TransparentButton>
+      </ControlsWrapper>
+    </Wrapper>
+  )
+}
 
 Timer.defaultProps = {
   running: false,
