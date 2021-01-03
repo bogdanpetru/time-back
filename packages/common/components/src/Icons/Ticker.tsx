@@ -1,9 +1,10 @@
+import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
-const TickerWrapper = styled.svg`
+const TickerWrapper = styled.svg<{ running: boolean }>`
   .rotate {
-    transform-origin: 25px 34px;
-    animation: rotate 2s infinite forwards;
+    transform-origin: 12px 15.5px;
+    ${(props) => props.running && 'animation: rotate 2s infinite forwards;'}
   }
 
   @keyframes rotate {
@@ -16,13 +17,14 @@ const TickerWrapper = styled.svg`
   }
 `
 
-const Ticker = () => (
+const Ticker: FunctionComponent<{ running?: boolean }> = (props) => (
   <TickerWrapper
     width="24"
     height="28"
     viewBox="0 0 24 28"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    running={props.running}
   >
     <path
       fill-rule="evenodd"
@@ -73,7 +75,7 @@ const Ticker = () => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-  </svg>
+  </TickerWrapper>
 )
 
 export default Ticker

@@ -20,6 +20,7 @@ const TimerInner = styled.div`
 `
 
 const ControlsWrapper = styled.div`
+  position: relative;
   text-align: center;
 `
 
@@ -29,8 +30,8 @@ const Wrapper = styled.div`
 
 const DeleteButton = styled(TransparentButton)`
   position: absolute;
-  top: 0;
-  right: -40px;
+  top: 33px;
+  left: calc(29px + 50%);
 `
 
 const TimerWrapper = styled.div`
@@ -40,8 +41,8 @@ const TimerWrapper = styled.div`
 
 const IconWrapper = styled.div`
   position: absolute;
-  top: 15;
-  right: -30px;
+  top: 13px;
+  left: -30px;
 `
 
 const iconMap = {
@@ -63,22 +64,20 @@ const Timer: FunctionComponent<TimerProps> = (props) => {
   return (
     <Wrapper>
       <TimerWrapper>
-        {props.onReset && (
-          <DeleteButton onClick={props.onReset}>
-            <DeleteIcon />
-          </DeleteButton>
-        )}
-        {props.running && (
-          <IconWrapper>
-            <Icon />
-          </IconWrapper>
-        )}
+        <IconWrapper>
+          <Icon running={props.running} />
+        </IconWrapper>
         <TimerInner>{formatTime(props.timePassed)}</TimerInner>
       </TimerWrapper>
       <ControlsWrapper>
         <TransparentButton onClick={props.onPauseStart}>
           {props.running ? <PauseIcon /> : <PlayBigIcon />}
         </TransparentButton>
+        {props.onReset && (
+          <DeleteButton onClick={props.onReset}>
+            <DeleteIcon />
+          </DeleteButton>
+        )}
       </ControlsWrapper>
     </Wrapper>
   )
