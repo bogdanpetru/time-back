@@ -27,31 +27,31 @@ export const saveProject = async ({
 }): Promise<string> => {
   const docRef = getProjectsRef().doc(projectId)
 
-  let editOrSaveSpecificData = null
+  const commonData = {
+    name: projectDetails.name,
+    strawberrySize: projectDetails.strawberrySize,
+    numberOfStrawberries: projectDetails.numberOfStrawberries,
+    breakSize: projectDetails.breakSize,
+    description: projectDetails.description,
+  }
+
   if (projectId) {
-    editOrSaveSpecificData = {
-      // TODO fix
-      'currentStrawBerry.size': projectDetails.strawberrySize,
-    }
-  } else {
-    editOrSaveSpecificData = {
+    await docRef.update({
+      ...commonData,
       currentStrawBerry: {
         size: projectDetails.strawberrySize,
       },
-    }
+    })
+  } else {
+    await docRef.set(
+      {
+        ...commonData,
+        'currentStrawBerry.size': projectDetails.strawberrySize,
+      },
+      { merge: true }
+    )
   }
 
-  await docRef.set(
-    {
-      name: projectDetails.name,
-      strawberrySize: projectDetails.strawberrySize,
-      numberOfStrawberries: projectDetails.numberOfStrawberries,
-      breakSize: projectDetails.breakSize,
-      description: projectDetails.description,
-      ...editOrSaveSpecificData,
-    },
-    { merge: true }
-  )
   return docRef.id
 }
 
@@ -107,12 +107,18 @@ export const createNewStrawberry = async (
 ) => {
   let type = StrawberryType.STRAWBERRY_TYPE_INTERVAL
   let size = project.strawberrySize
-  if (
+  let statistics = null
+  const isInterval =
     project.breakSize &&
     strawberry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL
-  ) {
+  if (isInterval) {
     type = StrawberryType.STRAWBERRY_TYPE_PAUSE
     size = project.breakSize
+    statistics = {
+      'statistics.totalStrawberries': firebase.firestore.FieldValue.increment(
+        1
+      ),
+    }
   }
 
   const newStrawberry = mapStrawberry({
@@ -124,6 +130,7 @@ export const createNewStrawberry = async (
   await projectRef.set(
     {
       currentStrawBerry: newStrawberry,
+      ...statistics,
     },
     { merge: true }
   )
