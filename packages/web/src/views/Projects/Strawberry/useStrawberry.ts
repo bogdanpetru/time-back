@@ -43,7 +43,8 @@ const useTick = ({
 
 const useUpdateTimeOnStrawberryChange = (
   strawberry: Strawberry,
-  setTime: React.Dispatch<React.SetStateAction<number>>
+  setTime: React.Dispatch<React.SetStateAction<number>>,
+  onStrawberryFinish: () => void
 ) => {
   useEffect(() => {
     if (!strawberry) {
@@ -63,7 +64,14 @@ const useUpdateTimeOnStrawberryChange = (
         ? nowInSeconds() - last(strawberry.startTime)
         : 0
 
-    setTime(timeLeft - timeFromPreviousStart)
+    const time = timeLeft - timeFromPreviousStart
+
+    if (time <= 0) {
+      onStrawberryFinish()
+      return
+    }
+
+    setTime(time)
   }, [strawberry])
 }
 
@@ -75,9 +83,9 @@ const useStrawberry = (project: Project) => {
     project && setStrawberry(project.currentStrawBerry)
   }, [project])
 
-  useUpdateTimeOnStrawberryChange(strawberry, setTime)
+  useUpdateTimeOnStrawberryChange(strawberry, setTime, onStrawberryFinish)
 
-  const onStrawberryFinish = async () => {
+  async function onStrawberryFinish() {
     setStrawberry({
       ...strawberry,
       running: false,

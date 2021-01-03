@@ -18,7 +18,7 @@ const Bottom = styled.div`
   background: #bcf5ff;
 `
 
-const randomRange = (value: number, delta: number) => {
+const randomDelta = (value: number, delta: number) => {
   const min = value - delta
   const max = value + delta
   return Math.random() * (max - min) + min
@@ -31,8 +31,7 @@ const getWavePath = (height: number, width: number) => {
     *     *       *
               *
    */
-  const betweenPoints = randomRange(100, 5)
-
+  const betweenPoints = randomDelta(100, 5)
   const MIDDLE = 'MIDDLE'
   const TOP = 'TOP'
   const BOTTOM = 'BOTTOM'
@@ -43,7 +42,7 @@ const getWavePath = (height: number, width: number) => {
     .fill(pattern)
     .reduce((acc, item) => [...acc, ...item], [])
 
-  const firstPoint = [randomRange(0, 10), randomRange(height / 2, 20)]
+  const firstPoint = [randomDelta(-20, 10), randomDelta(height / 2, 20)]
 
   const points = []
   for (let i = 0; i < completePattern.length; i++) {
@@ -52,17 +51,17 @@ const getWavePath = (height: number, width: number) => {
     switch (completePattern[i]) {
       case MIDDLE:
         points.push([
-          randomRange(betweenPoints / 2, 10) + previousPoint[0],
-          randomRange(height, 20) / 2,
+          randomDelta(betweenPoints / 2, 10) + previousPoint[0],
+          randomDelta(height, 20) / 2,
         ])
         break
       case TOP:
-        points.push([randomRange(betweenPoints / 2, 10) + previousPoint[0], 0])
+        points.push([randomDelta(betweenPoints / 2, 10) + previousPoint[0], 0])
         break
       case BOTTOM:
         points.push([
-          randomRange(betweenPoints / 2, 10) + previousPoint[0],
-          randomRange(height, 20),
+          randomDelta(betweenPoints / 2, 10) + previousPoint[0],
+          randomDelta(height, 20),
         ])
         break
     }
