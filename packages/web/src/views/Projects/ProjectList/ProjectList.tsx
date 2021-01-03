@@ -1,7 +1,8 @@
 import { useState, useEffect, MouseEvent } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { getAllProjects } from '@app/data/projects'
+import { getProjects } from '@app/data/projects'
+import useData from '@app/data/management/useData'
 import { t } from '@app/data/intl'
 import {
   List,
@@ -11,7 +12,6 @@ import {
   Spacer,
   Loader,
   TransparentButton,
-  useDocumentTitle,
   Button,
 } from '@app/components'
 import { Project } from '@app/data/projects'
@@ -30,22 +30,10 @@ const ProjectListInner = styled(List)`
 `
 
 const ProjectList = () => {
-  const [projects, setProjects] = useState<Project[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const data = useData()
+  const projects = data.getProjects().list
 
   const history = useHistory()
-  useEffect(() => {
-    ;(async () => {
-      setIsLoading(true)
-      const projects = await getAllProjects()
-      if (!projects?.length) {
-        history.push('/new')
-        return
-      }
-      setProjects(projects)
-      setIsLoading(false)
-    })()
-  }, [setProjects])
 
   const handleEdit = (projectId: string) => (event: MouseEvent) => {
     event.stopPropagation()
@@ -69,7 +57,7 @@ const ProjectList = () => {
         </Button>
       }
     >
-      {isLoading && <Loader />}
+      {data.getProjects().loading && <Loader />}
       <ProjectListInner>
         {Boolean(projects?.length) &&
           projects.map((project) => (

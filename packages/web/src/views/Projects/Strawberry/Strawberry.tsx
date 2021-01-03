@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Loader, Timer, Wave } from '@app/components'
 import { Strawberry } from '@app/data/projects'
 import DefaultView from '@app/web/components/DefaultView'
+import useData from '@app/data/management/useData'
 import { isNumber } from '@app/utils'
 import useProject from '../useProject'
 import useStrawberry from './useStrawberry'
@@ -20,7 +21,8 @@ const IconWrapper = styled.div`
 
 const Strawberry = () => {
   const params = useParams<{ projectId: string }>()
-  const { project, loading } = useProject(params.projectId)
+  const data = useData()
+  const project = data.getProject(params.projectId)
   const { onPause, onStart, strawberry, time, onReset } = useStrawberry(project)
   const showResetButton = Boolean(strawberry?.size) && strawberry?.size !== time
 
@@ -28,20 +30,21 @@ const Strawberry = () => {
   if (isNumber(strawberry?.size) && isNumber(time)) {
     timeSpentRatio = time / strawberry?.size
   }
-  if (loading) {
+
+  if (!project || !strawberry) {
     return <Loader />
   }
 
   return (
     <>
       <Wave level={timeSpentRatio} />
-      <Wrapper title={project.name}>
+      <Wrapper title={project?.name}>
         <Timer
           onPauseStart={strawberry?.running ? onPause : onStart}
           onReset={showResetButton && onReset}
           running={strawberry?.running}
           timePassed={time}
-          type={strawberry.type}
+          type={strawberry?.type}
         />
       </Wrapper>
     </>

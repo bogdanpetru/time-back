@@ -11,6 +11,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Auth from './views/Auth'
 
 import { useAuth } from '@app/data/auth'
+import DataProvider from '@app/data/management/provider'
 import { Loader, ToastContainer, DocumentTitle } from '@app/components'
 
 const authServiceConfig = {
@@ -41,16 +42,18 @@ function App() {
     <Router>
       <ThemeProvider theme={primary}>
         <GlobalStyle />
-        <ToastContainer>
-          <Switch>
-            <Route path="/login">
-              <Auth />
-            </Route>
-            <ProtectedRoute path="/">
-              <Projects />
-            </ProtectedRoute>
-          </Switch>
-        </ToastContainer>
+        <DataProvider>
+          <ToastContainer>
+            <Switch>
+              <Route path="/login">
+                <Auth />
+              </Route>
+              <ProtectedRoute path="/">
+                <Projects />
+              </ProtectedRoute>
+            </Switch>
+          </ToastContainer>
+        </DataProvider>
       </ThemeProvider>
     </Router>
   )

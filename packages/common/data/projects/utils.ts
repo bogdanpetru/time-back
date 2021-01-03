@@ -1,5 +1,5 @@
 import { last, addArray, nowInSeconds } from '@app/utils'
-import { Strawberry } from './interface'
+import { Strawberry } from '../interface'
 
 export const getTimeLeft = (strawberry: Strawberry): number => {
   if (!strawberry) {

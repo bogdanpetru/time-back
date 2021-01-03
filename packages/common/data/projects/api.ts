@@ -7,7 +7,7 @@ import {
   Project,
   Strawberry,
   StrawberryType,
-} from './interface'
+} from '../interface'
 import { mapProject, mapStrawberry } from './map'
 
 const getDb = () => firebase.firestore()
@@ -69,7 +69,7 @@ export const getProject = async (projectId: string): Promise<Project> => {
   return mapProject({ ...project, id: projectId })
 }
 
-export const getAllProjects = async (): Promise<Project[]> => {
+export const getProjects = async (): Promise<Project[]> => {
   return (await getProjectsRef().get()).docs.map((item) =>
     mapProject({
       id: item.id,

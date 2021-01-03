@@ -28,6 +28,8 @@ export interface ProjectDescription {
   currentStrawBerry?: Strawberry
   statistics: {
     totalStrawberries: number
+    currentStreak: number
+    totalStrawberriesToday: number
   }
 }
 

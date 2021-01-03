@@ -64,9 +64,7 @@ const Timer: FunctionComponent<TimerProps> = (props) => {
   return (
     <Wrapper>
       <TimerWrapper>
-        <IconWrapper>
-          <Icon running={props.running} />
-        </IconWrapper>
+        <IconWrapper>{Icon && <Icon running={props.running} />}</IconWrapper>
         <TimerInner>{formatTime(props.timePassed)}</TimerInner>
       </TimerWrapper>
       <ControlsWrapper>

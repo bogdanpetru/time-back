@@ -85,6 +85,8 @@ const useStrawberry = (project: Project) => {
 
   useUpdateTimeOnStrawberryChange(strawberry, setTime, onStrawberryFinish)
 
+  useTick({ strawberry, setTime, onStrawberryFinish, time })
+
   async function onStrawberryFinish() {
     setStrawberry({
       ...strawberry,
@@ -93,8 +95,6 @@ const useStrawberry = (project: Project) => {
     const newStrawberry = await createNewStrawberry(project, strawberry)
     setStrawberry(newStrawberry)
   }
-
-  useTick({ strawberry, setTime, onStrawberryFinish, time })
 
   const onPause = async () => {
     const timeSpent = // it is important when pausing that the timer does not change
