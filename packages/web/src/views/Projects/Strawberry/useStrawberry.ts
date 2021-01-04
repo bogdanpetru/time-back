@@ -7,24 +7,8 @@ import {
   Strawberry,
   Project,
 } from '@app/data/projects'
-import { addArray, nowInSeconds, last } from './utils'
-
-const getRemainingTime = (strawberry: Strawberry): number => {
-  if (!strawberry?.startTime.length) {
-    return strawberry.size
-  }
-
-  const timeLeft =
-    strawberry.size -
-    ((strawberry?.timeSpent && addArray(strawberry.timeSpent)) || 0)
-
-  const timeFromPreviousStart =
-    strawberry.running && strawberry.startTime.length
-      ? nowInSeconds() - last(strawberry.startTime)
-      : 0
-
-  return timeLeft - timeFromPreviousStart
-}
+import { addArray, nowInSeconds, getRemainingTime } from './utils'
+import useData from '@app/data/management/useData'
 
 const useTick = ({
   strawberry,
@@ -74,6 +58,8 @@ const useUpdateTimeOnStrawberryChange = (
 }
 
 const useStrawberry = (project: Project) => {
+  const data = useData()
+
   const [time, setTime] = useState<number>(0)
   const [strawberry, setStrawberry] = useState<Strawberry>(null)
 
@@ -119,7 +105,7 @@ const useStrawberry = (project: Project) => {
   }
 
   const onReset = async () => {
-    const newStrawberry = await resetStrawberry(project)
+    const newStrawberry = await data.resetStrawberry(project)
     setStrawberry(newStrawberry)
   }
 

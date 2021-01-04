@@ -31,7 +31,7 @@ const ProjectListInner = styled(List)`
 
 const ProjectList = () => {
   const data = useData()
-  const projects = data.getProjects().list
+  const [projects, loading] = data.getProjects()
 
   const history = useHistory()
 
@@ -57,7 +57,7 @@ const ProjectList = () => {
         </Button>
       }
     >
-      {data.getProjects().loading && <Loader />}
+      {loading && <Loader />}
       <ProjectListInner>
         {Boolean(projects?.length) &&
           projects.map((project) => (

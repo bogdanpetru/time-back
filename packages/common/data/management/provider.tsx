@@ -1,7 +1,7 @@
 import { FunctionComponent, useReducer, useEffect } from 'react'
 import { getProjects } from '@app/data/projects'
 import DataContext from './context'
-import { Project } from '../interface'
+import { resetStrawberry } from '@app/data/projects'
 import {
   State,
   Reducer,
@@ -20,7 +20,7 @@ const useInitialProjects = (state: State, dispatch: React.Dispatch<Action>) => {
       const projects = await getProjects()
       dispatch({
         type: ActionTypes.SET_PROJECTS,
-        payload: projects,
+        projects,
       })
     })()
   }, [dispatch, state])
@@ -43,9 +43,19 @@ const DataProvider: FunctionComponent = (props) => {
   useInitialProjects(state, dispatch)
 
   const api = {
-    getProjects: () => state.projects,
-    getProject: (projectId): Project => {
-      return state.projects.list.find((project) => project.id === projectId)
+    getProjects: () => [state.projects.list, state.projects.loading],
+    getProject: (projectId) => [
+      state.projects.list.find((project) => project.id === projectId),
+      state.projects.loading,
+    ],
+    resetStrawberry: async (project) => {
+      const newStrawberry = await resetStrawberry(project)
+      dispatch({
+        type: ActionTypes.RESET_STRAWBERRY,
+        projectId: project.id,
+        strawberry: newStrawberry,
+      })
+      return newStrawberry
     },
   } as DataManagement
 

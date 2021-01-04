@@ -15,7 +15,7 @@ const Wrapper = styled(DefaultView)`
 const Strawberry = () => {
   const params = useParams<{ projectId: string }>()
   const data = useData()
-  const project = data.getProject(params.projectId)
+  const [project, loading] = data.getProject(params.projectId)
   const { onPause, onStart, strawberry, time, onReset } = useStrawberry(project)
   const showResetButton =
     (Boolean(strawberry?.size) && strawberry?.size !== time) ||
@@ -28,7 +28,7 @@ const Strawberry = () => {
     timeSpentRatio = time / strawberry?.size
   }
 
-  if (!project || !strawberry) {
+  if (loading) {
     return <Loader />
   }
 
