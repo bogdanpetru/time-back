@@ -56,6 +56,7 @@ interface TimerProps {
   onPauseStart: () => void
   onReset?: () => void
   type?: StrawberryType
+  showDecorationIcons: boolean
 }
 
 const Timer: FunctionComponent<TimerProps> = (props) => {
@@ -64,7 +65,11 @@ const Timer: FunctionComponent<TimerProps> = (props) => {
   return (
     <Wrapper>
       <TimerWrapper>
-        <IconWrapper>{Icon && <Icon running={props.running} />}</IconWrapper>
+        <IconWrapper>
+          {props.showDecorationIcons && Icon && (
+            <Icon running={props.running} />
+          )}
+        </IconWrapper>
         <TimerInner>{formatTime(props.timePassed)}</TimerInner>
       </TimerWrapper>
       <ControlsWrapper>

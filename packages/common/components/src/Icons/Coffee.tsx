@@ -1,9 +1,10 @@
+import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
-const CoffeeWrapper = styled.svg`
+const CoffeeWrapper = styled.svg<{ running: boolean }>`
   .flip {
     transform-origin: 9.5px 5px;
-    animation: flip 1.6s infinite forwards;
+    ${(props) => props.running && 'animation: flip 1.6s infinite forwards;'}
   }
 
   @keyframes flip {
@@ -19,8 +20,9 @@ const CoffeeWrapper = styled.svg`
   }
 `
 
-const Coffee = () => (
+const Coffee: FunctionComponent<{ running: boolean }> = (props) => (
   <CoffeeWrapper
+    running={props.running}
     width="26"
     height="31"
     viewBox="0 0 26 31"

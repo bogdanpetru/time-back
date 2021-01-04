@@ -22,6 +22,7 @@
 - [ ] when pause is reset, it is changed to interval
 
 
+
 **todos**
 
 - [ ] basic input validation on project details
@@ -65,6 +66,10 @@
 - [ ] the data in the db is encrypted
 - [ ] runs on mobile and web (web with PWA)
 
+## bugs
+
+- the  animation breaks on window resize
+- the time is wrong when the app is in background 
 
 ## structure
 

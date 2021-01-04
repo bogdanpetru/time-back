@@ -38,15 +38,16 @@ export const saveProject = async ({
   if (projectId) {
     await docRef.update({
       ...commonData,
-      currentStrawBerry: {
-        size: projectDetails.strawberrySize,
-      },
+
+      'currentStrawBerry.size': projectDetails.strawberrySize,
     })
   } else {
     await docRef.set(
       {
         ...commonData,
-        'currentStrawBerry.size': projectDetails.strawberrySize,
+        currentStrawBerry: {
+          size: projectDetails.strawberrySize,
+        },
       },
       { merge: true }
     )

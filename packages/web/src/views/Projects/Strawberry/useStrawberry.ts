@@ -9,6 +9,23 @@ import {
 } from '@app/data/projects'
 import { addArray, nowInSeconds, last } from './utils'
 
+const getRemainingTime = (strawberry: Strawberry): number => {
+  if (!strawberry?.startTime.length) {
+    return strawberry.size
+  }
+
+  const timeLeft =
+    strawberry.size -
+    ((strawberry?.timeSpent && addArray(strawberry.timeSpent)) || 0)
+
+  const timeFromPreviousStart =
+    strawberry.running && strawberry.startTime.length
+      ? nowInSeconds() - last(strawberry.startTime)
+      : 0
+
+  return timeLeft - timeFromPreviousStart
+}
+
 const useTick = ({
   strawberry,
   setTime,
@@ -24,20 +41,16 @@ const useTick = ({
     if (!strawberry?.running) {
       return
     }
-
     const timeoutId = setTimeout(() => {
-      let newTime = time - 1000
-      if (newTime <= 0) {
+      let time = getRemainingTime(strawberry)
+      if (time <= 0) {
         onStrawberryFinish()
-        newTime = 0
+        time = 0
       }
-
-      setTime(newTime || strawberry.size)
+      setTime(time)
     }, 1000)
 
-    return () => {
-      clearTimeout(timeoutId)
-    }
+    return () => clearTimeout(timeoutId)
   }, [strawberry?.running, setTime, time])
 }
 
@@ -50,28 +63,13 @@ const useUpdateTimeOnStrawberryChange = (
     if (!strawberry) {
       return
     }
-    if (!strawberry?.startTime.length) {
-      setTime(strawberry.size)
-      return
-    }
 
-    const timeLeft =
-      strawberry.size -
-      ((strawberry?.timeSpent && addArray(strawberry.timeSpent)) || 0)
-
-    const timeFromPreviousStart =
-      strawberry.running && strawberry.startTime.length
-        ? nowInSeconds() - last(strawberry.startTime)
-        : 0
-
-    const time = timeLeft - timeFromPreviousStart
-
+    const time = getRemainingTime(strawberry)
     if (time <= 0) {
       onStrawberryFinish()
-      return
+    } else {
+      setTime(time)
     }
-
-    setTime(time)
   }, [strawberry])
 }
 
