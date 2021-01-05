@@ -7,8 +7,11 @@ import {
   Strawberry,
   Project,
 } from '@app/data/projects'
-import { addArray, nowInSeconds, getRemainingTime } from './utils'
 import useData from '@app/data/management/useData'
+import { addNotification } from '@app/services/notification'
+import { addArray, nowInSeconds, getRemainingTime } from './utils'
+
+import strawberryImg from '@app/assets/strawberry.png'
 
 const useTick = ({
   strawberry,
@@ -76,6 +79,8 @@ const useStrawberry = (project: Project) => {
       ...strawberry,
       running: false,
     })
+    addNotification('Strawberry finished, take a break', { img: strawberryImg })
+
     const newStrawberry = await createNewStrawberry(project, strawberry)
     setStrawberry(newStrawberry)
   }

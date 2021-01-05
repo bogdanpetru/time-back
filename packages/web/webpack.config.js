@@ -14,8 +14,8 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: ['url-loader?limit=10000', 'img-loader'],
       },
     ],
   },

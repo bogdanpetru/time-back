@@ -4,6 +4,7 @@
   "exclude": ["node_modules", "**/*.spec.ts"],
   "compilerOptions": {
     "baseUrl": "src",
+    "esModuleInterop": true,
     "paths": {
       "@app/web/*": ["./*"]
     }
