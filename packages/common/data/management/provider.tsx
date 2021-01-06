@@ -1,7 +1,7 @@
 import { FunctionComponent, useReducer, useEffect } from 'react'
-import { getProjects } from '@app/data/projects'
+import { getProject, getProjects } from '@app/data/projects'
 import DataContext from './context'
-import { resetStrawberry } from '@app/data/projects'
+import { setCurrentStrawberry, startStrawberry } from '@app/data/projects'
 import {
   State,
   Reducer,
@@ -9,7 +9,12 @@ import {
   DataManagement,
   Action,
 } from './interface'
+import { Project, mapStrawberry, Strawberry } from '@app/data/projects'
+import { nowInSeconds } from '@app/utils'
 import reducer from './reducer'
+
+
+const getProjectSelector = (state: State, projectId: String): Project => state.projects.list.find((project) => project.id === projectId)
 
 const useInitialProjects = (state: State, dispatch: React.Dispatch<Action>) => {
   useEffect(() => {
@@ -24,6 +29,40 @@ const useInitialProjects = (state: State, dispatch: React.Dispatch<Action>) => {
       })
     })()
   }, [dispatch, state])
+}
+
+const getResetStrawberry = (dispatch: React.Dispatch<Action>, state: State) => (projectId: string) => {
+  const project = getProjectSelector(state, projectId);
+  const strawberry = mapStrawberry({
+    size: project.strawberrySize,
+  })
+
+  dispatch({
+    type: ActionTypes.SET_STRAWBERRY,
+    projectId,
+    strawberry,
+  })
+  
+  return setCurrentStrawberry(project.id, strawberry)
+}
+
+const getStartStrawberry = (dispatch: React.Dispatch<Action>, state: State) => (projectId: string): Promise<void> => {
+  const startTime = nowInSeconds()
+  const project = getProjectSelector(state, projectId)
+
+  const strawberry = {
+    ...project.currentStrawBerry,
+    running: true,
+    startTime: [...(project.currentStrawBerry?.startTime || []), startTime],
+  }
+
+  dispatch({
+    type: ActionTypes.SET_STRAWBERRY,
+    projectId,
+    strawberry,
+  })
+
+  return startStrawberry(project.id, startTime)
 }
 
 const DataProvider: FunctionComponent = (props) => {
@@ -48,15 +87,8 @@ const DataProvider: FunctionComponent = (props) => {
       state.projects.list.find((project) => project.id === projectId),
       state.projects.loading,
     ],
-    resetStrawberry: async (project) => {
-      const newStrawberry = await resetStrawberry(project)
-      dispatch({
-        type: ActionTypes.RESET_STRAWBERRY,
-        projectId: project.id,
-        strawberry: newStrawberry,
-      })
-      return newStrawberry
-    },
+    resetStrawberry: getResetStrawberry(dispatch, state),
+    startStrawberry: getStartStrawberry(dispatch, state)
   } as DataManagement
 
   return (

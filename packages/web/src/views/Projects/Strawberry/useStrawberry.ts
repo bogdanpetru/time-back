@@ -3,13 +3,13 @@ import {
   startStrawberry,
   pauseStrawberry,
   createNewStrawberry,
-  resetStrawberry,
   Strawberry,
   Project,
 } from '@app/data/projects'
 import useData from '@app/data/management/useData'
 import { addNotification } from '@app/services/notification'
-import { addArray, nowInSeconds, getRemainingTime } from './utils'
+import { nowInSeconds } from '@app/utils'
+import { addArray, getRemainingTime } from './utils'
 
 import strawberryImg from '@app/assets/strawberry.png'
 
@@ -99,20 +99,8 @@ const useStrawberry = (project: Project) => {
     await pauseStrawberry(project.id, timeSpent)
   }
 
-  const onStart = async () => {
-    const startTime = nowInSeconds()
-    setStrawberry((strawberry) => ({
-      ...strawberry,
-      running: true,
-      startTime: [...(strawberry?.startTime || []), startTime],
-    }))
-    await startStrawberry(project.id, startTime)
-  }
-
-  const onReset = async () => {
-    const newStrawberry = await data.resetStrawberry(project)
-    setStrawberry(newStrawberry)
-  }
+  const onStart = () => data.startStrawberry(project.id)
+  const onReset = () => data.resetStrawberry(project.id)
 
   return {
     onStart,
