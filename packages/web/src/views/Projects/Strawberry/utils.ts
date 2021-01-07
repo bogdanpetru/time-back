@@ -7,19 +7,3 @@ export const addArray = (arr: number[]): number =>
 export const last = (collection: any[]): any =>
   Array.isArray(collection) ? collection[collection.length - 1] : null
 
-export const getRemainingTime = (strawberry: Strawberry): number => {
-  if (!strawberry?.startTime.length) {
-    return strawberry.size
-  }
-
-  const timeLeft =
-    strawberry.size -
-    ((strawberry?.timeSpent && addArray(strawberry.timeSpent)) || 0)
-
-  const timeFromPreviousStart =
-    strawberry.running && strawberry.startTime.length
-      ? nowInSeconds() - last(strawberry.startTime)
-      : 0
-
-  return timeLeft - timeFromPreviousStart
-}

@@ -1,7 +1,12 @@
 import { FunctionComponent, useReducer, useEffect } from 'react'
-import { getProject, getProjects } from '@app/data/projects'
+import {
+  setCurrentStrawberry,
+  startStrawberry,
+  pauseStrawberry,
+  getProjects,
+} from '@app/data/projects'
+import { nowInSeconds, addArray } from '@app/utils'
 import DataContext from './context'
-import { setCurrentStrawberry, startStrawberry } from '@app/data/projects'
 import {
   State,
   Reducer,
@@ -10,11 +15,11 @@ import {
   Action,
 } from './interface'
 import { Project, mapStrawberry, Strawberry } from '@app/data/projects'
-import { nowInSeconds } from '@app/utils'
 import reducer from './reducer'
+import { getRemainingStrawberryTime } from './utils'
 
-
-const getProjectSelector = (state: State, projectId: String): Project => state.projects.list.find((project) => project.id === projectId)
+const getProjectSelector = (state: State, projectId: String): Project =>
+  state.projects.list.find((project) => project.id === projectId)
 
 const useInitialProjects = (state: State, dispatch: React.Dispatch<Action>) => {
   useEffect(() => {
@@ -31,8 +36,10 @@ const useInitialProjects = (state: State, dispatch: React.Dispatch<Action>) => {
   }, [dispatch, state])
 }
 
-const getResetStrawberry = (dispatch: React.Dispatch<Action>, state: State) => (projectId: string) => {
-  const project = getProjectSelector(state, projectId);
+const getResetStrawberry = (dispatch: React.Dispatch<Action>, state: State) => (
+  projectId: string
+) => {
+  const project = getProjectSelector(state, projectId)
   const strawberry = mapStrawberry({
     size: project.strawberrySize,
   })
@@ -42,11 +49,13 @@ const getResetStrawberry = (dispatch: React.Dispatch<Action>, state: State) => (
     projectId,
     strawberry,
   })
-  
+
   return setCurrentStrawberry(project.id, strawberry)
 }
 
-const getStartStrawberry = (dispatch: React.Dispatch<Action>, state: State) => (projectId: string): Promise<void> => {
+const getStartStrawberry = (dispatch: React.Dispatch<Action>, state: State) => (
+  projectId: string
+): Promise<void> => {
   const startTime = nowInSeconds()
   const project = getProjectSelector(state, projectId)
 
@@ -62,7 +71,32 @@ const getStartStrawberry = (dispatch: React.Dispatch<Action>, state: State) => (
     strawberry,
   })
 
-  return startStrawberry(project.id, startTime)
+  return startStrawberry(projectId, startTime)
+}
+
+const getPauseStrawberry = (dispatch: React.Dispatch<Action>, state: State) => (
+  projectId: string
+): Promise<void> => {
+  const project = getProjectSelector(state, projectId)
+  const strawberry = project.currentStrawBerry
+
+  let time = getRemainingStrawberryTime(strawberry)
+  const timeSpent =
+    strawberry.size -
+    time -
+    (strawberry?.timeSpent ? addArray(strawberry.timeSpent) : 0)
+
+  dispatch({
+    type: ActionTypes.SET_STRAWBERRY,
+    projectId,
+    strawberry: {
+      ...strawberry,
+      running: false,
+      timeSpent: [...strawberry.timeSpent, timeSpent],
+    },
+  })
+
+  return pauseStrawberry(projectId, timeSpent)
 }
 
 const DataProvider: FunctionComponent = (props) => {
@@ -88,7 +122,8 @@ const DataProvider: FunctionComponent = (props) => {
       state.projects.loading,
     ],
     resetStrawberry: getResetStrawberry(dispatch, state),
-    startStrawberry: getStartStrawberry(dispatch, state)
+    startStrawberry: getStartStrawberry(dispatch, state),
+    pauseStrawberry: getPauseStrawberry(dispatch, state),
   } as DataManagement
 
   return (

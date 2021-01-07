@@ -1,5 +1,4 @@
 export const requestNotificationPermission = Notification.requestPermission
-
 export const addNotification = (
   text: string,
   options?: { body?: string; img?: string }

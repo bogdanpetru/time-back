@@ -34,4 +34,5 @@ export interface DataManagement {
   getProject(projectId: string): Data<Project>
   resetStrawberry(projectId: string): Promise<Strawberry>
   startStrawberry(projectId: string): Promise<void>
+  pauseStrawberry(projectId: string): Promise<void>
 }

@@ -9,7 +9,8 @@ import {
 import useData from '@app/data/management/useData'
 import { addNotification } from '@app/services/notification'
 import { nowInSeconds } from '@app/utils'
-import { addArray, getRemainingTime } from './utils'
+import { addArray } from './utils'
+import { getRemainingStrawberryTime } from '@app/data/management/utils'
 
 import strawberryImg from '@app/assets/strawberry.png'
 
@@ -29,7 +30,7 @@ const useTick = ({
       return
     }
     const timeoutId = setTimeout(() => {
-      let time = getRemainingTime(strawberry)
+      let time = getRemainingStrawberryTime(strawberry)
       if (time <= 0) {
         onStrawberryFinish()
         time = 0
@@ -51,7 +52,7 @@ const useUpdateTimeOnStrawberryChange = (
       return
     }
 
-    const time = getRemainingTime(strawberry)
+    const time = getRemainingStrawberryTime(strawberry)
     if (time <= 0) {
       onStrawberryFinish()
     } else {
@@ -85,20 +86,7 @@ const useStrawberry = (project: Project) => {
     setStrawberry(newStrawberry)
   }
 
-  const onPause = async () => {
-    const timeSpent = // it is important when pausing that the timer does not change
-      strawberry.size -
-      time -
-      (strawberry?.timeSpent ? addArray(strawberry.timeSpent) : 0)
-
-    setStrawberry((strawberry) => ({
-      ...strawberry,
-      running: false,
-      timeSpent: [...strawberry.timeSpent, timeSpent],
-    }))
-    await pauseStrawberry(project.id, timeSpent)
-  }
-
+  const onPause = () => data.pauseStrawberry(project.id)
   const onStart = () => data.startStrawberry(project.id)
   const onReset = () => data.resetStrawberry(project.id)
 
