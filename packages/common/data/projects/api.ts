@@ -79,20 +79,19 @@ export const getProjects = async (): Promise<Project[]> => {
   )
 }
 
-export const resetStrawberry = async (project: Project) => {
-  const newStrawberry = mapStrawberry({
-    size: project.strawberrySize,
-  })
-
-  const projectRef = getProjectsRef().doc(project.id)
+export const setCurrentStrawberry = async (
+  projectId: string,
+  strawberry: Strawberry
+) => {
+  const projectRef = getProjectsRef().doc(projectId)
   await projectRef.set(
     {
-      currentStrawBerry: newStrawberry,
+      currentStrawBerry: strawberry,
     },
     { merge: true }
   )
 
-  return newStrawberry
+  return strawberry
 }
 
 const archiveStrawberry = async (projectId: string, strawberry: Strawberry) =>
@@ -105,7 +104,7 @@ const archiveStrawberry = async (projectId: string, strawberry: Strawberry) =>
 export const createNewStrawberry = async (
   project: Project,
   strawberry: Strawberry
-) => {
+): Promise<Strawberry> => {
   let type = StrawberryType.STRAWBERRY_TYPE_INTERVAL
   let size = project.strawberrySize
   let statistics = null
@@ -143,7 +142,7 @@ export const createNewStrawberry = async (
 export const startStrawberry = async (
   projectId: string,
   startTime: number
-): Promise<number> => {
+): Promise<void> => {
   invariant(projectId, 'cannot start a interval without a project-id')
 
   await getProjectsRef()
@@ -157,8 +156,6 @@ export const startStrawberry = async (
       },
       { merge: true }
     )
-
-  return startTime
 }
 
 export const pauseStrawberry = async (projectId: string, timeSpent: number) => {

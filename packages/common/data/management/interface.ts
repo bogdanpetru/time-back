@@ -2,12 +2,12 @@ import { Project, Strawberry } from '../interface'
 
 export enum ActionTypes {
   SET_PROJECTS = 'SET_PROJECTS',
-  RESET_STRAWBERRY = 'RESET_STRAWBERRY',
+  SET_STRAWBERRY = 'SET_STRAWBERRY',
 }
 
 export type Action =
   | {
-      type: ActionTypes.RESET_STRAWBERRY
+      type: ActionTypes.SET_STRAWBERRY
       projectId: string
       strawberry: Strawberry
     }
@@ -32,5 +32,8 @@ type Data<T> = [T, boolean]
 export interface DataManagement {
   getProjects(): Data<Project[]>
   getProject(projectId: string): Data<Project>
-  resetStrawberry(project: Project): Promise<Strawberry>
+  resetStrawberry(projectId: string): Promise<Strawberry>
+  startStrawberry(projectId: string): Promise<void>
+  pauseStrawberry(projectId: string): Promise<void>
+  finishStrawberry(projectId: string): Promise<Strawberry>
 }

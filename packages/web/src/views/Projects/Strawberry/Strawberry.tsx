@@ -16,12 +16,18 @@ const Strawberry = () => {
   const params = useParams<{ projectId: string }>()
   const data = useData()
   const [project, loading] = data.getProject(params.projectId)
-  const { onPause, onStart, strawberry, time, onReset } = useStrawberry(project)
+  const strawberry = project?.currentStrawBerry
+
+  const { time } = useStrawberry(project)
   const showResetButton =
     (Boolean(strawberry?.size) && strawberry?.size !== time) ||
     strawberry?.type === StrawberryType.STRAWBERRY_TYPE_PAUSE
   const showDecorationIcons =
     Boolean(strawberry?.size) && strawberry?.size !== time
+
+  const onPause = () => data.pauseStrawberry(project.id)
+  const onStart = () => data.startStrawberry(project.id)
+  const onReset = () => data.resetStrawberry(project.id)
 
   let timeSpentRatio: number = null
   if (isNumber(strawberry?.size) && isNumber(time)) {

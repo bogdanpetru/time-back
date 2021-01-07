@@ -10,7 +10,7 @@ const reducer: Reducer = (state: State, action: Action): State => {
           list: action.projects,
         },
       }
-    case ActionTypes.RESET_STRAWBERRY:
+    case ActionTypes.SET_STRAWBERRY:
       return {
         ...state,
         projects: {
