@@ -1,10 +1,4 @@
 import { FunctionComponent, useReducer, useEffect } from 'react'
-import {
-  setCurrentStrawberry,
-  startStrawberry,
-  pauseStrawberry,
-  getProjects,
-} from '@app/data/projects'
 import { nowInSeconds, addArray } from '@app/utils'
 import DataContext from './context'
 import {
@@ -14,7 +8,16 @@ import {
   DataManagement,
   Action,
 } from './interface'
-import { Project, mapStrawberry, Strawberry } from '@app/data/projects'
+import {
+  Strawberry,
+  Project,
+  mapStrawberry,
+  setCurrentStrawberry,
+  startStrawberry,
+  pauseStrawberry,
+  getProjects,
+  createNewStrawberry,
+} from '@app/data/projects'
 import reducer from './reducer'
 import { getRemainingStrawberryTime } from './utils'
 
@@ -99,6 +102,25 @@ const getPauseStrawberry = (dispatch: React.Dispatch<Action>, state: State) => (
   return pauseStrawberry(projectId, timeSpent)
 }
 
+const getFinishStrawberry = (
+  dispatch: React.Dispatch<Action>,
+  state: State
+) => (projectId: string): Promise<Strawberry> => {
+  const project = getProjectSelector(state, projectId)
+  const strawberry = project.currentStrawBerry
+
+  dispatch({
+    type: ActionTypes.SET_STRAWBERRY,
+    projectId,
+    strawberry: {
+      ...strawberry,
+      running: false,
+    },
+  })
+
+  return createNewStrawberry(project, strawberry)
+}
+
 const DataProvider: FunctionComponent = (props) => {
   const initialState: State = {
     projects: {
@@ -124,6 +146,7 @@ const DataProvider: FunctionComponent = (props) => {
     resetStrawberry: getResetStrawberry(dispatch, state),
     startStrawberry: getStartStrawberry(dispatch, state),
     pauseStrawberry: getPauseStrawberry(dispatch, state),
+    finishStrawberry: getFinishStrawberry(dispatch, state),
   } as DataManagement
 
   return (

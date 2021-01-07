@@ -1,15 +1,7 @@
 import { useState, useEffect } from 'react'
-import {
-  startStrawberry,
-  pauseStrawberry,
-  createNewStrawberry,
-  Strawberry,
-  Project,
-} from '@app/data/projects'
+import { Strawberry, Project } from '@app/data/projects'
 import useData from '@app/data/management/useData'
 import { addNotification } from '@app/services/notification'
-import { nowInSeconds } from '@app/utils'
-import { addArray } from './utils'
 import { getRemainingStrawberryTime } from '@app/data/management/utils'
 
 import strawberryImg from '@app/assets/strawberry.png'
@@ -17,12 +9,12 @@ import strawberryImg from '@app/assets/strawberry.png'
 const useTick = ({
   strawberry,
   setTime,
-  onStrawberryFinish,
+  onFinish,
   time,
 }: {
   strawberry: Strawberry
   setTime: React.Dispatch<React.SetStateAction<number>>
-  onStrawberryFinish: () => void
+  onFinish: () => void
   time: number
 }) => {
   useEffect(() => {
@@ -32,7 +24,7 @@ const useTick = ({
     const timeoutId = setTimeout(() => {
       let time = getRemainingStrawberryTime(strawberry)
       if (time <= 0) {
-        onStrawberryFinish()
+        onFinish()
         time = 0
       }
       setTime(time)
@@ -42,19 +34,18 @@ const useTick = ({
   }, [strawberry?.running, setTime, time])
 }
 
-const useUpdateTimeOnStrawberryChange = (
+const useWatchStrawberryEnd = (
   strawberry: Strawberry,
   setTime: React.Dispatch<React.SetStateAction<number>>,
-  onStrawberryFinish: () => void
+  onFinish: () => void
 ) => {
   useEffect(() => {
     if (!strawberry) {
       return
     }
-
     const time = getRemainingStrawberryTime(strawberry)
     if (time <= 0) {
-      onStrawberryFinish()
+      onFinish()
     } else {
       setTime(time)
     }
@@ -63,37 +54,18 @@ const useUpdateTimeOnStrawberryChange = (
 
 const useStrawberry = (project: Project) => {
   const data = useData()
-
   const [time, setTime] = useState<number>(0)
-  const [strawberry, setStrawberry] = useState<Strawberry>(null)
+  const strawberry = project?.currentStrawBerry
 
-  useEffect(() => {
-    project && setStrawberry(project.currentStrawBerry)
-  }, [project])
-
-  useUpdateTimeOnStrawberryChange(strawberry, setTime, onStrawberryFinish)
-
-  useTick({ strawberry, setTime, onStrawberryFinish, time })
-
-  async function onStrawberryFinish() {
-    setStrawberry({
-      ...strawberry,
-      running: false,
-    })
+  const onFinish = () => {
     addNotification('Strawberry finished, take a break', { img: strawberryImg })
-
-    const newStrawberry = await createNewStrawberry(project, strawberry)
-    setStrawberry(newStrawberry)
+    data.finishStrawberry(project.id)
   }
 
-  const onPause = () => data.pauseStrawberry(project.id)
-  const onStart = () => data.startStrawberry(project.id)
-  const onReset = () => data.resetStrawberry(project.id)
+  useWatchStrawberryEnd(strawberry, setTime, onFinish)
+  useTick({ strawberry, setTime, onFinish, time })
 
   return {
-    onStart,
-    onPause,
-    onReset,
     strawberry,
     time,
   }

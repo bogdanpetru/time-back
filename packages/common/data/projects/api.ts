@@ -79,7 +79,10 @@ export const getProjects = async (): Promise<Project[]> => {
   )
 }
 
-export const setCurrentStrawberry = async (projectId: string, strawberry: Strawberry) => {
+export const setCurrentStrawberry = async (
+  projectId: string,
+  strawberry: Strawberry
+) => {
   const projectRef = getProjectsRef().doc(projectId)
   await projectRef.set(
     {
@@ -101,7 +104,7 @@ const archiveStrawberry = async (projectId: string, strawberry: Strawberry) =>
 export const createNewStrawberry = async (
   project: Project,
   strawberry: Strawberry
-) => {
+): Promise<Strawberry> => {
   let type = StrawberryType.STRAWBERRY_TYPE_INTERVAL
   let size = project.strawberrySize
   let statistics = null
