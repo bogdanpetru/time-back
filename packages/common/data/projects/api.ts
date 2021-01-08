@@ -18,14 +18,11 @@ export const getProjectsRef = () => {
   return db.collection('users').doc(user.uid).collection('projects')
 }
 
-export const saveProject = async ({
-  projectId,
-  projectDetails,
-}: {
-  projectId?: string
-  projectDetails: ProjectDescription
-}): Promise<string> => {
-  const docRef = getProjectsRef().doc(projectId)
+export const saveProject = async (
+  projectId: string = null,
+  projectDetails?: ProjectDescription
+): Promise<string> => {
+  const docRef = getProjectsRef().doc(projectId || void 0)
 
   const commonData = {
     name: projectDetails.name,
@@ -38,7 +35,6 @@ export const saveProject = async ({
   if (projectId) {
     await docRef.update({
       ...commonData,
-
       'currentStrawBerry.size': projectDetails.strawberrySize,
     })
   } else {

@@ -3,7 +3,8 @@ import { Input, Button, Loader, useDocumentTitle } from '@app/components'
 import DefaultView from '@app/web/components/DefaultView'
 import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
-import { saveProject, Project, deleteProject } from '@app/data/projects'
+import { Project, deleteProject } from '@app/data/projects'
+import useData from '@app/data/management/useData'
 import useForm from '@app/components/src/Form/useForm'
 import { MINUTE_UNIT } from '@app/utils'
 
@@ -14,6 +15,7 @@ interface CreateProjectProps {
 }
 
 const CreateProject = (props: CreateProjectProps) => {
+  const data = useData()
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const history = useHistory()
   const form = useForm(
@@ -39,19 +41,19 @@ const CreateProject = (props: CreateProjectProps) => {
       { name: 'description', initialValue: props.project?.description },
     ],
     async (values: any) => {
-      setIsSaving(true)
       const projectId = props?.project?.id || void 0
-      const savedProjectId = await saveProject({
-        projectId,
-        projectDetails: {
-          ...values,
-          strawberrySize: values.strawberrySize * MINUTE_UNIT,
-          breakSize: values.breakSize * MINUTE_UNIT,
-        },
+      const savePromise = data.saveProject(projectId, {
+        ...values,
+        strawberrySize: values.strawberrySize * MINUTE_UNIT,
+        breakSize: values.breakSize * MINUTE_UNIT,
       })
-      setIsSaving(false)
 
-      if (!projectId) {
+      if (projectId) {
+        history.push(`/strawberry/${projectId}`)
+      } else {
+        setIsSaving(true)
+        const savedProjectId = await savePromise
+        setIsSaving(false)
         history.push(`/strawberry/${savedProjectId}`)
       }
     }

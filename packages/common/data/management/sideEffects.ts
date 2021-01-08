@@ -1,0 +1,158 @@
+import { useEffect } from 'react'
+import { nowInSeconds, addArray } from '@app/utils'
+import {
+  Strawberry,
+  Project,
+  ProjectDescription,
+  mapStrawberry,
+  setCurrentStrawberry,
+  startStrawberry,
+  pauseStrawberry,
+  getProjects,
+  createNewStrawberry,
+  saveProject,
+} from '@app/data/projects'
+import { State, ActionTypes, Action } from './interface'
+import { getRemainingStrawberryTime } from './utils'
+
+const getProjectSelector = (state: State, projectId: String): Project =>
+  state.projects.list.find((project) => project.id === projectId)
+
+export const useInitialProjects = (
+  state: State,
+  dispatch: React.Dispatch<Action>
+) => {
+  useEffect(() => {
+    ;(async () => {
+      if (state.projects.list.length) {
+        return
+      }
+      const projects = await getProjects()
+      dispatch({
+        type: ActionTypes.SET_PROJECTS,
+        projects,
+      })
+    })()
+  }, [dispatch, state])
+}
+
+export const getResetStrawberry = (
+  dispatch: React.Dispatch<Action>,
+  state: State
+) => (projectId: string) => {
+  const project = getProjectSelector(state, projectId)
+  const strawberry = mapStrawberry({
+    size: project.strawberrySize,
+  })
+
+  dispatch({
+    type: ActionTypes.SET_STRAWBERRY,
+    projectId,
+    strawberry,
+  })
+
+  return setCurrentStrawberry(project.id, strawberry)
+}
+
+export const getStartStrawberry = (
+  dispatch: React.Dispatch<Action>,
+  state: State
+) => (projectId: string): Promise<void> => {
+  const startTime = nowInSeconds()
+  const project = getProjectSelector(state, projectId)
+
+  const strawberry = {
+    ...project.currentStrawBerry,
+    running: true,
+    startTime: [...(project.currentStrawBerry?.startTime || []), startTime],
+  }
+
+  dispatch({
+    type: ActionTypes.SET_STRAWBERRY,
+    projectId,
+    strawberry,
+  })
+
+  return startStrawberry(projectId, startTime)
+}
+
+export const getPauseStrawberry = (
+  dispatch: React.Dispatch<Action>,
+  state: State
+) => (projectId: string): Promise<void> => {
+  const project = getProjectSelector(state, projectId)
+  const strawberry = project.currentStrawBerry
+
+  let time = getRemainingStrawberryTime(strawberry)
+  const timeSpent =
+    strawberry.size -
+    time -
+    (strawberry?.timeSpent ? addArray(strawberry.timeSpent) : 0)
+
+  dispatch({
+    type: ActionTypes.SET_STRAWBERRY,
+    projectId,
+    strawberry: {
+      ...strawberry,
+      running: false,
+      timeSpent: [...strawberry.timeSpent, timeSpent],
+    },
+  })
+
+  return pauseStrawberry(projectId, timeSpent)
+}
+
+export const getFinishStrawberry = (
+  dispatch: React.Dispatch<Action>,
+  state: State
+) => (projectId: string): Promise<Strawberry> => {
+  const project = getProjectSelector(state, projectId)
+  const strawberry = project.currentStrawBerry
+
+  dispatch({
+    type: ActionTypes.SET_STRAWBERRY,
+    projectId,
+    strawberry: {
+      ...strawberry,
+      running: false,
+    },
+  })
+
+  return createNewStrawberry(project, strawberry)
+}
+
+export const getSaveProject = (
+  dispatch: React.Dispatch<Action>,
+  state: State
+) => async (
+  projectId: string,
+  projectDetails: ProjectDescription
+): Promise<string> => {
+  let project = null
+
+  let savedProjectId = projectId
+
+  if (projectId) {
+    const project = getProjectSelector(state, projectId)
+    const newProject = {
+      ...project,
+      ...projectDetails,
+    }
+    dispatch({
+      type: ActionTypes.EDIT_PROJECT,
+      project: newProject,
+    })
+    return saveProject(projectId, newProject)
+  } else {
+    const savedProjectId = await saveProject(void 0, projectDetails)
+    const newProject = {
+      ...projectDetails,
+      id: savedProjectId,
+    }
+    dispatch({
+      type: ActionTypes.SAVE_PROJECT,
+      project: newProject,
+    })
+    return savedProjectId
+  }
+}

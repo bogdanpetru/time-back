@@ -26,6 +26,31 @@ const reducer: Reducer = (state: State, action: Action): State => {
           }),
         },
       }
+    case ActionTypes.SAVE_PROJECT:
+      return {
+        ...state,
+        projects: {
+          ...state.projects,
+          list: [...state.projects.list, action.project],
+        },
+      }
+    case ActionTypes.EDIT_PROJECT:
+      return {
+        ...state,
+        projects: {
+          ...state.projects,
+          list: state.projects.list.map((project) => {
+            if (project.id === action.project.id) {
+              return {
+                ...project,
+                ...action.project,
+              }
+            }
+
+            return project
+          }),
+        },
+      }
     default:
       return state
   }
