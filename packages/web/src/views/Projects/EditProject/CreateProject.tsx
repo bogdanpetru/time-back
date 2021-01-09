@@ -3,7 +3,7 @@ import { Input, Button, Loader, useDocumentTitle } from '@app/components'
 import DefaultView from '@app/web/components/DefaultView'
 import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
-import { Project, deleteProject } from '@app/data/projects'
+import { Project } from '@app/data/projects'
 import useData from '@app/data/management/useData'
 import useForm from '@app/components/src/Form/useForm'
 import { MINUTE_UNIT } from '@app/utils'
@@ -66,7 +66,7 @@ const CreateProject = (props: CreateProjectProps) => {
 
   const onDelete = async () => {
     setIsSaving(true)
-    await deleteProject(props.project.id)
+    data.deleteProject(props.project?.id)
     history.push('/')
   }
 

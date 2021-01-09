@@ -1,4 +1,4 @@
-import { FunctionComponent, useReducer, useEffect } from 'react'
+import { FunctionComponent, useReducer } from 'react'
 import DataContext from './context'
 import { State, Reducer, DataManagement } from './interface'
 import reducer from './reducer'
@@ -9,6 +9,7 @@ import {
   getPauseStrawberry,
   getFinishStrawberry,
   getSaveProject,
+  getDeleteProject,
 } from './sideEffects'
 
 const DataProvider: FunctionComponent = (props) => {
@@ -37,6 +38,7 @@ const DataProvider: FunctionComponent = (props) => {
     startStrawberry: getStartStrawberry(dispatch, state),
     pauseStrawberry: getPauseStrawberry(dispatch, state),
     finishStrawberry: getFinishStrawberry(dispatch, state),
+    deleteProject: getDeleteProject(dispatch),
     saveProject: getSaveProject(dispatch, state),
   } as DataManagement
 

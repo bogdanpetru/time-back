@@ -18,6 +18,8 @@ export interface Strawberry extends StrawberryConfig {
   id: string
 }
 
+export type CurrentStrawBerry = StrawberryConfig
+
 export interface ProjectDescription {
   name: string
   strawberrySize: number
@@ -25,7 +27,7 @@ export interface ProjectDescription {
   description?: string
   numberOfStrawberries?: number
   strawberries?: Strawberry[]
-  currentStrawBerry?: Strawberry
+  currentStrawBerry?: CurrentStrawBerry
   statistics: {
     totalStrawberries: number
     currentStreak: number

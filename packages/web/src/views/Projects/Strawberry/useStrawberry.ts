@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Strawberry, Project } from '@app/data/projects'
+import { CurrentStrawBerry, Project } from '@app/data/projects'
 import useData from '@app/data/management/useData'
 import { addNotification } from '@app/services/notification'
 import { getRemainingStrawberryTime } from '@app/data/management/utils'
@@ -12,7 +12,7 @@ const useTick = ({
   onFinish,
   time,
 }: {
-  strawberry: Strawberry
+  strawberry: CurrentStrawBerry
   setTime: React.Dispatch<React.SetStateAction<number>>
   onFinish: () => void
   time: number
@@ -35,7 +35,7 @@ const useTick = ({
 }
 
 const useWatchStrawberryEnd = (
-  strawberry: Strawberry,
+  strawberry: CurrentStrawBerry,
   setTime: React.Dispatch<React.SetStateAction<number>>,
   onFinish: () => void
 ) => {

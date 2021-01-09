@@ -51,6 +51,16 @@ const reducer: Reducer = (state: State, action: Action): State => {
           }),
         },
       }
+    case ActionTypes.DELETE_PROJECT:
+      return {
+        ...state,
+        projects: {
+          ...state.projects,
+          list: state.projects.list.filter(
+            (project) => project.id !== action.projectId
+          ),
+        },
+      }
     default:
       return state
   }

@@ -5,7 +5,7 @@ import invariant from 'invariant'
 import {
   ProjectDescription,
   Project,
-  Strawberry,
+  CurrentStrawBerry,
   StrawberryType,
 } from '../interface'
 import { mapProject, mapStrawberry } from './map'
@@ -33,20 +33,14 @@ export const saveProject = async (
   }
 
   if (projectId) {
-    await docRef.update({
-      ...commonData,
-      'currentStrawBerry.size': projectDetails.strawberrySize,
-    })
+    await docRef.update(commonData)
   } else {
-    await docRef.set(
-      {
-        ...commonData,
-        currentStrawBerry: {
-          size: projectDetails.strawberrySize,
-        },
+    await docRef.set({
+      ...commonData,
+      currentStrawBerry: {
+        size: projectDetails.strawberrySize,
       },
-      { merge: true }
-    )
+    })
   }
 
   return docRef.id
@@ -77,7 +71,7 @@ export const getProjects = async (): Promise<Project[]> => {
 
 export const setCurrentStrawberry = async (
   projectId: string,
-  strawberry: Strawberry
+  strawberry: CurrentStrawBerry
 ) => {
   const projectRef = getProjectsRef().doc(projectId)
   await projectRef.set(
@@ -90,7 +84,10 @@ export const setCurrentStrawberry = async (
   return strawberry
 }
 
-const archiveStrawberry = async (projectId: string, strawberry: Strawberry) =>
+const archiveStrawberry = async (
+  projectId: string,
+  strawberry: CurrentStrawBerry
+) =>
   getProjectsRef()
     .doc(projectId)
     .collection('strawberries')
@@ -99,8 +96,8 @@ const archiveStrawberry = async (projectId: string, strawberry: Strawberry) =>
 
 export const createNewStrawberry = async (
   project: Project,
-  strawberry: Strawberry
-): Promise<Strawberry> => {
+  strawberry: CurrentStrawBerry
+): Promise<CurrentStrawBerry> => {
   let type = StrawberryType.STRAWBERRY_TYPE_INTERVAL
   let size = project.strawberrySize
   let statistics = null

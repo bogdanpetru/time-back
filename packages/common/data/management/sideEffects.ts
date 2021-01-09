@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { nowInSeconds, addArray } from '@app/utils'
 import {
-  Strawberry,
+  CurrentStrawBerry,
   Project,
   ProjectDescription,
   mapStrawberry,
@@ -11,6 +11,7 @@ import {
   getProjects,
   createNewStrawberry,
   saveProject,
+  deleteProject,
 } from '@app/data/projects'
 import { State, ActionTypes, Action } from './interface'
 import { getRemainingStrawberryTime } from './utils'
@@ -24,7 +25,7 @@ export const useInitialProjects = (
 ) => {
   useEffect(() => {
     ;(async () => {
-      if (state.projects.list.length) {
+      if (state.projects.list?.length) {
         return
       }
       const projects = await getProjects()
@@ -105,7 +106,7 @@ export const getPauseStrawberry = (
 export const getFinishStrawberry = (
   dispatch: React.Dispatch<Action>,
   state: State
-) => (projectId: string): Promise<Strawberry> => {
+) => (projectId: string): Promise<CurrentStrawBerry> => {
   const project = getProjectSelector(state, projectId)
   const strawberry = project.currentStrawBerry
 
@@ -147,6 +148,9 @@ export const getSaveProject = (
     const savedProjectId = await saveProject(void 0, projectDetails)
     const newProject = {
       ...projectDetails,
+      currentStrawBerry: {
+        size: projectDetails.strawberrySize,
+      },
       id: savedProjectId,
     }
     dispatch({
@@ -155,4 +159,15 @@ export const getSaveProject = (
     })
     return savedProjectId
   }
+}
+
+export const getDeleteProject = (dispatch: React.Dispatch<Action>) => (
+  projectId: string
+) => {
+  dispatch({
+    type: ActionTypes.DELETE_PROJECT,
+    projectId,
+  })
+
+  return deleteProject(projectId)
 }

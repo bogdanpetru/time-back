@@ -1,8 +1,10 @@
 import { addArray, last, nowInSeconds } from '@app/utils'
-import { Strawberry } from '../interface'
+import { CurrentStrawBerry } from '../interface'
 
-export const getRemainingStrawberryTime = (strawberry: Strawberry): number => {
-  if (!strawberry?.startTime.length) {
+export const getRemainingStrawberryTime = (
+  strawberry: CurrentStrawBerry
+): number => {
+  if (!strawberry?.startTime?.length) {
     return strawberry.size
   }
 
@@ -11,7 +13,7 @@ export const getRemainingStrawberryTime = (strawberry: Strawberry): number => {
     ((strawberry?.timeSpent && addArray(strawberry.timeSpent)) || 0)
 
   const timeFromPreviousStart =
-    strawberry.running && strawberry.startTime.length
+    strawberry.running && strawberry?.startTime?.length
       ? nowInSeconds() - last(strawberry.startTime)
       : 0
 

@@ -1,17 +1,23 @@
-import { Project, Strawberry, ProjectDescription } from '../interface'
+import {
+  Project,
+  Strawberry,
+  ProjectDescription,
+  CurrentStrawBerry,
+} from '../interface'
 
 export enum ActionTypes {
   SET_PROJECTS = 'SET_PROJECTS',
   SET_STRAWBERRY = 'SET_STRAWBERRY',
   SAVE_PROJECT = 'SAVE_PROJECT',
   EDIT_PROJECT = 'EDIT_PROJECT',
+  DELETE_PROJECT = 'DELETE_PROJECT',
 }
 
 export type Action =
   | {
       type: ActionTypes.SET_STRAWBERRY
       projectId: string
-      strawberry: Strawberry
+      strawberry: CurrentStrawBerry
     }
   | {
       type: ActionTypes.SET_PROJECTS
@@ -24,6 +30,10 @@ export type Action =
   | {
       type: ActionTypes.EDIT_PROJECT
       project: Project
+    }
+  | {
+      type: ActionTypes.DELETE_PROJECT
+      projectId: string
     }
 
 export interface State {
@@ -46,6 +56,7 @@ export interface DataManagement {
   startStrawberry(projectId: string): Promise<void>
   pauseStrawberry(projectId: string): Promise<void>
   finishStrawberry(projectId: string): Promise<Strawberry>
+  deleteProject(projectId: string): Promise<void>
   saveProject(
     projectId: string,
     projectDetails: ProjectDescription
