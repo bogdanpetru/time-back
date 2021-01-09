@@ -139,6 +139,14 @@ export const getSaveProject = (
       ...project,
       ...projectDetails,
     }
+
+    if (!project?.currentStrawBerry?.running) {
+      newProject.currentStrawBerry = {
+        ...newProject.currentStrawBerry,
+        size: projectDetails.strawberrySize,
+      }
+    }
+
     dispatch({
       type: ActionTypes.EDIT_PROJECT,
       project: newProject,

@@ -4,7 +4,7 @@ const LogoSmall = () => (
     width="100"
     height="125"
     viewBox="0 0 300 300"
-    clip-rule="evenodd"
+    clipRule="evenodd"
   >
     <g>
       <title>background</title>

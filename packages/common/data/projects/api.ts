@@ -15,7 +15,12 @@ const getDb = () => firebase.firestore()
 export const getProjectsRef = () => {
   const db = getDb()
   const user = firebase.auth().currentUser
-  return db.collection('users').doc(user.uid).collection('projects')
+
+  if (!user) {
+    throw new Error('user not logged in')
+  }
+
+  return db.collection('users').doc(user?.uid).collection('projects')
 }
 
 export const saveProject = async (
