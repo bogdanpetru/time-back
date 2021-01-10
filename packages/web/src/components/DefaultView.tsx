@@ -7,7 +7,9 @@ import {
   TransparentButton,
   Footer,
   BackIcon,
+  QuitIcon,
 } from '@app/components'
+import { signOut } from '@app/data/auth'
 
 const DefaultViewWrapper = styled.div`
   position: relative;
@@ -26,6 +28,12 @@ const BackButton = styled(TransparentButton)`
   left: 0;
 `
 
+const SignOutButton = styled(TransparentButton)`
+  position: absolute;
+  top: 24px;
+  right: 0;
+`
+
 const DefaultView: FunctionComponent<{
   title?: string
   footer?: React.ReactElement
@@ -33,8 +41,14 @@ const DefaultView: FunctionComponent<{
 }> = (props) => {
   const history = useHistory()
   const isHome = history.location.pathname === '/'
+
   const logoClick = () => {
     history.push('/')
+  }
+
+  const onSignOut = async () => {
+    await signOut()
+    history.push('/login')
   }
 
   return (
@@ -44,6 +58,9 @@ const DefaultView: FunctionComponent<{
           <BackIcon />
         </BackButton>
       )}
+      <SignOutButton onClick={onSignOut}>
+        <QuitIcon />
+      </SignOutButton>
       <LogoWrapper>
         <TransparentButton onClick={logoClick}>
           <LogoText />

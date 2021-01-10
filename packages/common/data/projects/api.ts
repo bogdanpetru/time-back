@@ -109,13 +109,13 @@ export const createNewStrawberry = async (
   const isInterval =
     project.breakSize &&
     strawberry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL
+
   if (isInterval) {
     type = StrawberryType.STRAWBERRY_TYPE_PAUSE
     size = project.breakSize
     statistics = {
-      'statistics.totalStrawberries': firebase.firestore.FieldValue.increment(
-        1
-      ),
+      ...project.statistics,
+      totalStrawberries: firebase.firestore.FieldValue.increment(1),
     }
   }
 

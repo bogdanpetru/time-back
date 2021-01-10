@@ -6,6 +6,7 @@ import DefaultView from '@app/web/components/DefaultView'
 import useData from '@app/data/management/useData'
 import { isNumber } from '@app/utils'
 import useStrawberry from './useStrawberry'
+import StrawberryMeeter from './StrawberryMeeter'
 
 const Wrapper = styled(DefaultView)`
   position: relative;
@@ -50,6 +51,7 @@ const Strawberry = () => {
           type={strawberry?.type}
           showDecorationIcons={showDecorationIcons}
         />
+        <StrawberryMeeter total={project.numberOfStrawberries} completed={1} />
       </Wrapper>
     </>
   )
