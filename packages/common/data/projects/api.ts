@@ -106,6 +106,7 @@ export const createNewStrawberry = async (
   let type = StrawberryType.STRAWBERRY_TYPE_INTERVAL
   let size = project.strawberrySize
   let statistics = null
+
   const isInterval =
     project.breakSize &&
     strawberry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL
@@ -125,13 +126,11 @@ export const createNewStrawberry = async (
   })
 
   const projectRef = getProjectsRef().doc(project.id)
-  await projectRef.set(
-    {
-      currentStrawBerry: newStrawberry,
-      ...statistics,
-    },
-    { merge: true }
-  )
+  const dataToSave = {
+    currentStrawBerry: newStrawberry,
+  }
+
+  await projectRef.set({ merge: true })
   await archiveStrawberry(project.id, strawberry)
 
   return newStrawberry

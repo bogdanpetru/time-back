@@ -19,22 +19,22 @@ import { getRemainingStrawberryTime } from './utils'
 const getProjectSelector = (state: State, projectId: String): Project =>
   state.projects.list.find((project) => project.id === projectId)
 
-export const useInitialProjects = (
-  state: State,
-  dispatch: React.Dispatch<Action>
-) => {
-  useEffect(() => {
-    ;(async () => {
-      if (state.projects.list?.length) {
-        return
-      }
-      const projects = await getProjects()
-      dispatch({
-        type: ActionTypes.SET_PROJECTS,
-        projects,
-      })
-    })()
-  }, [dispatch, state])
+export const getLoadProjects = (
+  dispatch: React.Dispatch<Action>,
+  state: State
+) => async (): Promise<Project[]> => {
+  if (state.projects.list?.length) {
+    return []
+  }
+
+  const projects = await getProjects()
+
+  dispatch({
+    type: ActionTypes.SET_PROJECTS,
+    projects,
+  })
+
+  return projects
 }
 
 export const getResetStrawberry = (

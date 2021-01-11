@@ -61,4 +61,5 @@ export interface DataManagement {
     projectId: string,
     projectDetails: ProjectDescription
   ): Promise<string>
+  loadProjects(): Promise<Project[]>
 }
