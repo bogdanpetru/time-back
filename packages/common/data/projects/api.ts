@@ -128,9 +128,10 @@ export const createNewStrawberry = async (
   const projectRef = getProjectsRef().doc(project.id)
   const dataToSave = {
     currentStrawBerry: newStrawberry,
+    ...statistics
   }
 
-  await projectRef.set({ merge: true })
+  await projectRef.set(dataToSave, { merge: true })
   await archiveStrawberry(project.id, strawberry)
 
   return newStrawberry
