@@ -1,28 +1,17 @@
-import { useState } from 'react'
 import { createGlobalStyle } from 'styled-components'
 
 import { ThemeProvider } from 'styled-components'
 import { primary } from '@app/theme'
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Projects from './views/Projects'
 import ProtectedRoute from './components/ProtectedRoute'
 import Auth from './views/Auth'
 
-import { useAuth, signOut } from '@app/data/auth'
+import { useAuth } from '@app/data/auth'
 import DataProvider from '@app/data/management/provider'
-import {
-  Loader,
-  ToastContainer,
-  QuitIcon,
-  TransparentButton,
-} from '@app/components'
+import { Loader, ToastContainer } from '@app/components'
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -31,7 +20,6 @@ const GlobalStyle = createGlobalStyle`
 `
 
 function App() {
-  const [redirectTo, setRedirectTo] = useState<string>(null)
   const { loading } = useAuth({
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -46,12 +34,6 @@ function App() {
   if (loading) {
     return <Loader />
   }
-
-  const onSignOut = () => {
-    signOut()
-    setRedirectTo('/login')
-  }
-  console.log('redirectTo', redirectTo)
 
   return (
     <Router>
@@ -70,11 +52,6 @@ function App() {
           </ToastContainer>
         </DataProvider>
       </ThemeProvider>
-
-      {redirectTo && <Redirect to={redirectTo} />}
-      <TransparentButton onClick={onSignOut}>
-        <QuitIcon />
-      </TransparentButton>
     </Router>
   )
 }

@@ -55,10 +55,11 @@ export interface DataManagement {
   resetStrawberry(projectId: string): Promise<Strawberry>
   startStrawberry(projectId: string): Promise<void>
   pauseStrawberry(projectId: string): Promise<void>
-  finishStrawberry(projectId: string): Promise<Strawberry>
+  finishStrawberry(projectId: string): Promise<void>
   deleteProject(projectId: string): Promise<void>
   saveProject(
     projectId: string,
     projectDetails: ProjectDescription
   ): Promise<string>
+  loadProjects(): Promise<Project[]>
 }

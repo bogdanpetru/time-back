@@ -1,9 +1,17 @@
+import { useEffect } from 'react'
 import { Switch, Route } from 'react-router-dom'
+import useData from '@app/data/management/useData'
 import { CreateProject, EditProject } from './EditProject'
 import Strawberry from './Strawberry'
 import ProjectList from './ProjectList'
 
 const Projects = () => {
+  const data = useData()
+
+  useEffect(() => {
+    data.loadProjects()
+  }, [])
+
   return (
     <Switch>
       <Route exact path="/" component={ProjectList} />

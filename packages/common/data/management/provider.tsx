@@ -4,13 +4,13 @@ import { State, Reducer, DataManagement } from './interface'
 import reducer from './reducer'
 import {
   getResetStrawberry,
-  useInitialProjects,
+  getLoadProjects,
   getStartStrawberry,
   getPauseStrawberry,
   getFinishStrawberry,
   getSaveProject,
   getDeleteProject,
-} from './sideEffects'
+} from './effects'
 
 const DataProvider: FunctionComponent = (props) => {
   const initialState: State = {
@@ -26,8 +26,6 @@ const DataProvider: FunctionComponent = (props) => {
     () => initialState
   )
 
-  useInitialProjects(state, dispatch)
-
   const api = {
     getProjects: () => [state.projects.list, state.projects.loading],
     getProject: (projectId) => [
@@ -40,6 +38,7 @@ const DataProvider: FunctionComponent = (props) => {
     finishStrawberry: getFinishStrawberry(dispatch, state),
     deleteProject: getDeleteProject(dispatch),
     saveProject: getSaveProject(dispatch, state),
+    loadProjects: getLoadProjects(dispatch, state),
   } as DataManagement
 
   return (

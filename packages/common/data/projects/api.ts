@@ -8,6 +8,7 @@ import {
   CurrentStrawBerry,
   StrawberryType,
 } from '../interface'
+
 import { mapProject, mapStrawberry } from './map'
 
 const getDb = () => firebase.firestore()
@@ -102,39 +103,11 @@ const archiveStrawberry = async (
 export const createNewStrawberry = async (
   project: Project,
   strawberry: CurrentStrawBerry
-): Promise<CurrentStrawBerry> => {
-  let type = StrawberryType.STRAWBERRY_TYPE_INTERVAL
-  let size = project.strawberrySize
-  let statistics = null
-  const isInterval =
-    project.breakSize &&
-    strawberry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL
-  if (isInterval) {
-    type = StrawberryType.STRAWBERRY_TYPE_PAUSE
-    size = project.breakSize
-    statistics = {
-      'statistics.totalStrawberries': firebase.firestore.FieldValue.increment(
-        1
-      ),
-    }
-  }
-
-  const newStrawberry = mapStrawberry({
-    size,
-    type,
-  })
-
+): Promise<void> => {
   const projectRef = getProjectsRef().doc(project.id)
-  await projectRef.set(
-    {
-      currentStrawBerry: newStrawberry,
-      ...statistics,
-    },
-    { merge: true }
-  )
-  await archiveStrawberry(project.id, strawberry)
 
-  return newStrawberry
+  await projectRef.update(project)
+  await archiveStrawberry(project.id, strawberry)
 }
 
 export const startStrawberry = async (
