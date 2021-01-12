@@ -3,6 +3,14 @@ export enum StrawberryType {
   STRAWBERRY_TYPE_PAUSE = 'STRAWBERRY_TYPE_PAUSE',
 }
 
+export interface Statistics {
+  today: {
+    completedStrawberries: number // per day
+  }
+  totalStrawberries: number // all time
+  currentStreak: number // completed === project.numberOfStrawberries
+}
+
 export interface StrawberryConfig {
   size: number
   timeSpent?: number[]
@@ -28,11 +36,7 @@ export interface ProjectDescription {
   numberOfStrawberries?: number
   strawberries?: Strawberry[]
   currentStrawBerry?: CurrentStrawBerry
-  statistics: {
-    totalStrawberries: number
-    currentStreak: number
-    totalStrawberriesToday: number
-  }
+  statistics: Statistics
 }
 
 export interface Project extends ProjectDescription {

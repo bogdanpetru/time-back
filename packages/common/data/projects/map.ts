@@ -24,4 +24,10 @@ export const mapProject = (data: any): Project =>
     numberOfStrawberries: data.numberOfStrawberries,
     strawberries: data.strawberries,
     currentStrawBerry: mapStrawberry(data.currentStrawBerry || {}),
+    statistics: {
+      today: {
+        completedStrawberries: 0,
+      },
+      totalStrawberries: 0,
+    }
   })

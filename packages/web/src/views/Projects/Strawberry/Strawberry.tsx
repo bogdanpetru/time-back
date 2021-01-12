@@ -51,7 +51,8 @@ const Strawberry = () => {
           type={strawberry?.type}
           showDecorationIcons={showDecorationIcons}
         />
-        {/* <StrawberryMeeter total={project.numberOfStrawberries} completed={1} /> */}
+        {project?.statistics?.today?.completedStrawberries}
+        <StrawberryMeeter total={project.numberOfStrawberries} completed={project?.statistics?.today?.completedStrawberries || 0} />
       </Wrapper>
     </>
   )

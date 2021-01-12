@@ -10,7 +10,7 @@ import {
   getFinishStrawberry,
   getSaveProject,
   getDeleteProject,
-} from './sideEffects'
+} from './effects'
 
 const DataProvider: FunctionComponent = (props) => {
   const initialState: State = {
