@@ -14,7 +14,8 @@ import {
   deleteProject,
 } from '@app/data/projects'
 import * as builders from './builders'
-import { State, ActionTypes, Action } from './interface'
+import { State } from './state'
+import { ActionTypes, Action } from './actions'
 import { getRemainingStrawberryTime } from './utils'
 
 console.log('builders', builders)

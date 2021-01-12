@@ -1,7 +1,10 @@
 import { FunctionComponent, useReducer } from 'react'
 import DataContext from './context'
-import { State, Reducer, DataManagement } from './interface'
+
+import { Reducer } from './reducer'
+import { State } from './state'
 import reducer from './reducer'
+import { Project, Strawberry, ProjectDescription } from '../interface'
 import {
   getResetStrawberry,
   getLoadProjects,
@@ -11,6 +14,23 @@ import {
   getSaveProject,
   getDeleteProject,
 } from './effects'
+
+type Data<T> = [T, boolean]
+
+export interface DataManagement {
+  getProjects(): Data<Project[]>
+  getProject(projectId: string): Data<Project>
+  resetStrawberry(projectId: string): Promise<Strawberry>
+  startStrawberry(projectId: string): Promise<void>
+  pauseStrawberry(projectId: string): Promise<void>
+  finishStrawberry(projectId: string): Promise<void>
+  deleteProject(projectId: string): Promise<void>
+  saveProject(
+    projectId: string,
+    projectDetails: ProjectDescription
+  ): Promise<string>
+  loadProjects(): Promise<Project[]>
+}
 
 const DataProvider: FunctionComponent = (props) => {
   const initialState: State = {
