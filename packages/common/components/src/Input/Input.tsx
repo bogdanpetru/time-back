@@ -40,6 +40,14 @@ const Label = styled.label<{ hasValue?: boolean }>`
   color: ${(props) => props?.theme?.label?.color};
 `
 
+const Error = styled.span`
+  position: absolute;
+  top: calc(100% + 2px);
+  font-size: 0.8em;
+  right: 0;
+  color: ${props => props.theme?.input?.errorColor};
+`
+
 const InputInner = styled.input`
   flex: 1;
   font-size: ${(props) => props?.theme?.input?.fontSize}px;
@@ -106,6 +114,7 @@ const Input = (props: InputProps) => {
         onChange={handleChange}
         value={value}
       />
+      {props.error && <Error>{props.error}</Error>}
     </Wrapper>
   )
 }

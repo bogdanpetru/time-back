@@ -11,14 +11,16 @@ const red = '#E00202'
 
 const primary = darkBlue
 const highlight = yellow100
+const alert = red
 
 const input = {
   background_active: lightBlue,
   background: gray100,
   height: 42,
   borderBottom: `1px solid ${gray200}`,
-  borderBottomError: `1px solid ${red}`,
+  borderBottomError: `1px solid ${alert}`,
   fontSize: 18,
+  errorColor: alert,
 }
 
 const label = {
