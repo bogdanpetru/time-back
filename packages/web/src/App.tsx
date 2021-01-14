@@ -1,17 +1,16 @@
+import { FunctionComponent } from 'react'
 import { createGlobalStyle } from 'styled-components'
-
-import { ThemeProvider } from 'styled-components'
-import { primary } from '@app/theme'
-
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { ThemeProvider } from 'styled-components'
+
+import { primary } from '@app/theme'
+import { useAuth } from '@app/data/auth'
+import DataProvider from '@app/data/management/provider'
+import { Loader, ToastContainer } from '@app/components'
 
 import Projects from './views/Projects'
 import ProtectedRoute from './components/ProtectedRoute'
 import Auth from './views/Auth'
-
-import { useAuth } from '@app/data/auth'
-import DataProvider from '@app/data/management/provider'
-import { Loader, ToastContainer } from '@app/components'
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -19,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-function App() {
+const App: FunctionComponent = () => {
   const { loading } = useAuth({
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,

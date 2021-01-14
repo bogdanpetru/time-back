@@ -3,22 +3,23 @@ import { Input, Button, Loader, useDocumentTitle } from '@app/components'
 import DefaultView from '@app/web/components/DefaultView'
 import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
-import { Project } from '@app/data/projects'
+import { Project, ProjectDescription } from '@app/data/projects'
 import useData from '@app/data/management/useData'
 import useForm from '@app/components/src/Form/useForm'
 import { MINUTE_UNIT } from '@app/utils'
 
 import { isRequired, isNumber } from '@app/components/src/Form/validators'
+import { FunctionComponent } from 'react'
 
 interface CreateProjectProps {
   project?: Project
 }
 
-const CreateProject = (props: CreateProjectProps) => {
+const CreateProject: FunctionComponent<CreateProjectProps> = (props) => {
   const data = useData()
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const history = useHistory()
-  const form = useForm(
+  const form = useForm<ProjectDescription>(
     [
       {
         name: 'name',
@@ -40,7 +41,8 @@ const CreateProject = (props: CreateProjectProps) => {
       },
       { name: 'description', initialValue: props.project?.description },
     ],
-    async (values: any) => {
+
+    async (values) => {
       const projectId = props?.project?.id || void 0
       const savePromise = data.saveProject(projectId, {
         ...values,

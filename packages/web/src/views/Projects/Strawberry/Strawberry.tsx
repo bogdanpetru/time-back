@@ -1,3 +1,4 @@
+import { FunctionComponent } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Loader, Timer, Wave } from '@app/components'
@@ -13,7 +14,7 @@ const Wrapper = styled(DefaultView)`
   z-index: 1;
 `
 
-const Strawberry = () => {
+const Strawberry: FunctionComponent = () => {
   const params = useParams<{ projectId: string }>()
   const data = useData()
   const [project, loading] = data.getProject(params.projectId)
@@ -52,7 +53,10 @@ const Strawberry = () => {
           showDecorationIcons={showDecorationIcons}
         />
         {project?.statistics?.today?.completedStrawberries}
-        <StrawberryMeeter total={project.numberOfStrawberries} completed={project?.statistics?.today?.completedStrawberries || 0} />
+        <StrawberryMeeter
+          total={project.numberOfStrawberries}
+          completed={project?.statistics?.today?.completedStrawberries || 0}
+        />
       </Wrapper>
     </>
   )

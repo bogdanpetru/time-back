@@ -52,7 +52,9 @@ const useWatchStrawberryEnd = (
   }, [strawberry])
 }
 
-const useStrawberry = (project: Project) => {
+const useStrawberry = (
+  project: Project
+): { strawberry: CurrentStrawBerry; time: number } => {
   const data = useData()
   const [time, setTime] = useState<number>(0)
   const strawberry = project?.currentStrawBerry

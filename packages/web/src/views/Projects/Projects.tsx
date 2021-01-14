@@ -4,8 +4,9 @@ import useData from '@app/data/management/useData'
 import { CreateProject, EditProject } from './EditProject'
 import Strawberry from './Strawberry'
 import ProjectList from './ProjectList'
+import { FunctionComponent } from 'react'
 
-const Projects = () => {
+const Projects: FunctionComponent = () => {
   const data = useData()
 
   useEffect(() => {

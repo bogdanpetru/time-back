@@ -1,7 +1,6 @@
-import { useState, useEffect, MouseEvent } from 'react'
+import { MouseEvent, FunctionComponent } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { getProjects } from '@app/data/projects'
 import useData from '@app/data/management/useData'
 import { t } from '@app/data/intl'
 import {
@@ -14,7 +13,6 @@ import {
   TransparentButton,
   Button,
 } from '@app/components'
-import { Project } from '@app/data/projects'
 import DefaultView from '@app/web/components/DefaultView'
 
 const ActionButton = styled(TransparentButton)`
@@ -29,7 +27,7 @@ const ProjectListInner = styled(List)`
   min-height: 130px;
 `
 
-const ProjectList = () => {
+const ProjectList: FunctionComponent = () => {
   const data = useData()
   const [projects, loading] = data.getProjects()
 

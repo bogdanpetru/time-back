@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, FunctionComponent } from 'react'
 import { Redirect, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import {
@@ -57,13 +57,6 @@ const SocialWrapper = styled.div`
   text-align: center;
 `
 
-const LoginText = styled.div`
-  margin-right: 4px;
-  font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 20px;
-`
-
 const LoaderWrapper = styled.div`
   position: absolute;
   top: 0;
@@ -75,7 +68,7 @@ const LoaderWrapper = styled.div`
   justify-content: center;
 `
 
-const Auth = () => {
+const Auth: FunctionComponent = () => {
   const [signingInProgress, setSignInLoading] = useState(false)
   const [email, setEmail] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
@@ -95,7 +88,10 @@ const Auth = () => {
   }
 
   const handleSignUp = (
-    signUpFn: (email: string, password: string) => Promise<any>
+    signUpFn: (
+      email: string,
+      password: string
+    ) => Promise<firebase.auth.UserCredential>
   ) => async () => {
     setSignInLoading(true)
     try {
