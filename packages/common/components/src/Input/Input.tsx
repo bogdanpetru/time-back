@@ -45,7 +45,7 @@ const Error = styled.span`
   top: calc(100% + 2px);
   font-size: 0.8em;
   right: 0;
-  color: ${props => props.theme?.input?.errorColor};
+  color: ${(props) => props.theme?.input?.errorColor};
 `
 
 const InputInner = styled.input`

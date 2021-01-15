@@ -28,9 +28,9 @@ const getErrors = (
   predicates: Array<(value: any) => string>
 ): string[] => predicates?.map?.((isValid) => isValid(value)).filter(Boolean)
 
-const useForm = (
+const useForm = <VALUES>(
   inputDescriptions: InputDescription[],
-  onSubmit: (values: any) => void,
+  onSubmit: (values: VALUES) => void,
   options: { initialValues: { [key: string]: any } } = { initialValues: {} }
 ): UseForm => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
@@ -79,7 +79,7 @@ const useForm = (
       return
     }
 
-    onSubmit(values)
+    onSubmit(values as VALUES)
   }
 
   return {

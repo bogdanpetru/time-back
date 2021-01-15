@@ -14,7 +14,7 @@ export const getRemainingStrawberryTime = (
 
   const timeFromPreviousStart =
     strawberry.running && strawberry?.startTime?.length
-      ? nowInSeconds() - last(strawberry.startTime)
+      ? nowInSeconds() - last<number>(strawberry.startTime)
       : 0
 
   return timeLeft - timeFromPreviousStart
