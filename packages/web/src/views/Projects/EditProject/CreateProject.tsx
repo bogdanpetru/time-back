@@ -29,6 +29,7 @@ const CreateProject: FunctionComponent<CreateProjectProps> = (props) => {
       {
         name: 'strawberrySize',
         isValid: [isRequired, isNumber],
+        type: 'number',
         initialValue: props.project?.strawberrySize / MINUTE_UNIT || 20,
       },
       {

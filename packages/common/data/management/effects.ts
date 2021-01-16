@@ -1,7 +1,5 @@
-import { useEffect } from 'react'
-import { nowInSeconds, addArray } from '@app/utils'
+import { nowInSeconds, addArray, compose } from '@app/utils'
 import {
-  CurrentStrawBerry,
   Project,
   ProjectDescription,
   mapStrawberry,
@@ -12,12 +10,12 @@ import {
   createNewStrawberry,
   saveProject,
   deleteProject,
+  archiveStrawberry,
 } from '@app/data/projects'
 import * as builders from './builders'
 import { State } from './state'
 import { ActionTypes, Action } from './actions'
 import { getRemainingStrawberryTime } from './utils'
-
 
 const getProjectSelector = (state: State, projectId: String): Project =>
   state.projects.list.find((project) => project.id === projectId)
@@ -109,17 +107,21 @@ export const getPauseStrawberry = (
 export const getFinishStrawberry = (
   dispatch: React.Dispatch<Action>,
   state: State
-) => async(projectId: string): Promise<void> => {
+) => async (projectId: string): Promise<void> => {
   const project = getProjectSelector(state, projectId)
   const oldStrawberry = project.currentStrawBerry
-  const newProject = builders.creteNewStrawberry(project)
+  const newProject = compose(
+    builders.creteNewStrawberryForProject,
+    builders.updateStatistics
+  )(project)
 
   dispatch({
     type: ActionTypes.EDIT_PROJECT,
     project: newProject,
   })
 
-  await createNewStrawberry(newProject, oldStrawberry)
+  await createNewStrawberry(newProject)
+  await archiveStrawberry(project.id, oldStrawberry)
 }
 
 export const getSaveProject = (

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 interface InputDescription {
   name: string
   initialValue?: any
+  type?: string
   isValid?: Array<(value: any) => string>
 }
 
@@ -37,15 +38,25 @@ const useForm = <VALUES>(
   const [values, setValues] = useState<{ [key: string]: any }>({})
 
   const inputs = inputDescriptions.reduce((acc, input) => {
-    const value = values[input.name]
+    let value = values[input.name]
     const inputErrors = getErrors(value, input.isValid)
+
     acc[input.name] = {
       value,
-      onChange: (value) =>
+      onChange: (value) => {
+        let preparedValue = value
+        if (input.type === 'number') {
+          const numValue = parseFloat(value)
+          if (!isNaN(numValue)) {
+            preparedValue = numValue
+          }
+        }
         setValues({
           ...values,
-          [input.name]: value,
-        }),
+          [input.name]: preparedValue,
+          type: input.type || 'text'
+        })
+      },
       [isSubmitted ? 'error' : 'silentError']: inputErrors
         ? inputErrors[0]
         : '',
