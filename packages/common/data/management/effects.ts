@@ -8,9 +8,10 @@ import {
   pauseStrawberry,
   getProjects,
   updateProject,
-  saveProject,
+  createProject,
   deleteProject,
   archiveStrawberry,
+  mapProject,
 } from '@app/data/projects'
 import * as builders from './builders'
 import { State } from './state'
@@ -123,51 +124,51 @@ export const getFinishStrawberry = (
   await archiveStrawberry(project.id, oldStrawberry)
 }
 
-export const getSaveProject = (
+export const getCreateProject = (
+  dispatch: React.Dispatch<Action>,
+  state?: State
+) => async (projectDetails: ProjectDescription) => {
+  const savedProjectId = await createProject(void 0, projectDetails)
+  const newProject = mapProject({
+    ...projectDetails,
+    currentStrawBerry: {
+      size: projectDetails.strawberrySize,
+    },
+    id: savedProjectId,
+  })
+  dispatch({
+    type: ActionTypes.SAVE_PROJECT,
+    project: newProject,
+  })
+
+  return newProject
+}
+
+export const getUpdateProject = (
   dispatch: React.Dispatch<Action>,
   state: State
-) => async (
-  projectId: string,
-  projectDetails: ProjectDescription
-): Promise<string> => {
-  let project = null
+) => async (projectDescription: Project): Promise<Project> => {
+  const project = getProjectSelector(state, projectDescription.id)
+  const newProject = mapProject({
+    ...project,
+    ...projectDescription,
+  })
 
-  let savedProjectId = projectId
-
-  if (projectId) {
-    const project = getProjectSelector(state, projectId)
-    const newProject = {
-      ...project,
-      ...projectDetails,
+  if (!project?.currentStrawBerry?.running) {
+    newProject.currentStrawBerry = {
+      ...newProject.currentStrawBerry,
+      size: projectDescription.strawberrySize,
     }
-
-    if (!project?.currentStrawBerry?.running) {
-      newProject.currentStrawBerry = {
-        ...newProject.currentStrawBerry,
-        size: projectDetails.strawberrySize,
-      }
-    }
-
-    dispatch({
-      type: ActionTypes.EDIT_PROJECT,
-      project: newProject,
-    })
-    return saveProject(projectId, newProject)
-  } else {
-    const savedProjectId = await saveProject(void 0, projectDetails)
-    const newProject = {
-      ...projectDetails,
-      currentStrawBerry: {
-        size: projectDetails.strawberrySize,
-      },
-      id: savedProjectId,
-    }
-    dispatch({
-      type: ActionTypes.SAVE_PROJECT,
-      project: newProject,
-    })
-    return savedProjectId
   }
+
+  dispatch({
+    type: ActionTypes.EDIT_PROJECT,
+    project: newProject,
+  })
+
+  await updateProject(newProject)
+
+  return newProject
 }
 
 export const getDeleteProject = (dispatch: React.Dispatch<Action>) => (

@@ -17,9 +17,9 @@ export const updateStatistics = (
     statistics = {
       ...statistics,
       today: {
-        ...project.statistics.today,
+        ...project?.statistics?.today,
         completedStrawberries:
-          (project.statistics.today.completedStrawberries || 0) + 1,
+          (project?.statistics?.today?.completedStrawberries || 0) + 1,
       },
       totalStrawberries: (project.statistics.totalStrawberries || 0) + 1,
     }

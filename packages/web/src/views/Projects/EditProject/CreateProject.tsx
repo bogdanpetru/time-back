@@ -47,19 +47,20 @@ const CreateProject: FunctionComponent<CreateProjectProps> = (props) => {
 
     async (values) => {
       const projectId = props?.project?.id || void 0
-      const savePromise = data.saveProject(projectId, {
+      const projectToSave = {
         ...values,
         strawberrySize: values.strawberrySize * MINUTE_UNIT,
         breakSize: values.breakSize * MINUTE_UNIT,
-      })
+      }
 
       if (projectId) {
+        await data.updateProject(projectToSave as Project)
         history.push(`/strawberry/${projectId}`)
       } else {
         setIsSaving(true)
-        const savedProjectId = await savePromise
+        const { id } = await data.createProject(projectToSave)
         setIsSaving(false)
-        history.push(`/strawberry/${savedProjectId}`)
+        history.push(`/strawberry/${id}`)
       }
     }
   )

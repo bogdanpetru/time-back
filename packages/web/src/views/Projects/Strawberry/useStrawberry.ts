@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { CurrentStrawBerry, Project } from '@app/data/projects'
+import { CurrentStrawBerry, Project, StrawberryType } from '@app/data/projects'
 import useData from '@app/data/management/useData'
 import { addNotification } from '@app/services/notification'
 import { getRemainingStrawberryTime } from '@app/data/management/utils'
@@ -60,7 +60,25 @@ const useStrawberry = (
   const strawberry = project?.currentStrawBerry
 
   const onFinish = () => {
-    addNotification('Strawberry finished, take a break', { img: strawberryImg })
+    if (strawberry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL) {
+      let message = 'Strawberry finished, take a break'
+      if (
+        project?.numberOfStrawberries &&
+        project.numberOfStrawberries ===
+          project?.statistics?.today?.completedStrawberries - 1
+      ) {
+        message = 'Congratulations you are finished for today.'
+      }
+
+      addNotification(message, {
+        img: strawberryImg,
+      })
+    } else {
+      addNotification('Break over, get back to work 😛', {
+        img: strawberryImg,
+      })
+    }
+
     data.finishStrawberry(project.id)
   }
 

@@ -4,7 +4,7 @@ import invariant from 'invariant'
 
 import { ProjectDescription, Project, CurrentStrawBerry } from '../interface'
 
-import { mapProject, mapStrawberry } from './map'
+import { mapProject } from './map'
 
 const getDb = () => firebase.firestore()
 
@@ -19,25 +19,17 @@ export const getProjectsRef = () => {
   return db.collection('users').doc(user?.uid).collection('projects')
 }
 
-export const saveProject = async (
+export const createProject = async (
   projectId: string = null,
   projectDetails?: ProjectDescription
 ): Promise<string> => {
   const docRef = getProjectsRef().doc(projectId || void 0)
 
-  const commonData = {
-    name: projectDetails.name,
-    strawberrySize: projectDetails.strawberrySize,
-    numberOfStrawberries: projectDetails.numberOfStrawberries,
-    breakSize: projectDetails.breakSize,
-    description: projectDetails.description,
-  }
-
   if (projectId) {
-    await docRef.update(commonData)
+    await docRef.update(projectDetails)
   } else {
     await docRef.set({
-      ...commonData,
+      ...projectDetails,
       currentStrawBerry: {
         size: projectDetails.strawberrySize,
       },
@@ -45,6 +37,11 @@ export const saveProject = async (
   }
 
   return docRef.id
+}
+
+export const updateProject = (project: Project): Promise<void> => {
+  const projectRef = getProjectsRef().doc(project.id)
+  return projectRef.update(project)
 }
 
 export const deleteProject = (projectId: string) =>
@@ -94,11 +91,6 @@ export const archiveStrawberry = async (
     .collection('strawberries')
     .doc()
     .set(strawberry)
-
-export const updateProject = (project: Project): Promise<void> => {
-  const projectRef = getProjectsRef().doc(project.id)
-  return projectRef.update(project)
-}
 
 export const startStrawberry = async (
   projectId: string,

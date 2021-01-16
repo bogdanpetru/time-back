@@ -11,7 +11,8 @@ import {
   getStartStrawberry,
   getPauseStrawberry,
   getFinishStrawberry,
-  getSaveProject,
+  getUpdateProject,
+  getCreateProject,
   getDeleteProject,
 } from './effects'
 
@@ -25,10 +26,8 @@ export interface DataManagement {
   pauseStrawberry(projectId: string): Promise<void>
   finishStrawberry(projectId: string): Promise<void>
   deleteProject(projectId: string): Promise<void>
-  saveProject(
-    projectId: string,
-    projectDetails: ProjectDescription
-  ): Promise<string>
+  updateProject(project: Project): Promise<Project>
+  createProject(projectDetails: ProjectDescription): Promise<Project>
   loadProjects(): Promise<Project[]>
 }
 
@@ -57,7 +56,8 @@ const DataProvider: FunctionComponent = (props) => {
     pauseStrawberry: getPauseStrawberry(dispatch, state),
     finishStrawberry: getFinishStrawberry(dispatch, state),
     deleteProject: getDeleteProject(dispatch),
-    saveProject: getSaveProject(dispatch, state),
+    updateProject: getUpdateProject(dispatch, state),
+    createProject: getCreateProject(dispatch, state),
     loadProjects: getLoadProjects(dispatch, state),
   } as DataManagement
 
