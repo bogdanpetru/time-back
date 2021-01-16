@@ -5,9 +5,12 @@ import {
   CurrentStrawBerry,
 } from '@app/data/projects'
 
-export const updateStatistics = (project: Project): Project => {
+export const updateStatistics = (
+  project: Project,
+  currentStrawBerry: CurrentStrawBerry
+): Project => {
   const isInterval =
-    project.currentStrawBerry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL
+    currentStrawBerry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL
   let statistics = project.statistics
 
   if (isInterval) {

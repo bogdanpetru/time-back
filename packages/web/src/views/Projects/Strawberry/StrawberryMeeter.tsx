@@ -11,7 +11,6 @@ const StrawberryWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
 `
 
 const StrawberryItemWrapper = styled.div`
@@ -40,11 +39,22 @@ const StrawberryMeeter: FunctionComponent<StrawberryMeeterProps> = (props) => {
     </StrawberryItemWrapper>
   ))
 
-  const grayNum = sanitizeNumberOfStrawberries(
+  let grayNum = sanitizeNumberOfStrawberries(
     props.total - (props.completed || 0)
   )
+  let overflowNum = 0
+  if (grayNum < 0) {
+    overflowNum = grayNum * -1
+    grayNum = 0
+  }
   const gray = createArrayOf(grayNum, 1).map((_, index) => (
     <StrawberryItemWrapper key={`to-be-done-${index}`}>
+      <StrawberrySmallGrayIcon />
+    </StrawberryItemWrapper>
+  ))
+
+  const overflow = createArrayOf(overflowNum, 1).map((_, index) => (
+    <StrawberryItemWrapper key={`over-done-${index}`}>
       <StrawberrySmallGrayIcon />
     </StrawberryItemWrapper>
   ))
@@ -53,6 +63,7 @@ const StrawberryMeeter: FunctionComponent<StrawberryMeeterProps> = (props) => {
     <StrawberryWrapper>
       {completed}
       {gray}
+      {overflow && <div>extra: {overflow}</div>}
     </StrawberryWrapper>
   )
 }

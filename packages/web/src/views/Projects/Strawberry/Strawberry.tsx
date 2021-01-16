@@ -25,7 +25,8 @@ const Strawberry: FunctionComponent = () => {
     (Boolean(strawberry?.size) && strawberry?.size !== time) ||
     strawberry?.type === StrawberryType.STRAWBERRY_TYPE_PAUSE
   const showDecorationIcons =
-    Boolean(strawberry?.size) && strawberry?.size !== time
+    (Boolean(strawberry?.size) && strawberry?.size !== time) ||
+    strawberry?.type === StrawberryType.STRAWBERRY_TYPE_PAUSE
 
   const onPause = () => data.pauseStrawberry(project.id)
   const onStart = () => data.startStrawberry(project.id)
@@ -52,7 +53,6 @@ const Strawberry: FunctionComponent = () => {
           type={strawberry?.type}
           showDecorationIcons={showDecorationIcons}
         />
-        {project?.statistics?.today?.completedStrawberries}
         <StrawberryMeeter
           total={project.numberOfStrawberries}
           completed={project?.statistics?.today?.completedStrawberries || 0}

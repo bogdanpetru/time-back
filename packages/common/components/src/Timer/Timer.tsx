@@ -12,6 +12,11 @@ import {
 import { formatTime } from './utils'
 import TransparentButton from '../TransparentButton'
 
+const Wrapper = styled.div`
+  margin-bottom: 50px;
+  text-align: center;
+`
+
 const TimerInner = styled.div`
   text-align: center;
   font-size: ${(props) => props?.theme?.timer?.fontSize}px;
@@ -21,10 +26,6 @@ const TimerInner = styled.div`
 
 const ControlsWrapper = styled.div`
   position: relative;
-  text-align: center;
-`
-
-const Wrapper = styled.div`
   text-align: center;
 `
 

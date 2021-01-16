@@ -39,6 +39,8 @@ const CreateProject: FunctionComponent<CreateProjectProps> = (props) => {
       {
         name: 'breakSize',
         initialValue: props.project?.breakSize / MINUTE_UNIT || 10,
+        type: 'number',
+        isValid: [isRequired, isNumber],
       },
       { name: 'description', initialValue: props.project?.description },
     ],

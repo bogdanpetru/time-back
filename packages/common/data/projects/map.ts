@@ -19,15 +19,17 @@ export const mapProject = (data: any): Project =>
     id: data.id,
     name: data.name,
     strawberrySize: data.strawberrySize,
-    breakSize: data.breakSize,
+    breakSize: parseInt(data.breakSize, 10),
     description: data.description,
     numberOfStrawberries: data.numberOfStrawberries,
     strawberries: data.strawberries,
     currentStrawBerry: mapStrawberry(data.currentStrawBerry || {}),
     statistics: {
+      ...data?.statistics,
       today: {
-        completedStrawberries: 0,
+        completedStrawberries:
+          data?.statistics?.today?.completedStrawberries || 0,
       },
-      totalStrawberries: 0,
-    }
+      totalStrawberries: data?.statistics?.totalStrawberries || 0,
+    },
   })

@@ -7,7 +7,7 @@ import {
   startStrawberry,
   pauseStrawberry,
   getProjects,
-  createNewStrawberry,
+  updateProject,
   saveProject,
   deleteProject,
   archiveStrawberry,
@@ -110,9 +110,8 @@ export const getFinishStrawberry = (
 ) => async (projectId: string): Promise<void> => {
   const project = getProjectSelector(state, projectId)
   const oldStrawberry = project.currentStrawBerry
-  const newProject = compose(
-    builders.creteNewStrawberryForProject,
-    builders.updateStatistics
+  const newProject = compose(builders.creteNewStrawberryForProject, (project) =>
+    builders.updateStatistics(project, oldStrawberry)
   )(project)
 
   dispatch({
@@ -120,7 +119,7 @@ export const getFinishStrawberry = (
     project: newProject,
   })
 
-  await createNewStrawberry(newProject)
+  await updateProject(newProject)
   await archiveStrawberry(project.id, oldStrawberry)
 }
 

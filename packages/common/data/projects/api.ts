@@ -95,11 +95,9 @@ export const archiveStrawberry = async (
     .doc()
     .set(strawberry)
 
-export const createNewStrawberry = async (
-  project: Project,
-): Promise<void> => {
+export const updateProject = (project: Project): Promise<void> => {
   const projectRef = getProjectsRef().doc(project.id)
-  await projectRef.update(project)
+  return projectRef.update(project)
 }
 
 export const startStrawberry = async (
