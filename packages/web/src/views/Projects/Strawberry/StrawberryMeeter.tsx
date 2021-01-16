@@ -28,16 +28,16 @@ const StrawberryMeeter: FunctionComponent<StrawberryMeeterProps> = (props) => {
     ? Array(props.completed)
         .fill(1)
         .map((_, index) => (
-          <StrawberryItemWrapper>
-            <StrawberrySmallIcon key={index} />
+          <StrawberryItemWrapper key={`completed-${index}`}>
+            <StrawberrySmallIcon  />
           </StrawberryItemWrapper>
         ))
     : ''
   const gray = Array(grayNum)
     .fill(1)
     .map((_, index) => (
-      <StrawberryItemWrapper>
-        <StrawberrySmallGrayIcon key={index} />
+      <StrawberryItemWrapper key={`to-be-done-${index}`}>
+        <StrawberrySmallGrayIcon  />
       </StrawberryItemWrapper>
     ))
 

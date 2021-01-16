@@ -18,7 +18,6 @@ import { State } from './state'
 import { ActionTypes, Action } from './actions'
 import { getRemainingStrawberryTime } from './utils'
 
-console.log('builders', builders)
 
 const getProjectSelector = (state: State, projectId: String): Project =>
   state.projects.list.find((project) => project.id === projectId)

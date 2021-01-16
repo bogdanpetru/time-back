@@ -91,7 +91,7 @@ const Auth: FunctionComponent = () => {
     signUpFn: (
       email: string,
       password: string
-    ) => Promise<firebase.auth.UserCredential>
+    ) => Promise<any>
   ) => async () => {
     setSignInLoading(true)
     try {
