@@ -9,6 +9,7 @@ export interface Statistics {
   }
   totalStrawberries: number // all time
   currentStreak: number // completed === project.numberOfStrawberries
+  numberOfDailyCompletedGoals: number
 }
 
 export interface StrawberryConfig {
@@ -31,9 +32,9 @@ export type CurrentStrawBerry = StrawberryConfig
 export interface ProjectDescription {
   name: string
   strawberrySize: number
+  numberOfStrawberries?: number
   breakSize?: number
   description?: string
-  numberOfStrawberries?: number
   strawberries?: Strawberry[]
   currentStrawBerry?: CurrentStrawBerry
   statistics: Statistics

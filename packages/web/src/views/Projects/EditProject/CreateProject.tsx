@@ -5,10 +5,10 @@ import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
 import { Project, ProjectDescription } from '@app/data/projects'
 import useData from '@app/data/management/useData'
-import useForm from '@app/components/src/Form/useForm'
+import useForm from '@app/components/Form/useForm'
 import { MINUTE_UNIT } from '@app/utils'
 
-import { isRequired, isNumber } from '@app/components/src/Form/validators'
+import { isRequired, isNumber } from '@app/utils/validation'
 import { FunctionComponent } from 'react'
 
 interface CreateProjectProps {
