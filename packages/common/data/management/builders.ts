@@ -4,6 +4,7 @@ import {
   mapStrawberry,
   CurrentStrawBerry,
 } from '@app/data/projects'
+import { isSameDate } from '@app/utils'
 
 export const updateStatistics = (
   project: Project,
@@ -62,5 +63,47 @@ export const creteNewStrawberryForProject = (project: Project): Project => {
     ...project,
     currentStrawBerry: newStrawberry,
     statistics,
+  }
+}
+
+export const checkInitialStatistics = (projects: Project[]) => {
+  const checkStatistics = (project: Project): Project => {
+    if (isSameDate(project.currentStrawBerry.startTime[0], Date.now())) {
+      return project
+    }
+
+    if (project.currentStrawBerry.running) {
+      return project
+    }
+
+    // TODO: check if the last goal is done and update statistics
+    return {
+      ...project,
+      statistics: {
+        ...project?.statistics,
+        today: {
+          ...project?.statistics?.today,
+          completedStrawberries: 0,
+        },
+      },
+    }
+  }
+
+  // check if we have stale strawberries
+  // strawberry.startTime[0] < today ts
+  // and it is not running
+  let preparedProjects = []
+  let projectsToUpdate = []
+  for (const project of projects) {
+    const preparedProject = checkStatistics(project)
+    if (project !== preparedProject) {
+      projectsToUpdate.push(preparedProject)
+    }
+    preparedProjects.push(preparedProject)
+  }
+
+  return {
+    preparedProjects,
+    projectsToUpdate,
   }
 }

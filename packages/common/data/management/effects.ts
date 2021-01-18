@@ -18,10 +18,19 @@ import { State } from './state'
 import { ActionTypes, Action } from './actions'
 import { getRemainingStrawberryTime } from './utils'
 
+/**
+ * TODO:
+ * - so everything works ok when network is ok and firebase is up and running
+ * - what happens when something fails?
+ *  - implement a way to retry
+ *  - while offline, or failed requests should accumulate
+ *  - maybe mark data that has been updated? is dirty
+ */
+
 const getProjectSelector = (state: State, projectId: String): Project =>
   state.projects.list.find((project) => project.id === projectId)
 
-export const getLoadProjects = (
+export const getInitializeData = (
   dispatch: React.Dispatch<Action>,
   state: State
 ) => async (): Promise<Project[]> => {
@@ -31,12 +40,31 @@ export const getLoadProjects = (
 
   const projects = await getProjects()
 
+  /**
+   * Check if statistics should be updated:
+   * - statistics for yersterday should be reset
+   * - TODO: if there was a running interval that completed, check if the goal was
+   * fulfilled, if so update statistics and reset
+   */
+  const {
+    preparedProjects,
+    projectsToUpdate,
+  } = builders.checkInitialStatistics(projects)
+
   dispatch({
     type: ActionTypes.SET_PROJECTS,
-    projects,
+    projects: preparedProjects,
   })
 
-  return projects
+  if (projectsToUpdate.length) {
+    let promises = []
+    for (const project of projectsToUpdate) {
+      promises.push(updateProject(project))
+    }
+    await Promise.all(promises)
+  }
+
+  return preparedProjects
 }
 
 export const getResetStrawberry = (

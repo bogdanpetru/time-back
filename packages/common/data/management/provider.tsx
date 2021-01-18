@@ -7,7 +7,7 @@ import reducer from './reducer'
 import { Project, Strawberry, ProjectDescription } from '../interface'
 import {
   getResetStrawberry,
-  getLoadProjects,
+  getLoadProjects as getInitializeData,
   getStartStrawberry,
   getPauseStrawberry,
   getFinishStrawberry,
@@ -28,7 +28,7 @@ export interface DataManagement {
   deleteProject(projectId: string): Promise<void>
   updateProject(project: Project): Promise<Project>
   createProject(projectDetails: ProjectDescription): Promise<Project>
-  loadProjects(): Promise<Project[]>
+  initializeData(): Promise<Project[]>
 }
 
 const DataProvider: FunctionComponent = (props) => {
@@ -58,7 +58,7 @@ const DataProvider: FunctionComponent = (props) => {
     deleteProject: getDeleteProject(dispatch),
     updateProject: getUpdateProject(dispatch, state),
     createProject: getCreateProject(dispatch, state),
-    loadProjects: getLoadProjects(dispatch, state),
+    initializeData: getInitializeData(dispatch, state),
   } as DataManagement
 
   return (

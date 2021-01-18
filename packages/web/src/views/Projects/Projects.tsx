@@ -10,7 +10,7 @@ const Projects: FunctionComponent = () => {
   const data = useData()
 
   useEffect(() => {
-    data.loadProjects()
+    data.initializeData()
   }, [])
 
   return (
