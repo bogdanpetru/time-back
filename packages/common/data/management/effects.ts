@@ -139,8 +139,9 @@ export const getFinishStrawberry = (
 ) => async (projectId: string): Promise<void> => {
   const project = getProjectSelector(state, projectId)
   const oldStrawberry = project.currentStrawBerry
-  const newProject = compose(builders.creteNewStrawberryForProject, (project) =>
-    builders.updateStatistics(project, oldStrawberry)
+  const newProject = compose<Project>(
+    builders.creteNewStrawberryForProject,
+    (project) => builders.updateStatistics(project, oldStrawberry)
   )(project)
 
   dispatch({

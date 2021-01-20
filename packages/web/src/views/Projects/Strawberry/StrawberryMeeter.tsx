@@ -82,7 +82,7 @@ const StrawberryMeeter: FunctionComponent<StrawberryMeeterProps> = (props) => {
         {gray}
       </GoalWrapper>
 
-      {overflow && (
+      {Boolean(overflow.length) && (
         <>
           <OverflowText>{t('extra:')}</OverflowText>
           <OverflowWrapper>{overflow}</OverflowWrapper>

@@ -7,7 +7,7 @@ import reducer from './reducer'
 import { Project, Strawberry, ProjectDescription } from '../interface'
 import {
   getResetStrawberry,
-  getLoadProjects as getInitializeData,
+  getInitializeData,
   getStartStrawberry,
   getPauseStrawberry,
   getFinishStrawberry,
