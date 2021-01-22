@@ -1,22 +1,19 @@
 import { nowInSeconds, addArray, compose } from '@app/utils'
 import {
   Project,
-  ProjectDescription,
   mapStrawberry,
   setCurrentStrawberry,
   startStrawberry,
   pauseStrawberry,
   getProjects,
   updateProject,
-  createProject,
-  deleteProject,
   archiveStrawberry,
-  mapProject,
 } from '@app/data/projects'
-import * as builders from './builders'
-import { State } from './state'
-import { ActionTypes, Action } from './actions'
-import { getRemainingStrawberryTime } from './utils'
+import * as builders from '../builders'
+import { State } from '../state'
+import { ActionTypes, Action } from '../actions'
+import { getRemainingStrawberryTime } from '../utils'
+import * as selectors from '../selectors'
 
 /**
  * TODO:
@@ -26,9 +23,6 @@ import { getRemainingStrawberryTime } from './utils'
  *  - while offline, or failed requests should accumulate
  *  - maybe mark data that has been updated? is dirty
  */
-
-const getProjectSelector = (state: State, projectId: String): Project =>
-  state.projects.list.find((project) => project.id === projectId)
 
 export const getInitializeData = (
   dispatch: React.Dispatch<Action>,
@@ -71,7 +65,7 @@ export const getResetStrawberry = (
   dispatch: React.Dispatch<Action>,
   state: State
 ) => (projectId: string) => {
-  const project = getProjectSelector(state, projectId)
+  const project = selectors.getProject(state, projectId)
   const strawberry = mapStrawberry({
     size: project.strawberrySize,
   })
@@ -90,7 +84,7 @@ export const getStartStrawberry = (
   state: State
 ) => (projectId: string): Promise<void> => {
   const startTime = nowInSeconds()
-  const project = getProjectSelector(state, projectId)
+  const project = selectors.getProject(state, projectId)
 
   const strawberry = {
     ...project.currentStrawBerry,
@@ -111,7 +105,7 @@ export const getPauseStrawberry = (
   dispatch: React.Dispatch<Action>,
   state: State
 ) => (projectId: string): Promise<void> => {
-  const project = getProjectSelector(state, projectId)
+  const project = selectors.getProject(state, projectId)
   const strawberry = project.currentStrawBerry
 
   let time = getRemainingStrawberryTime(strawberry)
@@ -151,62 +145,4 @@ export const getFinishStrawberry = (
 
   await updateProject(newProject)
   await archiveStrawberry(project.id, oldStrawberry)
-}
-
-export const getCreateProject = (
-  dispatch: React.Dispatch<Action>,
-  state?: State
-) => async (projectDetails: ProjectDescription) => {
-  const savedProjectId = await createProject(void 0, projectDetails)
-  const newProject = mapProject({
-    ...projectDetails,
-    currentStrawBerry: {
-      size: projectDetails.strawberrySize,
-    },
-    id: savedProjectId,
-  })
-  dispatch({
-    type: ActionTypes.SAVE_PROJECT,
-    project: newProject,
-  })
-
-  return newProject
-}
-
-export const getUpdateProject = (
-  dispatch: React.Dispatch<Action>,
-  state: State
-) => async (projectDescription: Project): Promise<Project> => {
-  const project = getProjectSelector(state, projectDescription.id)
-  const newProject = mapProject({
-    ...project,
-    ...projectDescription,
-  })
-
-  if (!project?.currentStrawBerry?.running) {
-    newProject.currentStrawBerry = {
-      ...newProject.currentStrawBerry,
-      size: projectDescription.strawberrySize,
-    }
-  }
-
-  dispatch({
-    type: ActionTypes.EDIT_PROJECT,
-    project: newProject,
-  })
-
-  await updateProject(newProject)
-
-  return newProject
-}
-
-export const getDeleteProject = (dispatch: React.Dispatch<Action>) => (
-  projectId: string
-) => {
-  dispatch({
-    type: ActionTypes.DELETE_PROJECT,
-    projectId,
-  })
-
-  return deleteProject(projectId)
 }
