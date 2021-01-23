@@ -12,9 +12,10 @@ const red = '#E00202'
 const primary = darkBlue
 const highlight = yellow100
 const alert = red
+const lowlight = lightBlue
 
 const input = {
-  background_active: lightBlue,
+  background_active: lowlight,
   background: gray100,
   height: 42,
   borderBottom: `1px solid ${gray200}`,
@@ -68,6 +69,7 @@ const list = {
   item: {
     borderColor: gray500,
     color: primary,
+    backgroundHighlight: lowlight,
   },
 }
 

@@ -2,10 +2,9 @@ import { FunctionComponent } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Loader, Timer, Wave } from '@app/components'
-import { Strawberry, StrawberryType } from '@app/data/projects'
+import { Strawberry, StrawberryType, getTimeLeftRatio } from '@app/data/projects'
 import DefaultView from '@app/web/components/DefaultView'
 import useData from '@app/data/management/useData'
-import { isNumber } from '@app/utils'
 import StrawberryMeeter from './StrawberryMeeter'
 
 const Wrapper = styled(DefaultView)`
@@ -35,14 +34,9 @@ const Strawberry: FunctionComponent = () => {
   const onStart = () => data.startStrawberry(project.id)
   const onReset = () => data.resetStrawberry(project.id)
 
-  let timeSpentRatio: number = null
-  if (isNumber(strawberry?.size) && isNumber(time)) {
-    timeSpentRatio = time / strawberry?.size
-  }
-
   return (
     <>
-      <Wave level={timeSpentRatio} />
+      <Wave level={getTimeLeftRatio(strawberry)} />
       <Wrapper title={project?.name}>
         <Timer
           onPauseStart={strawberry?.running ? onPause : onStart}

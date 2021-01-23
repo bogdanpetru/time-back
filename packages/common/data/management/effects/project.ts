@@ -54,7 +54,6 @@ export const getUpdateProject = (
   })
 
   await updateProject(newProject)
-
   return newProject
 }
 

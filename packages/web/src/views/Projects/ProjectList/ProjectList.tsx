@@ -2,6 +2,7 @@ import { MouseEvent, FunctionComponent } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import useData from '@app/data/management/useData'
+import { getTimeLeftRatio } from '@app/data/projects'
 import { t } from '@app/data/intl'
 import {
   List,
@@ -59,7 +60,7 @@ const ProjectList: FunctionComponent = () => {
       <ProjectListInner>
         {Boolean(projects?.length) &&
           projects.map((project) => (
-            <ListItem key={project.id} onClick={handlePlay(project.id)}>
+            <ListItem level={getTimeLeftRatio(project.currentStrawBerry)} key={project.id} onClick={handlePlay(project.id)}>
               {project.name}
               <Spacer />
               <ActionButton
