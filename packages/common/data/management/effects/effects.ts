@@ -131,7 +131,7 @@ export const getFinishStrawberry = (
   dispatch: React.Dispatch<Action>,
   state: State
 ) => async (projectId: string): Promise<void> => {
-  const project = getProjectSelector(state, projectId)
+  const project = selectors.getProject(state, projectId)
   const oldStrawberry = project.currentStrawBerry
   const newProject = compose<Project>(
     builders.creteNewStrawberryForProject,
