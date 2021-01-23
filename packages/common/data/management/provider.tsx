@@ -1,4 +1,4 @@
-import { FunctionComponent, useReducer } from 'react'
+import { FunctionComponent, useReducer, useRef, useEffect } from 'react'
 import DataContext from './context'
 
 import { Reducer } from './reducer'
@@ -17,6 +17,7 @@ import {
 } from './effects'
 
 type Data<T> = [T, boolean]
+
 
 export interface DataManagement {
   getProjects(): Data<Project[]>
@@ -44,6 +45,12 @@ const DataProvider: FunctionComponent = (props) => {
     null,
     () => initialState
   )
+  const getStateRef = useRef(() => state)
+  
+  useEffect(() => {
+    getStateRef.current = () => state
+  }, [state, getStateRef])
+
 
   const api = {
     getProjects: () => [state.projects.list, state.projects.loading],
@@ -51,14 +58,14 @@ const DataProvider: FunctionComponent = (props) => {
       state.projects.list.find((project) => project.id === projectId),
       state.projects.loading,
     ],
-    resetStrawberry: getResetStrawberry(dispatch, state),
-    startStrawberry: getStartStrawberry(dispatch, state),
-    pauseStrawberry: getPauseStrawberry(dispatch, state),
-    finishStrawberry: getFinishStrawberry(dispatch, state),
+    resetStrawberry: getResetStrawberry(dispatch, () => getStateRef.current()),
+    startStrawberry: getStartStrawberry(dispatch, () => getStateRef.current()),
+    pauseStrawberry: getPauseStrawberry(dispatch, () => getStateRef.current()),
+    finishStrawberry: getFinishStrawberry(dispatch, () => getStateRef.current()),
     deleteProject: getDeleteProject(dispatch),
-    updateProject: getUpdateProject(dispatch, state),
-    createProject: getCreateProject(dispatch, state),
-    initializeData: getInitializeData(dispatch, state),
+    updateProject: getUpdateProject(dispatch, () => getStateRef.current()),
+    createProject: getCreateProject(dispatch, () => getStateRef.current()),
+    initializeData: getInitializeData(dispatch, () => getStateRef.current()),
   } as DataManagement
 
   return (

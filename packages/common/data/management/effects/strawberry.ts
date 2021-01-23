@@ -5,7 +5,6 @@ import {
   setCurrentStrawberry,
   startStrawberry,
   pauseStrawberry,
-  getProjects,
   updateProject,
   archiveStrawberry,
 } from '@app/data/projects'
@@ -15,56 +14,11 @@ import { ActionTypes, Action } from '../actions'
 import { getRemainingStrawberryTime } from '../utils'
 import * as selectors from '../selectors'
 
-/**
- * TODO:
- * - so everything works ok when network is ok and firebase is up and running
- * - what happens when something fails?
- *  - implement a way to retry
- *  - while offline, or failed requests should accumulate
- *  - maybe mark data that has been updated? is dirty
- */
-
-export const getInitializeData = (
-  dispatch: React.Dispatch<Action>,
-  state: State
-) => async (): Promise<Project[]> => {
-  if (state.projects.list?.length) {
-    return []
-  }
-
-  const projects = await getProjects()
-
-  /**
-   * Check if statistics should be updated:
-   * - statistics for yersterday should be reset
-   * - TODO: if there was a running interval that completed, check if the goal was
-   * fulfilled, if so update statistics and reset
-   */
-  const {
-    preparedProjects,
-    projectsToUpdate,
-  } = builders.checkInitialStatistics(projects)
-
-  dispatch({
-    type: ActionTypes.SET_PROJECTS,
-    projects: preparedProjects,
-  })
-
-  if (projectsToUpdate.length) {
-    let promises = []
-    for (const project of projectsToUpdate) {
-      promises.push(updateProject(project))
-    }
-    await Promise.all(promises)
-  }
-
-  return preparedProjects
-}
-
 export const getResetStrawberry = (
   dispatch: React.Dispatch<Action>,
-  state: State
+  getState: () => State
 ) => (projectId: string) => {
+  const state = getState()
   const project = selectors.getProject(state, projectId)
   const strawberry = mapStrawberry({
     size: project.strawberrySize,
@@ -81,8 +35,9 @@ export const getResetStrawberry = (
 
 export const getStartStrawberry = (
   dispatch: React.Dispatch<Action>,
-  state: State
+  getState: () => State
 ) => (projectId: string): Promise<void> => {
+  const state = getState()
   const startTime = nowInSeconds()
   const project = selectors.getProject(state, projectId)
 
@@ -103,8 +58,9 @@ export const getStartStrawberry = (
 
 export const getPauseStrawberry = (
   dispatch: React.Dispatch<Action>,
-  state: State
+  getState: () => State
 ) => (projectId: string): Promise<void> => {
+  const state = getState()
   const project = selectors.getProject(state, projectId)
   const strawberry = project.currentStrawBerry
 
@@ -129,8 +85,9 @@ export const getPauseStrawberry = (
 
 export const getFinishStrawberry = (
   dispatch: React.Dispatch<Action>,
-  state: State
+  getState: () => State
 ) => async (projectId: string): Promise<void> => {
+  const state = getState()
   const project = selectors.getProject(state, projectId)
   const oldStrawberry = project.currentStrawBerry
   const newProject = compose<Project>(

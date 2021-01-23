@@ -12,7 +12,7 @@ import * as selectors from '../selectors'
 
 export const getCreateProject = (
   dispatch: React.Dispatch<Action>,
-  state?: State
+  getState: () => State
 ) => async (projectDetails: ProjectDescription) => {
   const savedProjectId = await createProject(void 0, projectDetails)
   const newProject = mapProject({
@@ -32,8 +32,9 @@ export const getCreateProject = (
 
 export const getUpdateProject = (
   dispatch: React.Dispatch<Action>,
-  state: State
+  getState: () => State
 ) => async (projectDescription: Project): Promise<Project> => {
+  const state = getState()
   const project = selectors.getProject(state, projectDescription.id)
   const newProject = mapProject({
     ...project,

@@ -6,7 +6,6 @@ import { Strawberry, StrawberryType } from '@app/data/projects'
 import DefaultView from '@app/web/components/DefaultView'
 import useData from '@app/data/management/useData'
 import { isNumber } from '@app/utils'
-import useStrawberry from './useStrawberry'
 import StrawberryMeeter from './StrawberryMeeter'
 
 const Wrapper = styled(DefaultView)`
@@ -19,8 +18,12 @@ const Strawberry: FunctionComponent = () => {
   const data = useData()
   const [project, loading] = data.getProject(params.projectId)
   const strawberry = project?.currentStrawBerry
+  const time = strawberry?.time
 
-  const { time } = useStrawberry(project)
+  if (loading) {
+    return <Loader />
+  }
+  
   const showResetButton =
     (Boolean(strawberry?.size) && strawberry?.size !== time) ||
     strawberry?.type === StrawberryType.STRAWBERRY_TYPE_PAUSE
@@ -35,10 +38,6 @@ const Strawberry: FunctionComponent = () => {
   let timeSpentRatio: number = null
   if (isNumber(strawberry?.size) && isNumber(time)) {
     timeSpentRatio = time / strawberry?.size
-  }
-
-  if (loading) {
-    return <Loader />
   }
 
   return (

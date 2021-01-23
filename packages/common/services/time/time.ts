@@ -10,6 +10,8 @@ interface Unsubscribe {
 
 let subscribers: Subscriber[] = []
 
+let isTicking = false
+
 function tick() {
   setTimeout(() => {
     const now = nowInSeconds()
@@ -21,13 +23,19 @@ function tick() {
 }
 
 export function subscribe(subscriber: Subscriber): Unsubscribe {
-  subscribers.push(subscriber)
+  startTicking()
 
+  subscribers.push(subscriber)
   return () => {
     subscribers = subscribers.filter((sub) => sub !== subscriber)
   }
 }
 
 export function startTicking() {
+  if (isTicking) {
+    return
+  } else {
+    isTicking = true
+  }
   tick()
 }
