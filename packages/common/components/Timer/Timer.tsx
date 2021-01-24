@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { StrawberryType } from '@app/data/projects'
 import {
   PlayBigIcon,
-  PauseIcon,
+  PauseBigIcon,
   DeleteIcon,
   CoffeeIcon,
   TickerIcon,
@@ -75,7 +75,7 @@ const Timer: FunctionComponent<TimerProps> = (props) => {
       </TimerWrapper>
       <ControlsWrapper>
         <TransparentButton onClick={props.onPauseStart}>
-          {props.running ? <PauseIcon /> : <PlayBigIcon />}
+          {props.running ? <PauseBigIcon /> : <PlayBigIcon />}
         </TransparentButton>
         {props.onReset && (
           <DeleteButton onClick={props.onReset}>
