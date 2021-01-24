@@ -66,6 +66,7 @@ const common = `font-family: 'Inconsolata', monospace;
 `
 
 const list = {
+  fontSize: 21,
   item: {
     borderColor: gray500,
     color: primary,

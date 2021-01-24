@@ -28,7 +28,7 @@ const ChildWrapper = styled.div`
   align-items: center;
   cursor: pointer;
   padding: 0 16px;
-  font-size: 18px;
+  font-size: ${(props) => props.theme?.list?.fontSize || 18}px;
   color: ${(props) => props.theme?.list?.item?.color};
 `
 
