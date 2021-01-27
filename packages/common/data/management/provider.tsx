@@ -18,14 +18,12 @@ import {
 
 type Data<T> = [T, boolean]
 
-
 export interface DataManagement {
   getProjects(): Data<Project[]>
   getProject(projectId: string): Data<Project>
   resetStrawberry(projectId: string): Promise<Strawberry>
   startStrawberry(projectId: string): Promise<void>
   pauseStrawberry(projectId: string): Promise<void>
-  finishStrawberry(projectId: string): Promise<void>
   deleteProject(projectId: string): Promise<void>
   updateProject(project: Project): Promise<Project>
   createProject(projectDetails: ProjectDescription): Promise<Project>
@@ -46,11 +44,10 @@ const DataProvider: FunctionComponent = (props) => {
     () => initialState
   )
   const getStateRef = useRef(() => state)
-  
+
   useEffect(() => {
     getStateRef.current = () => state
   }, [state, getStateRef])
-
 
   const api = {
     getProjects: () => [state.projects.list, state.projects.loading],
@@ -61,7 +58,6 @@ const DataProvider: FunctionComponent = (props) => {
     resetStrawberry: getResetStrawberry(dispatch, () => getStateRef.current()),
     startStrawberry: getStartStrawberry(dispatch, () => getStateRef.current()),
     pauseStrawberry: getPauseStrawberry(dispatch, () => getStateRef.current()),
-    finishStrawberry: getFinishStrawberry(dispatch, () => getStateRef.current()),
     deleteProject: getDeleteProject(dispatch),
     updateProject: getUpdateProject(dispatch, () => getStateRef.current()),
     createProject: getCreateProject(dispatch, () => getStateRef.current()),

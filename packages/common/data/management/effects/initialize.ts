@@ -2,52 +2,52 @@ import {
   Project,
   getProjects,
   updateProject,
-  CurrentStrawBerry,
+  archiveStrawberry,
 } from '@app/data/projects'
 import * as timeService from '@app/services/time'
 import * as builders from '../builders'
 import { State } from '../state'
 import { ActionTypes, Action } from '../actions'
-import { getRemainingStrawberryTime } from '../utils'
-import { getFinishStrawberry } from './strawberry'
 
-const moveStrawberryTime = (
-  project: Project,
-  dispatch: React.Dispatch<Action>,
-  getState: () => State
-) => {
-  let strawberry = project.currentStrawBerry
-  if (!strawberry.running) {
-    return
-  }
-  const time = getRemainingStrawberryTime(strawberry)
-  if (time <= 0) {
-    getFinishStrawberry(dispatch, getState)(project.id)
-    return
-  }
+import { compose } from '@app/utils'
 
-  dispatch({
-    type: ActionTypes.SET_STRAWBERRY,
-    projectId: project.id,
-    strawberry: {
-      ...strawberry,
-      time,
-    },
-  })
-}
-
-export const updateProjectTick = (
+export const keepProjectsUpToDate = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
 ) => () => {
   const state = getState()
   const projects = state.projects.list
   for (const project of projects) {
-    const preparedProject = builders.updateProjectSatistics(project)
-    if (project !== preparedProject) {
-      updateProject(project)
+    /**
+     * 1. update time
+     * 2. check if strawberry ended
+     *  2.1 reset current-strawberry
+     *  2.2 update statistics
+     *  2.3 archive old strawberry
+     *
+     * 3. check if we should reset daily counter
+     */
+
+    let newProject = builders.updateStawberryTime(project)
+    if (newProject !== project && newProject.currentStrawBerry.time <= 0) {
+      const oldStrawberry = project.currentStrawBerry
+
+      newProject = compose<Project>(
+        builders.creteNewStrawberryForProject,
+        (project) =>
+          builders.updateStatisticsOnStrawberryFinish(project, oldStrawberry)
+      )(project)
+
+      // TODO: async !
+      archiveStrawberry(project.id, oldStrawberry)
     }
-    moveStrawberryTime(project, dispatch, getState)
+
+    newProject = builders.updateGlobalProjectSatistics(newProject)
+
+    if (project !== newProject) {
+      // TODO async !
+      // updateProject(newProject)
+    }
   }
 }
 
@@ -76,7 +76,7 @@ export const getInitializeData = (
     projects: projects,
   })
 
-  timeService.subscribe(updateProjectTick(dispatch, getState))
+  timeService.subscribe(keepProjectsUpToDate(dispatch, getState))
 
   return projects
 }

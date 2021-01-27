@@ -5,8 +5,30 @@ import {
   CurrentStrawBerry,
 } from '@app/data/projects'
 import { isSameDate } from '@app/utils'
+import { getRemainingStrawberryTime } from './utils'
 
-export const updateStatistics = (
+export const updateStawberryTime = (project: Project) => {
+  let strawberry = project.currentStrawBerry
+  if (!strawberry.running) {
+    return project
+  }
+
+  const time = getRemainingStrawberryTime(strawberry)
+
+  if (time < 0) {
+    return project
+  }
+
+  return {
+    ...project,
+    currentStrawBerry: {
+      ...strawberry,
+      time,
+    },
+  }
+}
+
+export const updateStatisticsOnStrawberryFinish = (
   project: Project,
   currentStrawBerry: CurrentStrawBerry
 ): Project => {
@@ -32,52 +54,31 @@ export const updateStatistics = (
   }
 }
 
-export const creteNewStrawberryForProject = (project: Project): Project => {
-  const strawberry = project.currentStrawBerry
-
-  let type = StrawberryType.STRAWBERRY_TYPE_INTERVAL
-  let size = project.strawberrySize
-  let statistics = project.statistics
-
-  const isInterval = strawberry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL
-
-  /**
-   * when an interval is finished:
-   * - statistics are updated
-   * - strawberry is archived
-   * - current strawberry changes to pause
-   */
-  if (isInterval) {
-    if (project.breakSize) {
-      type = StrawberryType.STRAWBERRY_TYPE_PAUSE
-      size = project.breakSize
-    }
-  }
-
-  const newStrawberry = mapStrawberry({
-    size,
-    type,
-  })
-
-  return {
-    ...project,
-    currentStrawBerry: newStrawberry,
-    statistics,
-  }
-}
-
-export const updateProjectSatistics = (project: Project): Project => {
-  if (isSameDate(project.currentStrawBerry.startTime[0], Date.now())) {
-    return project
-  }
-
+export const updateGlobalProjectSatistics = (project: Project): Project => {
   if (project.currentStrawBerry.running) {
     return project
   }
 
+  if (isSameDate(project.currentStrawBerry.startTime[0], Date.now())) {
+    return project
+  }
+
+  // check if we have something to update
+  if (
+    // and it has already reseted
+    project.statistics.today.completedStrawberries === 0 &&
+    // it has not been started today at all
+    project.currentStrawBerry.startTime.length === 0
+  ) {
+    return project
+  }
+
+  const newStrawberry = getNewIntervalStrawberry(project)
+
   // TODO: check if the last goal is done and update statistics
   return {
     ...project,
+    currentStrawBerry: newStrawberry,
     statistics: {
       ...project?.statistics,
       today: {
@@ -85,5 +86,41 @@ export const updateProjectSatistics = (project: Project): Project => {
         completedStrawberries: 0,
       },
     },
+  }
+}
+
+export const getNewIntervalStrawberry = (
+  project: Project
+): CurrentStrawBerry => {
+  const type = StrawberryType.STRAWBERRY_TYPE_INTERVAL
+  const size = project.strawberrySize
+
+  return mapStrawberry({
+    size,
+    type,
+  })
+}
+
+const getNewPauseStrawberry = (project: Project): CurrentStrawBerry => {
+  const type = StrawberryType.STRAWBERRY_TYPE_PAUSE
+  const size = project.breakSize
+
+  return mapStrawberry({
+    size,
+    type,
+  })
+}
+
+export const creteNewStrawberryForProject = (project: Project): Project => {
+  const isInterval =
+    project.currentStrawBerry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL
+  const newStrawberry =
+    isInterval && project.breakSize
+      ? getNewPauseStrawberry(project)
+      : getNewIntervalStrawberry(project)
+
+  return {
+    ...project,
+    currentStrawBerry: newStrawberry,
   }
 }

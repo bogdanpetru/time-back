@@ -27,9 +27,7 @@ export interface Strawberry extends StrawberryConfig {
   id: string
 }
 
-export interface CurrentStrawBerry extends StrawberryConfig {
-  time?: number
-}
+export interface CurrentStrawBerry extends StrawberryConfig {}
 
 export interface ProjectDescription {
   name: string
