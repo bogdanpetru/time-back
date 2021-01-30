@@ -1,55 +1,10 @@
-import {
-  Project,
-  getProjects,
-  updateProject,
-  CurrentStrawBerry,
-} from '@app/data/projects'
-import * as timeService from '@app/services/time'
-import * as builders from '../builders'
+import { Project } from '@app/data/interface'
+import * as api from '@app/data/api'
+
 import { State } from '../state'
 import { ActionTypes, Action } from '../actions'
-import { getRemainingStrawberryTime } from '../utils'
-import { getFinishStrawberry } from './strawberry'
 
-const moveStrawberryTime = (
-  project: Project,
-  dispatch: React.Dispatch<Action>,
-  getState: () => State
-) => {
-  let strawberry = project.currentStrawBerry
-  if (!strawberry.running) {
-    return
-  }
-  const time = getRemainingStrawberryTime(strawberry)
-  if (time <= 0) {
-    getFinishStrawberry(dispatch, getState)(project.id)
-    return
-  }
-
-  dispatch({
-    type: ActionTypes.SET_STRAWBERRY,
-    projectId: project.id,
-    strawberry: {
-      ...strawberry,
-      time,
-    },
-  })
-}
-
-export const updateProjectTick = (
-  dispatch: React.Dispatch<Action>,
-  getState: () => State
-) => () => {
-  const state = getState()
-  const projects = state.projects.list
-  for (const project of projects) {
-    const preparedProject = builders.updateProjectSatistics(project)
-    if (project !== preparedProject) {
-      updateProject(project)
-    }
-    moveStrawberryTime(project, dispatch, getState)
-  }
-}
+import { startMonitoring } from './monitoring'
 
 /**
  * TODO:
@@ -60,7 +15,7 @@ export const updateProjectTick = (
  *  - maybe mark data that has been updated? is dirty
  */
 
-export const getInitializeData = (
+export const initializeData = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
 ) => async (): Promise<Project[]> => {
@@ -69,14 +24,14 @@ export const getInitializeData = (
     return []
   }
 
-  const projects = await getProjects()
+  const projects = await api.getProjects()
 
   dispatch({
     type: ActionTypes.SET_PROJECTS,
     projects: projects,
   })
 
-  timeService.subscribe(updateProjectTick(dispatch, getState))
+  startMonitoring(dispatch, getState)
 
   return projects
 }

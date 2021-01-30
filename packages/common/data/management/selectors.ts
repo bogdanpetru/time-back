@@ -1,4 +1,4 @@
-import { Project } from '@app/data/projects'
+import { Project } from '@app/data/interface'
 import { State } from './state'
 
 export function getProject(state: State, projectId: String): Project {

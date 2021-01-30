@@ -13,7 +13,6 @@
 - [ ] limit the amount of intervals in a period of time
 - [ ] when pause is reset, it is changed to interval
 
-
 **todos**
 
 - [ ] basic input validation on project details
@@ -22,6 +21,7 @@
   - [ ] with a big play button
 
 **before publish**
+
 - [ ] add firebase security rules
 - [ ] disable project
 - [ ] create new project (so the keys were not compromised)
@@ -35,9 +35,11 @@
 - [ ] sanity - restrict the number of writes/reads/day
 
 **setup**
+
 - [x] remove create react app
 
 **faze I**
+
 - [ ] organize in projects
 - [ ] custom intervals
 - [ ] notes on pomodoros and projects
@@ -45,6 +47,7 @@
 - [ ] able to use it as a fasting timer
 
 **faze II**
+
 - [ ] allow using the app without logging in
   - [ ] save the data in indexdb or localstorage for web\
 - [ ] logged in with faundadb
@@ -52,6 +55,7 @@
 - [ ] server side rendering
 
 **faze III**
+
 - [ ] tags
 - [ ] all the data can be exported
 - [ ] the data in the db is encrypted
@@ -59,40 +63,41 @@
 
 ## bugs
 
-- the  animation breaks on window resize
-- the time is wrong when the app is in background 
+- the animation breaks on window resize
+- the time is wrong when the app is in background
 
 ## structure
 
 ### packages
 
 common
-  /components
-  /data
-    /api
-      /service - are stateful entities
-      /utils - are stateless utils
+/components
+/data
+/api
+/service - are stateful entities
+/utils - are stateless utils
 web
 mobile
 
 ### components
 
-
 [structure](https://www.robinwieruch.de/react-folder-structure)
 
 component-name/
-  /index.tsx 
-  /test.ts
-  /style.js
+/index.tsx
+/test.ts
+/style.js
 
 ### web
 
 #### /src/App.tsx
 
 This component will hold all the logic that is common for all views:
+
 - routing
 - theming
 - any global context providers
+
 #### /components
 
 /components - specific components for the web
@@ -100,13 +105,16 @@ This component will hold all the logic that is common for all views:
 #### styled components
 
 `styled-components` are first class components:
-  -  we do not discriminate, the follow the same naming convention as any other component 
-  -  they are not segregated in `styled` folders
+
+- we do not discriminate, the follow the same naming convention as any other component
+- they are not segregated in `styled` folders
 
 Naming:
+
 - `Wrapper` - the out-most element, when one is needed
 - `ComponentInner` - when the styled component represents the main part of the component
   - e.g. an Input component whould have an `InputInner` for the styled-input-componet
+
 #### /views
 
 /views - each route of the app, hold view data
@@ -122,36 +130,42 @@ Naming:
 - easy to extend and refactor
 - less code is better when it does not impact readability
   - e.g. all functions are declared with arrow function, shorter readability
+
 #### functions declarations
+
 - use `() => {}` declaration for any function with the exception of generators
-- `why` 
-  -  everything is a variable
-  -  less code for simple components, no `return` statement
-  -  e.g. a styled-component when changing to proper component, less text to edit
+- `why`
+  - everything is a variable
+  - less code for simple components, no `return` statement
+  - e.g. a styled-component when changing to proper component, less text to edit
+  - forces to declare the functions in a certain order, you cannot use a function declared later
+
 #### exports
+
 - one thing to export, default export
 - multiple, always named, no namespaces
 
 #### destructuring
+
 - no destructuring for props
   - easy to see what are props or other types of variables
 
 ####
-- all booleans are prefixed with `is`
 
+- all booleans are prefixed with `is`
 
 ## Stack
 
 ### build/dev
 
-The app uses vanilla **webpack**. I've tired to  use parcel and create-react-app.
+The app uses vanilla **webpack**. I've tired to use parcel and create-react-app.
 
 Both alternatives (I create-react-app uses webpack) were hard to work with with typescript, yarn packages, web and react-native.
 
 ## URLs
 
 Project url uses the projects name. To have this:
-- name must be unique
-- spaces are replaced with `-` 
-- to be able to replace spaces with `-`, `project-name` and `project name` are the same
 
+- name must be unique
+- spaces are replaced with `-`
+- to be able to replace spaces with `-`, `project-name` and `project name` are the same

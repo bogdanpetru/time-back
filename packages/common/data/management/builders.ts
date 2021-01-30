@@ -1,9 +1,5 @@
-import {
-  Project,
-  StrawberryType,
-  mapStrawberry,
-  CurrentStrawBerry,
-} from '@app/data/projects'
+import { mapStrawberry } from '@app/data/map'
+import { Project, StrawberryType, CurrentStrawBerry } from '@app/data/interface'
 import { isSameDate } from '@app/utils'
 
 export const updateStatistics = (

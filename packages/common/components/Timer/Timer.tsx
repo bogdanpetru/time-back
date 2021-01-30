@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { StrawberryType } from '@app/data/projects'
+import { StrawberryType } from '@app/data/interface'
 import {
   PlayBigIcon,
   PauseBigIcon,

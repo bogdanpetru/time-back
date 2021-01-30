@@ -1,6 +1,6 @@
 import { removeUndefinedKeys } from '@app/utils'
-import { Project, Strawberry, StrawberryType } from '../interface'
-import { getRemainingStrawberryTime } from '../management/utils'
+import { getRemainingStrawberryTime } from './utils'
+import { Strawberry, StrawberryType, Project } from './interface'
 
 export const mapStrawberry = (data: any): Strawberry => {
   const strawberry = {

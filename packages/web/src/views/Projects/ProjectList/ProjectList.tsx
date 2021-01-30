@@ -1,9 +1,8 @@
 import { MouseEvent, FunctionComponent } from 'react'
 import { useHistory } from 'react-router-dom'
-import invariatn from 'invariant'
 import styled from 'styled-components'
 import useData from '@app/data/management/useData'
-import { getTimeLeftRatio } from '@app/data/projects'
+import { getTimeLeftRatio } from '@app/data/utils'
 import { t } from '@app/data/intl'
 import {
   List,

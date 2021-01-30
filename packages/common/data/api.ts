@@ -2,7 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import invariant from 'invariant'
 
-import { ProjectDescription, Project, CurrentStrawBerry } from '../interface'
+import { ProjectDescription, Project, CurrentStrawBerry } from './interface'
 
 import { mapProject } from './map'
 

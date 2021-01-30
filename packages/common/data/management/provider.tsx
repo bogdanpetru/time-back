@@ -5,19 +5,9 @@ import { Reducer } from './reducer'
 import { State } from './state'
 import reducer from './reducer'
 import { Project, Strawberry, ProjectDescription } from '../interface'
-import {
-  getResetStrawberry,
-  getInitializeData,
-  getStartStrawberry,
-  getPauseStrawberry,
-  getFinishStrawberry,
-  getUpdateProject,
-  getCreateProject,
-  getDeleteProject,
-} from './effects'
+import * as effects from './effects'
 
 type Data<T> = [T, boolean]
-
 
 export interface DataManagement {
   getProjects(): Data<Project[]>
@@ -46,11 +36,12 @@ const DataProvider: FunctionComponent = (props) => {
     () => initialState
   )
   const getStateRef = useRef(() => state)
-  
+
   useEffect(() => {
     getStateRef.current = () => state
   }, [state, getStateRef])
 
+  const getState = () => getStateRef.current()
 
   const api = {
     getProjects: () => [state.projects.list, state.projects.loading],
@@ -58,14 +49,14 @@ const DataProvider: FunctionComponent = (props) => {
       state.projects.list.find((project) => project.id === projectId),
       state.projects.loading,
     ],
-    resetStrawberry: getResetStrawberry(dispatch, () => getStateRef.current()),
-    startStrawberry: getStartStrawberry(dispatch, () => getStateRef.current()),
-    pauseStrawberry: getPauseStrawberry(dispatch, () => getStateRef.current()),
-    finishStrawberry: getFinishStrawberry(dispatch, () => getStateRef.current()),
-    deleteProject: getDeleteProject(dispatch),
-    updateProject: getUpdateProject(dispatch, () => getStateRef.current()),
-    createProject: getCreateProject(dispatch, () => getStateRef.current()),
-    initializeData: getInitializeData(dispatch, () => getStateRef.current()),
+    resetStrawberry: effects.resetStrawberry(dispatch, getState),
+    startStrawberry: effects.startStrawberry(dispatch, getState),
+    pauseStrawberry: effects.pauseStrawberry(dispatch, getState),
+    finishStrawberry: effects.finishStrawberry(dispatch, getState),
+    deleteProject: effects.getDeleteProject(dispatch),
+    updateProject: effects.getUpdateProject(dispatch, getState),
+    createProject: effects.getCreateProject(dispatch, getState),
+    initializeData: effects.initializeData(dispatch, getState),
   } as DataManagement
 
   return (

@@ -1,11 +1,6 @@
-import {
-  Project,
-  ProjectDescription,
-  updateProject,
-  createProject,
-  deleteProject,
-  mapProject,
-} from '@app/data/projects'
+import * as api from '@app/data/api'
+import { Project, ProjectDescription } from '@app/data/interface'
+import { mapProject } from '@app/data/map'
 import { State } from '../state'
 import { ActionTypes, Action } from '../actions'
 import * as selectors from '../selectors'
@@ -14,7 +9,7 @@ export const getCreateProject = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
 ) => async (projectDetails: ProjectDescription) => {
-  const savedProjectId = await createProject(void 0, projectDetails)
+  const savedProjectId = await api.createProject(void 0, projectDetails)
   const newProject = mapProject({
     ...projectDetails,
     currentStrawBerry: {
@@ -53,7 +48,7 @@ export const getUpdateProject = (
     project: newProject,
   })
 
-  await updateProject(newProject)
+  await api.updateProject(newProject)
   return newProject
 }
 
@@ -65,5 +60,5 @@ export const getDeleteProject = (dispatch: React.Dispatch<Action>) => (
     projectId,
   })
 
-  return deleteProject(projectId)
+  return api.deleteProject(projectId)
 }

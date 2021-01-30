@@ -2,7 +2,8 @@ import { FunctionComponent } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Loader, Timer, Wave } from '@app/components'
-import { Strawberry, StrawberryType, getTimeLeftRatio } from '@app/data/projects'
+import { Strawberry, StrawberryType } from '@app/data/interface'
+import { getTimeLeftRatio } from '@app/data/utils'
 import DefaultView from '@app/web/components/DefaultView'
 import useData from '@app/data/management/useData'
 import StrawberryMeeter from './StrawberryMeeter'
@@ -22,7 +23,7 @@ const Strawberry: FunctionComponent = () => {
   if (loading) {
     return <Loader />
   }
-  
+
   const showResetButton =
     (Boolean(strawberry?.size) && strawberry?.size !== time) ||
     strawberry?.type === StrawberryType.STRAWBERRY_TYPE_PAUSE

@@ -1,20 +1,14 @@
 import { nowInSeconds, addArray, compose } from '@app/utils'
-import {
-  Project,
-  mapStrawberry,
-  setCurrentStrawberry,
-  startStrawberry,
-  pauseStrawberry,
-  updateProject,
-  archiveStrawberry,
-} from '@app/data/projects'
+import * as api from '@app/data/api'
+import { mapStrawberry } from '@app/data/map'
+import { Project } from '@app/data/interface'
+import { getRemainingStrawberryTime } from '@app/data/utils'
 import * as builders from '../builders'
 import { State } from '../state'
 import { ActionTypes, Action } from '../actions'
-import { getRemainingStrawberryTime } from '../utils'
 import * as selectors from '../selectors'
 
-export const getResetStrawberry = (
+export const resetStrawberry = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
 ) => (projectId: string) => {
@@ -30,10 +24,10 @@ export const getResetStrawberry = (
     strawberry,
   })
 
-  return setCurrentStrawberry(project.id, strawberry)
+  return api.setCurrentStrawberry(project.id, strawberry)
 }
 
-export const getStartStrawberry = (
+export const startStrawberry = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
 ) => (projectId: string): Promise<void> => {
@@ -53,10 +47,10 @@ export const getStartStrawberry = (
     strawberry,
   })
 
-  return startStrawberry(projectId, startTime)
+  return api.startStrawberry(projectId, startTime)
 }
 
-export const getPauseStrawberry = (
+export const pauseStrawberry = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
 ) => (projectId: string): Promise<void> => {
@@ -80,10 +74,10 @@ export const getPauseStrawberry = (
     },
   })
 
-  return pauseStrawberry(projectId, timeSpent)
+  return api.pauseStrawberry(projectId, timeSpent)
 }
 
-export const getFinishStrawberry = (
+export const finishStrawberry = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
 ) => async (projectId: string): Promise<void> => {
@@ -100,6 +94,6 @@ export const getFinishStrawberry = (
     project: newProject,
   })
 
-  await updateProject(newProject)
-  await archiveStrawberry(project.id, oldStrawberry)
+  await api.updateProject(newProject)
+  await api.archiveStrawberry(project.id, oldStrawberry)
 }
