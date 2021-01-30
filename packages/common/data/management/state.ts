@@ -5,4 +5,7 @@ export interface State {
     list: Project[]
     loading: boolean
   }
+  time: {
+    [key: string]: number
+  }
 }

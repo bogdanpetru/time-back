@@ -12,10 +12,10 @@ type Data<T> = [T, boolean]
 export interface DataManagement {
   getProjects(): Data<Project[]>
   getProject(projectId: string): Data<Project>
+  getTime(projectId: string): number
   resetStrawberry(projectId: string): Promise<Strawberry>
   startStrawberry(projectId: string): Promise<void>
   pauseStrawberry(projectId: string): Promise<void>
-  finishStrawberry(projectId: string): Promise<void>
   deleteProject(projectId: string): Promise<void>
   updateProject(project: Project): Promise<Project>
   createProject(projectDetails: ProjectDescription): Promise<Project>
@@ -28,6 +28,7 @@ const DataProvider: FunctionComponent = (props) => {
       list: [],
       loading: true,
     },
+    time: {},
   }
 
   const [state, dispatch] = useReducer<Reducer, State>(
@@ -49,10 +50,10 @@ const DataProvider: FunctionComponent = (props) => {
       state.projects.list.find((project) => project.id === projectId),
       state.projects.loading,
     ],
+    getTime: (projectId) => state.time[projectId] || null,
     resetStrawberry: effects.resetStrawberry(dispatch, getState),
     startStrawberry: effects.startStrawberry(dispatch, getState),
     pauseStrawberry: effects.pauseStrawberry(dispatch, getState),
-    finishStrawberry: effects.finishStrawberry(dispatch, getState),
     deleteProject: effects.getDeleteProject(dispatch),
     updateProject: effects.getUpdateProject(dispatch, getState),
     createProject: effects.getCreateProject(dispatch, getState),

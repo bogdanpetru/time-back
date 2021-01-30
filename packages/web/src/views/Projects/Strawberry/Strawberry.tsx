@@ -18,8 +18,8 @@ const Strawberry: FunctionComponent = () => {
   const data = useData()
   const [project, loading] = data.getProject(params.projectId)
   const strawberry = project?.currentStrawBerry
-  const time = strawberry?.time
-
+  const time = loading ? null : data.getTime(project.id)
+  console.log(time)
   if (loading) {
     return <Loader />
   }
