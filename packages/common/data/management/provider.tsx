@@ -55,8 +55,8 @@ const DataProvider: FunctionComponent = (props) => {
     startStrawberry: effects.startStrawberry(dispatch, getState),
     pauseStrawberry: effects.pauseStrawberry(dispatch, getState),
     deleteProject: effects.getDeleteProject(dispatch),
-    updateProject: effects.getUpdateProject(dispatch, getState),
-    createProject: effects.getCreateProject(dispatch, getState),
+    updateProject: effects.updateProject(dispatch, getState),
+    createProject: effects.createProject(dispatch, getState),
     initializeData: effects.initializeData(dispatch, getState),
   } as DataManagement
 

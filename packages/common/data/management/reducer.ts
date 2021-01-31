@@ -74,6 +74,12 @@ const reducer: Reducer = (state: State, action: Action): State => {
           [action.projectId]: action.time,
         },
       }
+    case ActionTypes.SET_INITIAL_TIME:
+      console.log(action)
+      return {
+        ...state,
+        time: action.time,
+      }
     default:
       return state
   }

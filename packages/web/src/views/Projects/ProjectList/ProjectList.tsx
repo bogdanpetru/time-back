@@ -72,7 +72,10 @@ const ProjectList: FunctionComponent = () => {
         {Boolean(projects?.length) &&
           projects.map((project) => (
             <ListItem
-              level={getTimeLeftRatio(project.currentStrawBerry)}
+              level={getTimeLeftRatio(
+                project.currentStrawBerry,
+                data.getTime(project.id)
+              )}
               key={project.id}
               onClick={handleView(project.id)}
             >

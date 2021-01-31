@@ -1,11 +1,12 @@
 import * as api from '@app/data/api'
 import { Project, ProjectDescription } from '@app/data/interface'
 import { mapProject } from '@app/data/map'
+import { getRemainingStrawberryTime } from '@app/data/utils'
 import { State } from '../state'
 import { ActionTypes, Action } from '../actions'
 import * as selectors from '../selectors'
 
-export const getCreateProject = (
+export const createProject = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
 ) => async (projectDetails: ProjectDescription) => {
@@ -25,7 +26,7 @@ export const getCreateProject = (
   return newProject
 }
 
-export const getUpdateProject = (
+export const updateProject = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
 ) => async (projectDescription: Project): Promise<Project> => {
@@ -61,4 +62,20 @@ export const getDeleteProject = (dispatch: React.Dispatch<Action>) => (
   })
 
   return api.deleteProject(projectId)
+}
+
+export const intializeTime = (
+  dispatch: React.Dispatch<Action>,
+  projects: Project[]
+): void => {
+  const time = projects.reduce((acc, project) => {
+    acc[project.id] = getRemainingStrawberryTime(project.currentStrawBerry)
+
+    return acc
+  }, {} as { [key: string]: number })
+
+  dispatch({
+    type: ActionTypes.SET_INITIAL_TIME,
+    time,
+  })
 }

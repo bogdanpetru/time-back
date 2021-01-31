@@ -7,6 +7,7 @@ import { getRemainingStrawberryTime } from '@app/data/utils'
 import { ActionTypes, Action } from '../actions'
 
 import { compose } from '@app/utils'
+import * as selectors from '../selectors'
 export const keepProjectsUpToDate = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
@@ -23,37 +24,39 @@ export const keepProjectsUpToDate = (
      *
      * 3. check if we should reset daily counter
      */
-
     let newProject = project
 
-    const time = getRemainingStrawberryTime(project.currentStrawBerry)
+    let time = getRemainingStrawberryTime(project.currentStrawBerry)
 
-    if (time >= 0) {
-      dispatch({
-        type: ActionTypes.UPATE_TIME,
-        projectId: project.id,
-        time,
-      })
+    if (selectors.getTime(state, project.id) === time) {
+      continue
     }
 
     if (time <= 0) {
-      const oldStrawberry = project.currentStrawBerry
-      newProject = compose<Project>(builders.createNextStrawberry, (project) =>
-        builders.updateStatisticsOnStrawberryFinish(project, oldStrawberry)
-      )(project)
-
-      // TODO: async !
-      api.archiveStrawberry(project.id, oldStrawberry)
+      newProject = builders.createNextStrawberry(newProject)
+      newProject = builders.updateStatisticsOnStrawberryFinish(
+        newProject,
+        project.currentStrawBerry
+      )
+      api.archiveStrawberry(project.id, project.currentStrawBerry)
+      time = newProject.currentStrawBerry.size
     }
 
-    newProject = builders.updateGlobalProjectSatistics(newProject)
+    // newProject = builders.updateGlobalProjectSatistics(newProject)
+
+    dispatch({
+      type: ActionTypes.UPATE_TIME,
+      projectId: project.id,
+      time,
+    })
 
     if (project !== newProject) {
       // TODO async !
       console.log(newProject)
-      // updateProject(newProject)
+      api.updateProject(newProject)
+
       dispatch({
-        type: ActionTypes.SAVE_PROJECT,
+        type: ActionTypes.EDIT_PROJECT,
         project: newProject,
       })
     }

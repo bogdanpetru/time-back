@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, memo } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Loader, Timer, Wave } from '@app/components'
@@ -13,21 +13,18 @@ const Wrapper = styled(DefaultView)`
   z-index: 1;
 `
 
-const Strawberry: FunctionComponent = () => {
+const Strawberry: FunctionComponent = memo(() => {
   const params = useParams<{ projectId: string }>()
   const data = useData()
   const [project, loading] = data.getProject(params.projectId)
   const strawberry = project?.currentStrawBerry
   const time = loading ? null : data.getTime(project.id)
-  console.log(time)
+
   if (loading) {
     return <Loader />
   }
 
   const showResetButton =
-    (Boolean(strawberry?.size) && strawberry?.size !== time) ||
-    strawberry?.type === StrawberryType.STRAWBERRY_TYPE_PAUSE
-  const showDecorationIcons =
     (Boolean(strawberry?.size) && strawberry?.size !== time) ||
     strawberry?.type === StrawberryType.STRAWBERRY_TYPE_PAUSE
 
@@ -37,7 +34,7 @@ const Strawberry: FunctionComponent = () => {
 
   return (
     <>
-      <Wave level={getTimeLeftRatio(strawberry)} />
+      <Wave level={getTimeLeftRatio(strawberry, data.getTime(project.id))} />
       <Wrapper title={project?.name}>
         <Timer
           onPauseStart={strawberry?.running ? onPause : onStart}
@@ -45,7 +42,6 @@ const Strawberry: FunctionComponent = () => {
           running={strawberry?.running}
           timePassed={time}
           type={strawberry?.type}
-          showDecorationIcons={showDecorationIcons}
         />
         <StrawberryMeeter
           total={project.numberOfStrawberries}
@@ -54,6 +50,6 @@ const Strawberry: FunctionComponent = () => {
       </Wrapper>
     </>
   )
-}
+})
 
 export default Strawberry

@@ -7,6 +7,7 @@ export enum ActionTypes {
   EDIT_PROJECT = 'EDIT_PROJECT',
   DELETE_PROJECT = 'DELETE_PROJECT',
   UPATE_TIME = 'UPATE_TIME',
+  SET_INITIAL_TIME = 'SET_INITIAL_TIME',
 }
 
 export type Action =
@@ -35,4 +36,8 @@ export type Action =
       type: ActionTypes.UPATE_TIME
       projectId: string
       time: number
+    }
+  | {
+      type: ActionTypes.SET_INITIAL_TIME
+      time: { [key: string]: number }
     }

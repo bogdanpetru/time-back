@@ -8,44 +8,25 @@ export const updateStatisticsOnStrawberryFinish = (
 ): Project => {
   const isInterval =
     currentStrawBerry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL
-  let statistics = project.statistics
-  if (isInterval) {
-    statistics = {
-      ...statistics,
-      today: {
-        ...project?.statistics?.today,
-        completedStrawberries:
-          (project?.statistics?.today?.completedStrawberries || 0) + 1,
-      },
-      totalStrawberries: (project.statistics.totalStrawberries || 0) + 1,
-    }
+
+  if (!isInterval) {
+    return project
   }
+
+  const statistics = {
+    ...project.statistics,
+    today: {
+      ...project?.statistics?.today,
+      completedStrawberries:
+        (project?.statistics?.today?.completedStrawberries || 0) + 1,
+    },
+    totalStrawberries: (project.statistics.totalStrawberries || 0) + 1,
+  }
+
   return {
     ...project,
     statistics: statistics,
   }
-}
-
-export const getNewStrawberryInterval = (
-  project: Project
-): CurrentStrawBerry => {
-  const type = StrawberryType.STRAWBERRY_TYPE_INTERVAL
-  const size = project.strawberrySize
-
-  return mapStrawberry({
-    size,
-    type,
-  })
-}
-
-const getNewPauseStrawberry = (project: Project): CurrentStrawBerry => {
-  const type = StrawberryType.STRAWBERRY_TYPE_PAUSE
-  const size = project.breakSize
-
-  return mapStrawberry({
-    size,
-    type,
-  })
 }
 
 export const updateGlobalProjectSatistics = (project: Project): Project => {
@@ -81,6 +62,28 @@ export const updateGlobalProjectSatistics = (project: Project): Project => {
       },
     },
   }
+}
+
+export const getNewStrawberryInterval = (
+  project: Project
+): CurrentStrawBerry => {
+  const type = StrawberryType.STRAWBERRY_TYPE_INTERVAL
+  const size = project.strawberrySize
+
+  return mapStrawberry({
+    size,
+    type,
+  })
+}
+
+const getNewPauseStrawberry = (project: Project): CurrentStrawBerry => {
+  const type = StrawberryType.STRAWBERRY_TYPE_PAUSE
+  const size = project.breakSize
+
+  return mapStrawberry({
+    size,
+    type,
+  })
 }
 
 /**
