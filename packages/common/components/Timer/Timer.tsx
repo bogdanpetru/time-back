@@ -32,7 +32,7 @@ const ControlsWrapper = styled.div`
 const DeleteButton = styled(TransparentButton)`
   position: absolute;
   top: 33px;
-  left: calc(29px + 50%);
+  left: calc(40px + 50%);
 `
 
 const TimerWrapper = styled.div`
@@ -42,8 +42,8 @@ const TimerWrapper = styled.div`
 
 const IconWrapper = styled.div`
   position: absolute;
-  top: 13px;
-  left: -30px;
+  bottom: 63px;
+  left: -36px;
 `
 
 const iconMap = {
@@ -57,7 +57,6 @@ interface TimerProps {
   onPauseStart: () => void
   onReset?: () => void
   type?: StrawberryType
-  showDecorationIcons: boolean
 }
 
 const Timer: FunctionComponent<TimerProps> = (props) => {
@@ -66,11 +65,7 @@ const Timer: FunctionComponent<TimerProps> = (props) => {
   return (
     <Wrapper>
       <TimerWrapper>
-        <IconWrapper>
-          {props.showDecorationIcons && Icon && (
-            <Icon running={props.running} />
-          )}
-        </IconWrapper>
+        <IconWrapper>{Icon && <Icon running={props.running} />}</IconWrapper>
         <TimerInner>{formatTime(props.timePassed)}</TimerInner>
       </TimerWrapper>
       <ControlsWrapper>

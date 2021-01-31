@@ -5,6 +5,7 @@ import { State } from '../state'
 import { ActionTypes, Action } from '../actions'
 
 import { startMonitoring } from './monitoring'
+import { intializeTime } from './project'
 
 /**
  * TODO:
@@ -25,6 +26,8 @@ export const initializeData = (
   }
 
   const projects = await api.getProjects()
+
+  intializeTime(dispatch, projects)
 
   dispatch({
     type: ActionTypes.SET_PROJECTS,

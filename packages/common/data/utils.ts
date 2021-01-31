@@ -21,10 +21,13 @@ export const getTimeLeft = (strawberry: Strawberry): number => {
   return timeLeft - timeFromPreviousStart
 }
 
-export const getTimeLeftRatio = (strawberry: CurrentStrawBerry): number => {
+export const getTimeLeftRatio = (
+  strawberry: CurrentStrawBerry,
+  time: number
+): number => {
   let timeSpentRatio: number = null
-  if (isNumber(strawberry?.size) && isNumber(strawberry.time)) {
-    timeSpentRatio = strawberry.time / strawberry?.size
+  if (isNumber(strawberry?.size) && isNumber(time)) {
+    timeSpentRatio = time / strawberry?.size
   }
   return timeSpentRatio
 }

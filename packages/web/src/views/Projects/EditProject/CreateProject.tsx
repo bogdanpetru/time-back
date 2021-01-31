@@ -54,7 +54,10 @@ const CreateProject: FunctionComponent<CreateProjectProps> = (props) => {
       }
 
       if (projectId) {
-        await data.updateProject(projectToSave as Project)
+        await data.updateProject({
+          ...projectToSave,
+          id: projectId,
+        })
         history.push(`/strawberry/${projectId}`)
       } else {
         setIsSaving(true)

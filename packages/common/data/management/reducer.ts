@@ -1,4 +1,4 @@
-import { State, } from './state'
+import { State } from './state'
 import { Action, ActionTypes } from './actions'
 
 export interface Reducer {
@@ -65,6 +65,20 @@ const reducer: Reducer = (state: State, action: Action): State => {
             (project) => project.id !== action.projectId
           ),
         },
+      }
+    case ActionTypes.UPATE_TIME:
+      return {
+        ...state,
+        time: {
+          ...state.time,
+          [action.projectId]: action.time,
+        },
+      }
+    case ActionTypes.SET_INITIAL_TIME:
+      console.log(action)
+      return {
+        ...state,
+        time: action.time,
       }
     default:
       return state

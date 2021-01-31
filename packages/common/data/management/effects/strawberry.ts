@@ -85,8 +85,9 @@ export const finishStrawberry = (
   const project = selectors.getProject(state, projectId)
   const oldStrawberry = project.currentStrawBerry
   const newProject = compose<Project>(
-    builders.creteNewStrawberryForProject,
-    (project) => builders.updateStatistics(project, oldStrawberry)
+    builders.createNextStrawberry,
+    (project) =>
+      builders.updateStatisticsOnStrawberryFinish(project, oldStrawberry)
   )(project)
 
   dispatch({
