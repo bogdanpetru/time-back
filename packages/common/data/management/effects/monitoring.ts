@@ -1,5 +1,4 @@
 import * as api from '@app/data/api'
-import { Project } from '@app/data/interface'
 import * as timeService from '@app/services/time'
 import * as builders from '../builders'
 import { State } from '../state'
@@ -32,6 +31,8 @@ export const keepProjectsUpToDate = (
       continue
     }
 
+    // newProject = builders.updateGlobalProjectSatistics(newProject)
+
     if (time <= 0) {
       newProject = builders.createNextStrawberry(newProject)
       newProject = builders.updateStatisticsOnStrawberryFinish(
@@ -42,8 +43,6 @@ export const keepProjectsUpToDate = (
       time = newProject.currentStrawBerry.size
     }
 
-    // newProject = builders.updateGlobalProjectSatistics(newProject)
-
     dispatch({
       type: ActionTypes.UPATE_TIME,
       projectId: project.id,
@@ -51,8 +50,6 @@ export const keepProjectsUpToDate = (
     })
 
     if (project !== newProject) {
-      // TODO async !
-      console.log(newProject)
       api.updateProject(newProject)
 
       dispatch({

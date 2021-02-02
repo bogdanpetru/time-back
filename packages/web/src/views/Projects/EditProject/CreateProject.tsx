@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { Input, Button, Loader, useDocumentTitle } from '@app/components'
+import {
+  Input,
+  Button,
+  Loader,
+  useDocumentTitle,
+  Footer,
+} from '@app/components'
 import DefaultView from '@app/web/components/DefaultView'
 import { useHistory } from 'react-router-dom'
 import { t } from '@app/data/intl'
@@ -80,24 +86,9 @@ const CreateProject: FunctionComponent<CreateProjectProps> = (props) => {
   }
 
   return (
-    <DefaultView
-      title={title}
-      footer={
-        <>
-          <Button onClick={form.onSubmit} type="submit" primary>
-            {t(props.project ? 'edit' : 'save')}
-          </Button>
-
-          {props.project && (
-            <Button onClick={onDelete} type="submit">
-              {t('delete')}
-            </Button>
-          )}
-        </>
-      }
-    >
+    <DefaultView title={title}>
       <form onSubmit={form.onSubmit}>
-        <Input {...form.inputs.name} label={t('name')} />
+        <Input autofocus {...form.inputs.name} label={t('name')} />
         <Input {...form.inputs.strawberrySize} label={t('size')} />
         <Input
           {...form.inputs.numberOfStrawberries}
@@ -114,6 +105,18 @@ const CreateProject: FunctionComponent<CreateProjectProps> = (props) => {
           type="text"
           label={t('description')}
         />
+
+        <Footer>
+          <Button type="submit" primary>
+            {t(props.project ? 'edit' : 'save')}
+          </Button>
+
+          {props.project && (
+            <Button onClick={onDelete} type="submit">
+              {t('delete')}
+            </Button>
+          )}
+        </Footer>
       </form>
       {isSaving && <Loader />}
     </DefaultView>

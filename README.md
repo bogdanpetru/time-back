@@ -20,6 +20,11 @@
   - [ ] needs to have all the information
   - [ ] with a big play button
 
+**UI**
+
+- [x] focus first imput
+- [x] save on enter
+
 **before publish**
 
 - [ ] add firebase security rules
@@ -28,7 +33,7 @@
 
 **security settings**
 
-- [ ] restrict users to edit their own data
+- [x] restrict users to edit their own data
 - [ ] restrict to a maximum of projects
 - [ ] restrict the length of each value
 - [ ] add validation in a cloud function

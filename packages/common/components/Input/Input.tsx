@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div<{
@@ -69,6 +69,7 @@ interface InputProps {
   style?: object
   error?: string
   name?: string
+  autofocus?: boolean
 }
 
 const Input = (props: InputProps) => {
@@ -86,11 +87,18 @@ const Input = (props: InputProps) => {
     },
     [props.onChange]
   )
-  const handleLabelClick = () => {
-    inputRef?.current?.focus()
-  }
+
+  const focus = () => inputRef?.current?.focus()
+
+  const handleLabelClick = focus
 
   const value = props.value || localValue
+
+  useEffect(() => {
+    if (props.autofocus) {
+      focus()
+    }
+  }, [props.autofocus])
 
   return (
     <Wrapper
