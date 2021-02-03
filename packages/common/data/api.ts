@@ -94,21 +94,27 @@ export const archiveStrawberry = async (
 
 export const startStrawberry = async (
   projectId: string,
-  startTime: number
+  startTime: number,
+  today?: number
 ): Promise<void> => {
   invariant(projectId, 'cannot start a interval without a project-id')
 
+  let updateObject = null
+  if (today) {
+    updateObject = {
+      'statistics.today.date': today,
+    }
+  }
+
   await getProjectsRef()
     .doc(projectId)
-    .set(
-      {
-        currentStrawBerry: {
-          running: true,
-          startTime: firebase.firestore.FieldValue.arrayUnion(startTime),
-        },
+    .update({
+      currentStrawBerry: {
+        running: true,
+        startTime: firebase.firestore.FieldValue.arrayUnion(startTime),
       },
-      { merge: true }
-    )
+      ...updateObject,
+    })
 }
 
 export const pauseStrawberry = async (projectId: string, timeSpent: number) => {
@@ -116,13 +122,10 @@ export const pauseStrawberry = async (projectId: string, timeSpent: number) => {
 
   await getProjectsRef()
     .doc(projectId)
-    .set(
-      {
-        currentStrawBerry: {
-          running: false,
-          timeSpent: firebase.firestore.FieldValue.arrayUnion(timeSpent),
-        },
+    .update({
+      currentStrawBerry: {
+        running: false,
+        timeSpent: firebase.firestore.FieldValue.arrayUnion(timeSpent),
       },
-      { merge: true }
-    )
+    })
 }

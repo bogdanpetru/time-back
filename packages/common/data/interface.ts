@@ -5,11 +5,12 @@ export enum StrawberryType {
 
 export interface Statistics {
   today: {
-    completedStrawberries: number // per day
+    date: number
+    completedStrawberries?: number // per day
   }
-  totalStrawberries: number // all time
-  currentStreak: number // completed === project.numberOfStrawberries
-  numberOfDailyCompletedGoals: number
+  totalStrawberries?: number // all time
+  currentStreak?: number // completed === project.numberOfStrawberries
+  numberOfDailyCompletedGoals?: number
 }
 
 export interface StrawberryConfig {

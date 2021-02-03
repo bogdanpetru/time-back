@@ -31,6 +31,34 @@ const reducer: Reducer = (state: State, action: Action): State => {
           }),
         },
       }
+    case ActionTypes.START_STRAWBERRY:
+      return {
+        ...state,
+        projects: {
+          loading: false,
+          list: state.projects.list.map((project) => {
+            if (project.id === action.projectId) {
+              let statistics = project.statistics
+              if (action.today) {
+                statistics = {
+                  ...statistics,
+                  today: {
+                    ...statistics.today,
+                    date: action.today,
+                  },
+                }
+              }
+
+              return {
+                ...project,
+                currentStrawBerry: action.strawberry,
+                statistics,
+              }
+            }
+            return project
+          }),
+        },
+      }
     case ActionTypes.SAVE_PROJECT:
       return {
         ...state,

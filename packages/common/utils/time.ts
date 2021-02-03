@@ -9,5 +9,12 @@ export const secondsToMs = (time: number) => time * SECOND_UNIT
 export const getDateObject = (date: number | Date): Date =>
   date instanceof Date ? date : new Date(date)
 
-export const isSameDate = (date1: number, date2: number): boolean =>
-  getDateObject(date1).toDateString() === getDateObject(date2).toDateString()
+export const isSameDate = (date1: number, date2: number): boolean => {
+  if (!date1 || !date2) {
+    return false
+  }
+
+  return (
+    getDateObject(date1).toDateString() === getDateObject(date2).toDateString()
+  )
+}

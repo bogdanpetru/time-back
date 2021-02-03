@@ -34,6 +34,12 @@ export const startStrawberry = (
   const state = getState()
   const startTime = nowInSeconds()
   const project = selectors.getProject(state, projectId)
+  let today = null
+
+  // date on project is added when a strawberry is started
+  if (!project.statistics.today.date) {
+    today = Date.now()
+  }
 
   const strawberry = {
     ...project.currentStrawBerry,
@@ -42,12 +48,13 @@ export const startStrawberry = (
   }
 
   dispatch({
-    type: ActionTypes.SET_STRAWBERRY,
+    type: ActionTypes.START_STRAWBERRY,
     projectId,
     strawberry,
+    today,
   })
 
-  return api.startStrawberry(projectId, startTime)
+  return api.startStrawberry(projectId, startTime, today)
 }
 
 export const pauseStrawberry = (

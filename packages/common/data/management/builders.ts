@@ -34,7 +34,11 @@ export const updateGlobalProjectSatistics = (project: Project): Project => {
     return project
   }
 
-  if (isSameDate(project.currentStrawBerry.startTime[0], Date.now())) {
+  // if (isSameDate(project.currentStrawBerry.startTime[0], Date.now())) {
+  //   return project
+  // }
+
+  if (isSameDate(project.statistics.today.date, Date.now())) {
     return project
   }
 
@@ -58,6 +62,7 @@ export const updateGlobalProjectSatistics = (project: Project): Project => {
       ...project?.statistics,
       today: {
         ...project?.statistics?.today,
+        date: Date.now(),
         completedStrawberries: 0,
       },
     },

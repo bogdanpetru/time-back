@@ -8,6 +8,7 @@ export enum ActionTypes {
   DELETE_PROJECT = 'DELETE_PROJECT',
   UPATE_TIME = 'UPATE_TIME',
   SET_INITIAL_TIME = 'SET_INITIAL_TIME',
+  START_STRAWBERRY = 'START_STRAWBERRY',
 }
 
 export type Action =
@@ -15,6 +16,12 @@ export type Action =
       type: ActionTypes.SET_STRAWBERRY
       projectId: string
       strawberry: CurrentStrawBerry
+    }
+  | {
+      type: ActionTypes.START_STRAWBERRY
+      projectId: string
+      strawberry: CurrentStrawBerry
+      today: number
     }
   | {
       type: ActionTypes.SET_PROJECTS
