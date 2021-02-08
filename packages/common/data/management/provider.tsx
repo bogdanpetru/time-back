@@ -4,8 +4,10 @@ import DataContext from './context'
 import { Reducer } from './reducer'
 import { State } from './state'
 import reducer from './reducer'
-import { Project, Strawberry, ProjectDescription } from '../interface'
+import { Project, Strawberry, ProjectDescription, CurrentStrawBerry, StrawberryType } from '../interface'
 import * as effects from './effects'
+import * as selectors from './selectors'
+import { Action } from './actions'
 
 type Data<T> = [T, boolean]
 
@@ -14,8 +16,8 @@ export interface DataManagement {
   getProject(projectId: string): Data<Project>
   getTime(projectId: string): number
   resetStrawberry(projectId: string): Promise<Strawberry>
-  startStrawberry(projectId: string): Promise<void>
-  pauseStrawberry(projectId: string): Promise<void>
+  startStrawberry(projectId: string): Promise<CurrentStrawBerry>
+  pauseStrawberry(projectId: string): Promise<CurrentStrawBerry>
   deleteProject(projectId: string): Promise<void>
   updateProject(project: Project): Promise<Project>
   createProject(projectDetails: ProjectDescription): Promise<Project>
@@ -47,10 +49,18 @@ const DataProvider: FunctionComponent = (props) => {
   const api = {
     getProjects: () => [state.projects.list, state.projects.loading],
     getProject: (projectId) => [
-      state.projects.list.find((project) => project.id === projectId),
+      selectors.getProject(state, projectId),
       state.projects.loading,
     ],
-    getTime: (projectId) => state.time[projectId] || null,
+    getTime: (projectId) => {
+      let time = selectors.getTime(state, projectId)
+      if (typeof time !== 'number') {
+        const project = selectors.getProject(state, projectId)
+        time = project.currentStrawBerry.type === StrawberryType.STRAWBERRY_TYPE_PAUSE && project.breakSize ?
+          project.breakSize : project.strawberrySize
+      }
+      return time
+    },
     resetStrawberry: effects.resetStrawberry(dispatch, getState),
     startStrawberry: effects.startStrawberry(dispatch, getState),
     pauseStrawberry: effects.pauseStrawberry(dispatch, getState),

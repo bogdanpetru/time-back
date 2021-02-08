@@ -28,7 +28,6 @@ export const keepProjectsUpToDate = (
     newProject = builders.updateGlobalProjectSatistics(newProject)
 
     let time = getRemainingStrawberryTime(project.currentStrawBerry)
-
     if (selectors.getTime(state, project.id) === time) {
       continue
     }

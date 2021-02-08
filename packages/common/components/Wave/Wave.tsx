@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+  overflow: hidden;
 `
 
 const Bottom = styled.div`

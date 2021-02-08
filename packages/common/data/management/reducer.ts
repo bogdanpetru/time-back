@@ -103,7 +103,6 @@ const reducer: Reducer = (state: State, action: Action): State => {
         },
       }
     case ActionTypes.SET_INITIAL_TIME:
-      console.log(action)
       return {
         ...state,
         time: action.time,

@@ -5,7 +5,7 @@ import { State } from '../state'
 import { ActionTypes, Action } from '../actions'
 
 import { startMonitoring } from './monitoring'
-import { intializeTime } from './project'
+import { intializeTime } from './time'
 
 /**
  * TODO:
@@ -15,7 +15,7 @@ import { intializeTime } from './project'
  *  - while offline, or failed requests should accumulate
  *  - maybe mark data that has been updated? is dirty
  */
-
+let num = 0;
 export const initializeData = (
   dispatch: React.Dispatch<Action>,
   getState: () => State

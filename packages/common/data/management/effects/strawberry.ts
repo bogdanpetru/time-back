@@ -1,12 +1,11 @@
 import { nowInSeconds, addArray, compose } from '@app/utils'
 import * as api from '@app/data/api'
 import { mapStrawberry } from '@app/data/map'
-import { Project } from '@app/data/interface'
-import { getRemainingStrawberryTime } from '@app/data/utils'
 import * as builders from '../builders'
 import { State } from '../state'
 import { ActionTypes, Action } from '../actions'
 import * as selectors from '../selectors'
+import { CurrentStrawBerry } from '../../interface'
 
 export const resetStrawberry = (
   dispatch: React.Dispatch<Action>,
@@ -30,16 +29,12 @@ export const resetStrawberry = (
 export const startStrawberry = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
-) => (projectId: string): Promise<void> => {
+) => (projectId: string): Promise<CurrentStrawBerry> => {
   const state = getState()
   const startTime = nowInSeconds()
   const project = selectors.getProject(state, projectId)
   let today = null
 
-  // date on project is added when a strawberry is started
-  if (!project.statistics.today.date) {
-    today = Date.now()
-  }
 
   const strawberry = {
     ...project.currentStrawBerry,
@@ -54,34 +49,36 @@ export const startStrawberry = (
     today,
   })
 
-  return api.startStrawberry(projectId, startTime, today)
+  return api.setCurrentStrawberry(projectId, strawberry)
 }
 
 export const pauseStrawberry = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
-) => (projectId: string): Promise<void> => {
+) => (projectId: string): Promise<CurrentStrawBerry> => {
   const state = getState()
   const project = selectors.getProject(state, projectId)
-  const strawberry = project.currentStrawBerry
+  let newStrawberry = project.currentStrawBerry
 
-  let time = getRemainingStrawberryTime(strawberry)
+  let time = selectors.getTime(state, project.id)
   const timeSpent =
-    strawberry.size -
+    newStrawberry.size -
     time -
-    (strawberry?.timeSpent ? addArray(strawberry.timeSpent) : 0)
+    (newStrawberry?.timeSpent ? addArray(newStrawberry.timeSpent) : 0)
+
+  newStrawberry = {
+    ...newStrawberry,
+    running: false,
+    timeSpent: [...newStrawberry.timeSpent, timeSpent],
+  }
 
   dispatch({
     type: ActionTypes.SET_STRAWBERRY,
     projectId,
-    strawberry: {
-      ...strawberry,
-      running: false,
-      timeSpent: [...strawberry.timeSpent, timeSpent],
-    },
+    strawberry: newStrawberry,
   })
 
-  return api.pauseStrawberry(projectId, timeSpent)
+  return api.setCurrentStrawberry(projectId, newStrawberry)
 }
 
 export const finishStrawberry = (
@@ -91,11 +88,8 @@ export const finishStrawberry = (
   const state = getState()
   const project = selectors.getProject(state, projectId)
   const oldStrawberry = project.currentStrawBerry
-  const newProject = compose<Project>(
-    builders.createNextStrawberry,
-    (project) =>
-      builders.updateStatisticsOnStrawberryFinish(project, oldStrawberry)
-  )(project)
+  let newProject = builders.createNextStrawberry(project)
+  newProject = builders.updateStatisticsOnStrawberryFinish(newProject, oldStrawberry)
 
   dispatch({
     type: ActionTypes.EDIT_PROJECT,

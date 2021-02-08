@@ -1,11 +1,10 @@
 import { removeUndefinedKeys } from '@app/utils'
-import { getRemainingStrawberryTime } from './utils'
 import { Strawberry, StrawberryType, Project } from './interface'
 
 export const mapStrawberry = (data: any): Strawberry => {
-  const strawberry = {
+  return removeUndefinedKeys<Strawberry>({
     id: data.id,
-    size: parseInt(data.size, 10),
+    size: parseInt(data.size, 10) || 0,
     name: data.name,
     timeSpent: data.timeSpent || [],
     startTime: data.startTime || [],
@@ -13,11 +12,6 @@ export const mapStrawberry = (data: any): Strawberry => {
     notes: data.notes,
     finished: data.finished,
     type: data.type || StrawberryType.STRAWBERRY_TYPE_INTERVAL,
-  }
-  const time = getRemainingStrawberryTime(strawberry)
-  return removeUndefinedKeys<Strawberry>({
-    ...strawberry,
-    time,
   })
 }
 
@@ -30,7 +24,9 @@ export const mapProject = (data: any): Project =>
     description: data.description,
     numberOfStrawberries: data.numberOfStrawberries,
     strawberries: data.strawberries,
-    currentStrawBerry: mapStrawberry(data.currentStrawBerry || {}),
+    currentStrawBerry: mapStrawberry(data.currentStrawBerry || {
+      size: data.strawberrySize,
+    }),
     statistics: {
       ...data?.statistics,
       today: {

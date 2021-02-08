@@ -54,7 +54,6 @@ const useForm = <VALUES>(
         setValues({
           ...values,
           [input.name]: preparedValue,
-          type: input.type || 'text',
         })
       },
       [isSubmitted ? 'error' : 'silentError']: inputErrors
@@ -76,7 +75,6 @@ const useForm = <VALUES>(
   }, [setValues])
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log('dude')
     event.preventDefault()
     if (!isSubmitted) {
       setIsSubmitted(true)

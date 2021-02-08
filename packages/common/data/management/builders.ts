@@ -17,6 +17,7 @@ export const updateStatisticsOnStrawberryFinish = (
     ...project.statistics,
     today: {
       ...project?.statistics?.today,
+      date: project?.statistics?.today?.date || Date.now(),
       completedStrawberries:
         (project?.statistics?.today?.completedStrawberries || 0) + 1,
     },
@@ -34,15 +35,10 @@ export const updateGlobalProjectSatistics = (project: Project): Project => {
     return project
   }
 
-  // if (isSameDate(project.currentStrawBerry.startTime[0], Date.now())) {
-  //   return project
-  // }
-
   if (isSameDate(project.statistics.today.date, Date.now())) {
     return project
   }
 
-  // check if we have something to update
   if (
     // and it has already reseted
     project.statistics.today.completedStrawberries === 0 &&
@@ -54,7 +50,6 @@ export const updateGlobalProjectSatistics = (project: Project): Project => {
 
   const newStrawberry = getNewStrawberryInterval(project)
 
-  // TODO: check if the last goal is done and update statistics
   return {
     ...project,
     currentStrawBerry: newStrawberry,

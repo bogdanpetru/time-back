@@ -64,18 +64,4 @@ export const getDeleteProject = (dispatch: React.Dispatch<Action>) => (
   return api.deleteProject(projectId)
 }
 
-export const intializeTime = (
-  dispatch: React.Dispatch<Action>,
-  projects: Project[]
-): void => {
-  const time = projects.reduce((acc, project) => {
-    acc[project.id] = getRemainingStrawberryTime(project.currentStrawBerry)
 
-    return acc
-  }, {} as { [key: string]: number })
-
-  dispatch({
-    type: ActionTypes.SET_INITIAL_TIME,
-    time,
-  })
-}
