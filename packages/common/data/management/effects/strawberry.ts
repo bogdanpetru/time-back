@@ -35,7 +35,6 @@ export const startStrawberry = (
   const project = selectors.getProject(state, projectId)
   let today = null
 
-
   const strawberry = {
     ...project.currentStrawBerry,
     running: true,
@@ -89,7 +88,10 @@ export const finishStrawberry = (
   const project = selectors.getProject(state, projectId)
   const oldStrawberry = project.currentStrawBerry
   let newProject = builders.createNextStrawberry(project)
-  newProject = builders.updateStatisticsOnStrawberryFinish(newProject, oldStrawberry)
+  newProject = builders.updateStatisticsOnStrawberryFinish(
+    newProject,
+    oldStrawberry
+  )
 
   dispatch({
     type: ActionTypes.EDIT_PROJECT,
