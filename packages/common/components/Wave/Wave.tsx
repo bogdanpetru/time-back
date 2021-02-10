@@ -19,7 +19,8 @@ const Bottom = styled.div`
   background: #bcf5ff;
 `
 
-const randomDelta = (value: number, delta: number) => {
+const randomDelta = (value: number, procent: number = 0.05) => {
+  const delta = value * procent
   const min = value - delta
   const max = value + delta
   return Math.random() * (max - min) + min
@@ -52,48 +53,65 @@ const getWavePath = (
   return `M ${firstPoint[0]} ${firstPoint[1]} ${path} V ${height} H -${width} Z`
 }
 
+const getY = (y: number, totalHeight: number): number => totalHeight - y
+
+const MIDDLE = 'MIDDLE'
+const TOP = 'TOP'
+const BOTTOM = 'BOTTOM'
+
+const getPattern = (width: number, betweenPoints: number) => {
+  const pattern = [TOP, MIDDLE, BOTTOM, MIDDLE]
+  const numOfPoints = Math.ceil(width / betweenPoints) * 2
+
+  return Array(Math.ceil(numOfPoints / pattern.length))
+    .fill(pattern)
+    .reduce((acc, item) => [...acc, ...item], [])
+}
+
+/**
+  1  2  3   4   5   6
+      *              *
+  *     *       *
+            *
+  */
 const getWavePoints = (
-  height: number,
+  totalHeight: number,
+  waveHeight: number,
   width: number,
   level: number
 ): number[][] => {
-  /**
-    1  2  3   4   5   6
-       *              *
-    *     *       *
-              *
-   */
-  const betweenPoints = randomDelta(100, 5)
-  const MIDDLE = 'MIDDLE'
-  const TOP = 'TOP'
-  const BOTTOM = 'BOTTOM'
-  const pattern = [TOP, MIDDLE, BOTTOM, MIDDLE]
-
-  const numOfPoints = Math.ceil(width / betweenPoints) * 2
-  const completePattern: any[] = Array(Math.ceil(numOfPoints / pattern.length))
-    .fill(pattern)
-    .reduce((acc, item) => [...acc, ...item], [])
-
-  const firstPoint = [randomDelta(-20, 10), randomDelta(height / 2, 20)]
+  const betweenPoints = randomDelta(100)
 
   const points = []
+  const pattern = getPattern(width, betweenPoints)
 
-  for (let i = 0; i < completePattern.length; i++) {
+  const levelY = totalHeight - level
+
+  const getMiddleY = () => randomDelta(levelY - waveHeight / 2)
+  const getBottomY = () => randomDelta(levelY)
+  const getTopY = () => randomDelta(levelY - waveHeight)
+
+  const firstPoint = [randomDelta(-20), getMiddleY()]
+
+  for (let i = 0; i < pattern.length; i++) {
     const previousPoint: any = points.length ? points[i - 1] : firstPoint
-    switch (completePattern[i]) {
+    switch (pattern[i]) {
       case MIDDLE:
         points.push([
-          randomDelta(betweenPoints / 2, 10) + previousPoint[0],
-          randomDelta(height, 20) / 2,
+          randomDelta(betweenPoints / 2) + previousPoint[0],
+          getMiddleY(),
         ])
         break
       case TOP:
-        points.push([randomDelta(betweenPoints / 2, 10) + previousPoint[0], 0])
+        points.push([
+          randomDelta(betweenPoints / 2) + previousPoint[0],
+          getTopY(),
+        ])
         break
       case BOTTOM:
         points.push([
-          randomDelta(betweenPoints / 2, 10) + previousPoint[0],
-          randomDelta(height, 20),
+          randomDelta(betweenPoints / 2) + previousPoint[0],
+          getBottomY(),
         ])
         break
     }
@@ -108,39 +126,59 @@ interface WaveTopProps {
   waveNumber: number
 }
 
+const getRGB = (red: number, green: number, blue: number, darken: number) =>
+  `rgb(${red + darken}, ${green + darken}, ${blue + darken})`
+
 const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
   const { height, width, waveNumber } = props
-  const [points, setPoints] = useState<number[][][]>([])
+  const [points, setPoints] = useState<number[][][][]>([])
+  const individualWaveHegiht = height / waveNumber
 
   useEffect(() => {
-    const pointsList = [getWavePoints(height, width, 0)]
+    const pointsList = []
+    let level = height - individualWaveHegiht
+    for (let i = 0; i < waveNumber; i++) {
+      pointsList.push([
+        getWavePoints(height, individualWaveHegiht, width, level),
+        getWavePoints(height, individualWaveHegiht, width, level),
+        getWavePoints(height, individualWaveHegiht, width, level),
+      ])
+      level -= individualWaveHegiht
+      console.log('level', level)
+    }
+
     setPoints(pointsList)
   }, [])
 
   const paths = points.map((pointsList) =>
-    getWavePath(pointsList, width, height)
+    pointsList.map((points) => getWavePath(points, width, height))
   )
+
+  const startingFill: [number, number, number] = [188, 245, 255]
 
   return (
     <>
       {Boolean(paths.length) && (
         <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
-          {paths.map((pathsItem, key) => (
-            <path key={key} stroke="transparent" fill="#bcf5ff">
-              <animate
-                attributeType="XML"
-                attributeName="d"
-                values={[...paths, paths[0]].join(';')}
-                dur="6s"
-                repeatCount="indefinite"
-              />
-            </path>
-          ))}
-          {points
-            .reduce((acc, item) => [...acc, ...item], [])
-            .map((point) => (
-              <circle cx={point[0]} cy={point[1]} r="5" />
-            ))}
+          {paths.map((pathsItem, key) => {
+            const darken = (paths.length - (key + 1)) * 8
+            console.log(darken)
+            return (
+              <path
+                key={key}
+                stroke="transparent"
+                fill={getRGB(...startingFill, darken)}
+              >
+                <animate
+                  attributeType="XML"
+                  attributeName="d"
+                  values={[...pathsItem, pathsItem[0]].join(';')}
+                  dur="6s"
+                  repeatCount="indefinite"
+                />
+              </path>
+            )
+          })}
         </svg>
       )}
     </>
@@ -169,7 +207,7 @@ const Wave: FunctionComponent<WaveProps> = memo((props) => {
         paddingTop: props?.level ? `${props.level * 90}vh` : '90px',
       }}
     >
-      <WaveTop waveNumber={4} width={width} height={300} />
+      <WaveTop waveNumber={10} width={width} height={300} />
       <Bottom />
     </Wrapper>
   )
