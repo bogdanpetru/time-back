@@ -24,12 +24,15 @@ export const mapProject = (data: any): Project =>
     description: data.description,
     numberOfStrawberries: data.numberOfStrawberries,
     strawberries: data.strawberries,
-    currentStrawBerry: mapStrawberry(data.currentStrawBerry || {
-      size: data.strawberrySize,
-    }),
+    currentStrawBerry: mapStrawberry(
+      data.currentStrawBerry || {
+        size: data.strawberrySize,
+      }
+    ),
     statistics: {
       ...data?.statistics,
       today: {
+        date: data?.statistics?.today?.date,
         completedStrawberries:
           data?.statistics?.today?.completedStrawberries || 0,
       },

@@ -62,7 +62,8 @@ const loader = {
   background_color: yellow100,
 }
 
-const common = `font-family: 'Inconsolata', monospace;
+const common = `
+  font-family: 'Inconsolata', monospace;
 `
 
 const list = {

@@ -144,7 +144,6 @@ const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
         getWavePoints(height, individualWaveHegiht, width, level),
       ])
       level -= individualWaveHegiht
-      console.log('level', level)
     }
 
     setPoints(pointsList)
@@ -162,7 +161,6 @@ const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
         <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
           {paths.map((pathsItem, key) => {
             const darken = (paths.length - (key + 1)) * 8
-            console.log(darken)
             return (
               <path
                 key={key}

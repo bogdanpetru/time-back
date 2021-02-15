@@ -1,10 +1,17 @@
 import { FunctionComponent, useReducer, useRef, useEffect } from 'react'
-import DataContext from './context'
+import * as flags from '@app/services/flags'
 
+import DataContext from './context'
 import { Reducer } from './reducer'
 import { State } from './state'
 import reducer from './reducer'
-import { Project, Strawberry, ProjectDescription, CurrentStrawBerry, StrawberryType } from '../interface'
+import {
+  Project,
+  Strawberry,
+  ProjectDescription,
+  CurrentStrawBerry,
+  StrawberryType,
+} from '../interface'
 import * as effects from './effects'
 import * as selectors from './selectors'
 import { Action } from './actions'
@@ -45,6 +52,13 @@ const DataProvider: FunctionComponent = (props) => {
   }, [state, getStateRef])
 
   const getState = () => getStateRef.current()
+  const dispatchWithLog = (action: Action) => {
+    if (flags.isActive('actions')) {
+      console.log('action', action)
+    }
+
+    return dispatch(action)
+  }
 
   const api = {
     getProjects: () => [state.projects.list, state.projects.loading],
@@ -56,18 +70,21 @@ const DataProvider: FunctionComponent = (props) => {
       let time = selectors.getTime(state, projectId)
       if (typeof time !== 'number') {
         const project = selectors.getProject(state, projectId)
-        time = project.currentStrawBerry.type === StrawberryType.STRAWBERRY_TYPE_PAUSE && project.breakSize ?
-          project.breakSize : project.strawberrySize
+        time =
+          project.currentStrawBerry.type ===
+            StrawberryType.STRAWBERRY_TYPE_PAUSE && project.breakSize
+            ? project.breakSize
+            : project.strawberrySize
       }
       return time
     },
-    resetStrawberry: effects.resetStrawberry(dispatch, getState),
-    startStrawberry: effects.startStrawberry(dispatch, getState),
-    pauseStrawberry: effects.pauseStrawberry(dispatch, getState),
-    deleteProject: effects.getDeleteProject(dispatch),
-    updateProject: effects.updateProject(dispatch, getState),
-    createProject: effects.createProject(dispatch, getState),
-    initializeData: effects.initializeData(dispatch, getState),
+    resetStrawberry: effects.resetStrawberry(dispatchWithLog, getState),
+    startStrawberry: effects.startStrawberry(dispatchWithLog, getState),
+    pauseStrawberry: effects.pauseStrawberry(dispatchWithLog, getState),
+    deleteProject: effects.getDeleteProject(dispatchWithLog),
+    updateProject: effects.updateProject(dispatchWithLog, getState),
+    createProject: effects.createProject(dispatchWithLog, getState),
+    initializeData: effects.initializeData(dispatchWithLog, getState),
   } as DataManagement
 
   return (

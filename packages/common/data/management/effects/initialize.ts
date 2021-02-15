@@ -15,7 +15,6 @@ import { intializeTime } from './time'
  *  - while offline, or failed requests should accumulate
  *  - maybe mark data that has been updated? is dirty
  */
-let num = 0;
 export const initializeData = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
