@@ -6,19 +6,19 @@
 
 - [ ] add data validation in firebase
 - [ ] add types to theme
-- [ ] add stats document
-  - [ ] number of projects
-  - [ ] key for each project with how many intervals it has
+- [x] add stats document
+  - [x] number of projects
+  - [x] key for each project with how many intervals it has
 - [ ] limit the amount of projects per user
 - [ ] limit the amount of intervals in a period of time
 - [ ] when pause is reset, it is changed to interval
 
 **todos**
 
-- [ ] basic input validation on project details
+- [x] basic input validation on project details
 - [ ] design a project card/list view
   - [ ] needs to have all the information
-  - [ ] with a big play button
+  - [x] with a big play button
 
 **UI**
 
@@ -45,8 +45,8 @@
 
 **faze I**
 
-- [ ] organize in projects
-- [ ] custom intervals
+- [x] organize in projects
+- [x] custom intervals
 - [ ] notes on pomodoros and projects
 - [ ] can add notes while the timer is running
 - [ ] able to use it as a fasting timer
@@ -68,8 +68,8 @@
 
 ## bugs
 
-- the animation breaks on window resize
-- the time is wrong when the app is in background
+[x] the animation breaks on window resize
+[x] the time is wrong when the app is in background
 
 ## structure
 
