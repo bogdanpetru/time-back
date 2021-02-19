@@ -34,7 +34,7 @@ const Strawberry: FunctionComponent = memo(() => {
 
   return (
     <>
-      <Wave level={getTimeLeftRatio(strawberry, data.getTime(project.id))} />
+      <Wave level={getTimeLeftRatio(strawberry, time)} />
       <Wrapper title={project?.name}>
         <Timer
           onPauseStart={strawberry?.running ? onPause : onStart}

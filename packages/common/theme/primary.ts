@@ -62,8 +62,15 @@ const loader = {
   background_color: yellow100,
 }
 
+const menu = {
+  background: gray300,
+  color: primary,
+  aciveBackground: highlight,
+}
+
 const common = `
   font-family: 'Inconsolata', monospace;
+  color: ${primary};
 `
 
 const list = {
@@ -98,6 +105,7 @@ const theme = {
   title,
   toast,
   timer,
+  menu,
 }
 
 export default theme

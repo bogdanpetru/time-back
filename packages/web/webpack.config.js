@@ -34,7 +34,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     historyApiFallback: {
-      index: 'index.html',
+      index: '/index.html',
     },
     compress: false,
     port: 3001,
@@ -48,8 +48,8 @@ module.exports = {
       inject: true,
     }),
     new Dotenv(),
-    new WorkboxPlugin.GenerateSW({
-      maximumFileSizeToCacheInBytes: 10 * 1000000
-    })
+    // new WorkboxPlugin.GenerateSW({
+    //   maximumFileSizeToCacheInBytes: 10 * 1000000
+    // })
   ],
 }

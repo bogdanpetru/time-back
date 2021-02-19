@@ -58,6 +58,10 @@ const ProjectList: FunctionComponent = () => {
     history.push(`/strawberry/${projectId}`)
   }
 
+  if (loading) {
+    return <Loader />
+  }
+
   return (
     <DefaultView
       title={t('strawberries')}
@@ -67,7 +71,6 @@ const ProjectList: FunctionComponent = () => {
         </Button>
       }
     >
-      {loading && <Loader />}
       <ProjectListInner>
         {Boolean(projects?.length) &&
           projects.map((project) => (

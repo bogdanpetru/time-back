@@ -9,10 +9,7 @@ const Button = styled.button`
   :active {
     outline: none;
   }
-  :focus {
-    cursor: pointer;
-  }
-
+  cursor: pointer;
   * {
     cursor: pointer;
   }

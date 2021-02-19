@@ -25,7 +25,7 @@ export const getTimeLeftRatio = (
   strawberry: CurrentStrawBerry,
   time: number
 ): number => {
-  let timeSpentRatio: number = null
+  let timeSpentRatio: number = 0
   if (isNumber(strawberry?.size) && isNumber(time)) {
     timeSpentRatio = time / strawberry?.size
   }
@@ -53,6 +53,6 @@ export const getRemainingStrawberryTime = (
   if (isNaN(time)) {
     debugger
   }
-  
+
   return time || 0
 }

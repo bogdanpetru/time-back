@@ -7,9 +7,11 @@ import {
   TransparentButton,
   Footer,
   BackIcon,
-  QuitIcon,
+  MenuItem,
+  Menu,
 } from '@app/components'
 import { signOut } from '@app/data/auth'
+import { t } from '@app/data/intl'
 
 const DefaultViewWrapper = styled.div`
   position: relative;
@@ -20,6 +22,12 @@ const DefaultViewWrapper = styled.div`
 const LogoWrapper = styled.div`
   text-align: center;
   margin-bottom: 30px;
+`
+
+const MenuWrapper = styled.div`
+  position: absolute;
+  top: 24px;
+  right: 0;
 `
 
 const BackButton = styled(TransparentButton)`
@@ -42,8 +50,12 @@ const DefaultView: FunctionComponent<{
   const history = useHistory()
   const isHome = history.location.pathname === '/'
 
-  const logoClick = () => {
+  const goHome = () => {
     history.push('/')
+  }
+
+  const onNewProject = () => {
+    history.push('/new')
   }
 
   const onSignOut = async () => {
@@ -58,11 +70,15 @@ const DefaultView: FunctionComponent<{
           <BackIcon />
         </BackButton>
       )}
-      <SignOutButton onClick={onSignOut}>
-        <QuitIcon />
-      </SignOutButton>
+      <MenuWrapper>
+        <Menu>
+          {!isHome && <MenuItem onClick={goHome}>{t('projects')}</MenuItem>}
+          <MenuItem onClick={onNewProject}>{t('new project')}</MenuItem>
+          <MenuItem onClick={onSignOut}>{t('sign out')}</MenuItem>
+        </Menu>
+      </MenuWrapper>
       <LogoWrapper>
-        <TransparentButton onClick={logoClick}>
+        <TransparentButton onClick={goHome}>
           <LogoText />
         </TransparentButton>
       </LogoWrapper>
