@@ -1,9 +1,9 @@
 import { FunctionComponent, useEffect, useState, memo } from 'react'
 
 import styled from 'styled-components'
+import useWindowSize from '../useWindowSize'
 
 const Wrapper = styled.div`
-  transition: padding-top 2000ms ease;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   left: 0;
   right: 0;
   overflow: hidden;
+  transition: padding-top 2000ms ease, background-color, 2000ms ease;
 `
 
 const Bottom = styled.div`
@@ -147,7 +148,7 @@ const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
     }
 
     setPoints(pointsList)
-  }, [])
+  }, [width])
 
   const paths = points.map((pointsList) =>
     pointsList.map((points) => getWavePath(points, width, height))
@@ -188,21 +189,20 @@ interface WaveProps {
 }
 
 const Wave: FunctionComponent<WaveProps> = memo((props) => {
-  const [width, setWidth] = useState<number>(null)
-
-  useEffect(() => {
-    const width = window.innerWidth
-    setWidth(width)
-  }, [])
+  const { width } = useWindowSize()
 
   if (!width) {
     return <></>
   }
 
+  const colorDelta = 30 - 30 * props.level
+  const backgroundColorList = [255, 250 - colorDelta, 250 - colorDelta]
+
   return (
     <Wrapper
       style={{
         paddingTop: props?.level ? `${props.level * 90}vh` : '90px',
+        backgroundColor: `rgb(${backgroundColorList.join(',')})`,
       }}
     >
       <WaveTop waveNumber={10} width={width} height={300} />
