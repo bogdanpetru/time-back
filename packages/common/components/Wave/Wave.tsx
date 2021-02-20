@@ -248,7 +248,7 @@ const Wave: FunctionComponent<WaveProps> = memo((props) => {
   }
 
   const colorDelta = 30 - 30 * props.level
-  const backgroundColor = getRGB(255, 250 - colorDelta, 250 - colorDelta)
+  const backgroundColor = getRGB(255, 230 - colorDelta, 230 - colorDelta)
   const waveBaseColor: [number, number, number] = [147, 204, 214]
 
   return (

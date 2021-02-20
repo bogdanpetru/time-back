@@ -8,11 +8,13 @@ const gray500 = '#DADADA'
 const yellow100 = '#F8BD00'
 const yellow200 = '#EEB600'
 const red = '#E00202'
+const eggShell = 'rgb(240, 234, 214)'
 
 const primary = darkBlue
 const highlight = yellow100
 const alert = red
 const lowlight = lightBlue
+const appBackground = eggShell
 
 const input = {
   background_active: lowlight,
@@ -69,11 +71,6 @@ const menu = {
   activeBackground: lowlight,
 }
 
-const common = `
-  font-family: 'Inconsolata', monospace;
-  color: ${primary};
-`
-
 const list = {
   fontSize: 24,
   item: {
@@ -92,6 +89,12 @@ const timer = {
   fontSize: 76,
   color: primary,
 }
+
+const common = `
+  font-family: 'Inconsolata', monospace;
+  color: ${primary};
+  background: ${appBackground};
+`
 
 const theme = {
   button,
