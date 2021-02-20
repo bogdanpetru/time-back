@@ -13,6 +13,14 @@ const clamp = (x: number, min: number, max: number): number => {
   return x
 }
 
+const fib = (n: number, memo: { [key: number]: number } = {}): number => {
+  if (n === 1 || n === 2) {
+    return 1
+  }
+  memo[n] = fib(n - 2, memo) + fib(n - 1, memo)
+  return memo[n]
+}
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -153,12 +161,19 @@ const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
   const { height, width, waveNumber } = props
   const [points, setPoints] = useState<number[][][][]>([])
   const individualWaveHegiht = height / waveNumber
+  const max = fib(waveNumber)
 
   useEffect(() => {
     const pointsList = []
     let level = height - individualWaveHegiht
 
+    console.log(level)
+
     for (let i = 1; i < waveNumber; i++) {
+      const coef = fib(waveNumber - i) / max + 0.3
+      const level = coef * height
+      console.log(level)
+
       pointsList.push([
         getWavePoints(
           height,
@@ -182,8 +197,8 @@ const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
           props.betweenPoints
         ),
       ])
-      console.log(level)
-      level -= individualWaveHegiht
+      // console.log(level)
+      // level -= individualWaveHegiht
     }
 
     setPoints(pointsList)
@@ -245,9 +260,9 @@ const Wave: FunctionComponent<WaveProps> = memo((props) => {
     >
       <WaveTop
         colorRGB={waveBaseColor}
-        waveNumber={8}
+        waveNumber={7}
         width={width}
-        height={360}
+        height={330}
         betweenPoints={100}
       />
       <Bottom colorRGB={waveBaseColor} />
