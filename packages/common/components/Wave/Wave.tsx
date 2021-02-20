@@ -3,6 +3,16 @@ import { FunctionComponent, useEffect, useState, memo } from 'react'
 import styled from 'styled-components'
 import useWindowSize from '../useWindowSize'
 
+const clamp = (x: number, min: number, max: number): number => {
+  if (x < min) {
+    return min
+  }
+  if (x > max) {
+    return max
+  }
+  return x
+}
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,13 +25,13 @@ const Wrapper = styled.div`
   transition: padding-top 2000ms ease, background-color, 2000ms ease;
 `
 
-const Bottom = styled.div`
+const Bottom = styled.svg<{ colorRGB: [number, number, number] }>`
   flex: 1;
-  background: #bcf5ff;
+  background: ${(props) => getRGB(...props.colorRGB)};
 `
 
-const randomDelta = (value: number, procent: number = 0.05) => {
-  const delta = value * procent
+const randomDelta = (value: number, procente: number = 0.02) => {
+  const delta = value * procente
   const min = value - delta
   const max = value + delta
   return Math.random() * (max - min) + min
@@ -54,8 +64,6 @@ const getWavePath = (
   return `M ${firstPoint[0]} ${firstPoint[1]} ${path} V ${height} H -${width} Z`
 }
 
-const getY = (y: number, totalHeight: number): number => totalHeight - y
-
 const MIDDLE = 'MIDDLE'
 const TOP = 'TOP'
 const BOTTOM = 'BOTTOM'
@@ -79,41 +87,46 @@ const getWavePoints = (
   totalHeight: number,
   waveHeight: number,
   width: number,
-  level: number
+  level: number,
+  betweenPoints: number
 ): number[][] => {
-  const betweenPoints = randomDelta(100)
-
   const points = []
-  const pattern = getPattern(width, betweenPoints)
+  const offscreen = width * 0.1
+  const pattern = getPattern(width + offscreen, betweenPoints)
 
   const levelY = totalHeight - level
 
-  const getMiddleY = () => randomDelta(levelY - waveHeight / 2)
-  const getBottomY = () => randomDelta(levelY)
-  const getTopY = () => randomDelta(levelY - waveHeight)
+  const getMiddleY = (levelInner: number = levelY): number =>
+    randomDelta(levelInner - waveHeight / 2)
+  const getBottomY = (levelInner: number = levelY): number =>
+    randomDelta(levelInner)
+  const getTopY = (levelInner: number = levelY): number =>
+    randomDelta(levelInner - waveHeight)
 
-  const firstPoint = [randomDelta(-20), getMiddleY()]
+  const firstPoint = [randomDelta(-offscreen, 0.5), getMiddleY(levelY)]
 
+  /**
+   * add curve
+   * sin(0 - pi) - whould give a courve
+   * const coef = sin(width(%) * PI)
+   * const level = level * coef
+   */
   for (let i = 0; i < pattern.length; i++) {
     const previousPoint: any = points.length ? points[i - 1] : firstPoint
+    const x = randomDelta(betweenPoints / 2) + previousPoint[0]
+    const widthRatio = clamp(x / width, 0, 1)
+    const curve = waveHeight * 1.3
+    const localLevel = levelY + curve * Math.sin(widthRatio * Math.PI)
+
     switch (pattern[i]) {
       case MIDDLE:
-        points.push([
-          randomDelta(betweenPoints / 2) + previousPoint[0],
-          getMiddleY(),
-        ])
+        points.push([x, getMiddleY(localLevel)])
         break
       case TOP:
-        points.push([
-          randomDelta(betweenPoints / 2) + previousPoint[0],
-          getTopY(),
-        ])
+        points.push([x, getTopY(localLevel)])
         break
       case BOTTOM:
-        points.push([
-          randomDelta(betweenPoints / 2) + previousPoint[0],
-          getBottomY(),
-        ])
+        points.push([x, getBottomY(localLevel)])
         break
     }
   }
@@ -121,14 +134,20 @@ const getWavePoints = (
   return [firstPoint, ...points]
 }
 
+const getRGB = (
+  red: number,
+  green: number,
+  blue: number,
+  darken: number = 0
+): string => `rgb(${red + darken}, ${green + darken}, ${blue + darken})`
+
 interface WaveTopProps {
   height: number
   width: number
   waveNumber: number
+  colorRGB: [number, number, number]
+  betweenPoints: number
 }
-
-const getRGB = (red: number, green: number, blue: number, darken: number) =>
-  `rgb(${red + darken}, ${green + darken}, ${blue + darken})`
 
 const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
   const { height, width, waveNumber } = props
@@ -138,12 +157,32 @@ const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
   useEffect(() => {
     const pointsList = []
     let level = height - individualWaveHegiht
-    for (let i = 0; i < waveNumber; i++) {
+
+    for (let i = 1; i < waveNumber; i++) {
       pointsList.push([
-        getWavePoints(height, individualWaveHegiht, width, level),
-        getWavePoints(height, individualWaveHegiht, width, level),
-        getWavePoints(height, individualWaveHegiht, width, level),
+        getWavePoints(
+          height,
+          individualWaveHegiht,
+          width,
+          level,
+          props.betweenPoints
+        ),
+        getWavePoints(
+          height,
+          individualWaveHegiht,
+          width,
+          level,
+          props.betweenPoints
+        ),
+        getWavePoints(
+          height,
+          individualWaveHegiht,
+          width,
+          level,
+          props.betweenPoints
+        ),
       ])
+      console.log(level)
       level -= individualWaveHegiht
     }
 
@@ -153,8 +192,6 @@ const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
   const paths = points.map((pointsList) =>
     pointsList.map((points) => getWavePath(points, width, height))
   )
-
-  const startingFill: [number, number, number] = [188, 245, 255]
 
   return (
     <>
@@ -166,7 +203,7 @@ const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
               <path
                 key={key}
                 stroke="transparent"
-                fill={getRGB(...startingFill, darken)}
+                fill={getRGB(...props.colorRGB, darken)}
               >
                 <animate
                   attributeType="XML"
@@ -196,17 +233,24 @@ const Wave: FunctionComponent<WaveProps> = memo((props) => {
   }
 
   const colorDelta = 30 - 30 * props.level
-  const backgroundColorList = [255, 250 - colorDelta, 250 - colorDelta]
+  const backgroundColor = getRGB(255, 250 - colorDelta, 250 - colorDelta)
+  const waveBaseColor: [number, number, number] = [147, 204, 214]
 
   return (
     <Wrapper
       style={{
         paddingTop: props?.level ? `${props.level * 70}vh` : '60px',
-        backgroundColor: `rgb(${backgroundColorList.join(',')})`,
+        backgroundColor: backgroundColor,
       }}
     >
-      <WaveTop waveNumber={10} width={width} height={300} />
-      <Bottom />
+      <WaveTop
+        colorRGB={waveBaseColor}
+        waveNumber={8}
+        width={width}
+        height={360}
+        betweenPoints={100}
+      />
+      <Bottom colorRGB={waveBaseColor} />
     </Wrapper>
   )
 })
