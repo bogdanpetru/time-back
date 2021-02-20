@@ -5,8 +5,8 @@ interface TitleProps {
 }
 
 const Title = styled.h2<TitleProps>`
-  font-size: 24px;
-  margin-bottom: 46px;
+  font-size: 33px;
+  margin-bottom: 66px;
   color: ${(props) => props?.theme?.title?.color};
   ${(props) => (props.center ? 'text-align: center' : '')};
 `

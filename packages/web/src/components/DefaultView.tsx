@@ -49,6 +49,7 @@ const DefaultView: FunctionComponent<{
 }> = (props) => {
   const history = useHistory()
   const isHome = history.location.pathname === '/'
+  const isNew = history.location.pathname === '/new'
 
   const goHome = () => {
     history.push('/')
@@ -72,8 +73,12 @@ const DefaultView: FunctionComponent<{
       )}
       <MenuWrapper>
         <Menu>
-          {!isHome && <MenuItem onClick={goHome}>{t('projects')}</MenuItem>}
-          <MenuItem onClick={onNewProject}>{t('new project')}</MenuItem>
+          <MenuItem isActive={isHome} onClick={goHome}>
+            {t('projects')}
+          </MenuItem>
+          <MenuItem isActive={isNew} onClick={onNewProject}>
+            {t('new project')}
+          </MenuItem>
           <MenuItem onClick={onSignOut}>{t('sign out')}</MenuItem>
         </Menu>
       </MenuWrapper>

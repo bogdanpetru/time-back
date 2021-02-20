@@ -65,7 +65,8 @@ const loader = {
 const menu = {
   background: gray300,
   color: primary,
-  aciveBackground: highlight,
+  hoverBackground: highlight,
+  activeBackground: lowlight,
 }
 
 const common = `
@@ -74,11 +75,11 @@ const common = `
 `
 
 const list = {
-  fontSize: 21,
+  fontSize: 24,
   item: {
     borderColor: gray500,
     color: primary,
-    backgroundHighlight: lowlight,
+    hightlightBackground: highlight,
   },
 }
 

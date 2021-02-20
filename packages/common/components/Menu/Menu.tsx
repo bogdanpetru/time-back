@@ -14,7 +14,7 @@ const MenuBody = styled.div`
   display: flex;
   flex-direction: column;
   background: ${(props) => props?.theme?.menu?.background};
-  width: 133px;
+  width: 200px;
 `
 
 const Menu: FunctionComponent = (props) => {

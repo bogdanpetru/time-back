@@ -27,6 +27,7 @@ const ActionButton = styled(TransparentButton)`
 
 const ProjectListInner = styled(List)`
   min-height: 130px;
+  margin-bottom: 30px;
 `
 
 const ProjectList: FunctionComponent = () => {
@@ -64,7 +65,7 @@ const ProjectList: FunctionComponent = () => {
 
   return (
     <DefaultView
-      title={t('strawberries')}
+      title={t('projects')}
       footer={
         <Button onClick={newProject} primary>
           {t('new project')}

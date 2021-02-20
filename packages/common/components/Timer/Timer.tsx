@@ -13,7 +13,7 @@ import { formatTime } from './utils'
 import TransparentButton from '../TransparentButton'
 
 const Wrapper = styled.div`
-  margin-bottom: 50px;
+  margin-bottom: 80px;
   text-align: center;
 `
 

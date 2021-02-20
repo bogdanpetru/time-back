@@ -201,7 +201,7 @@ const Wave: FunctionComponent<WaveProps> = memo((props) => {
   return (
     <Wrapper
       style={{
-        paddingTop: props?.level ? `${props.level * 90}vh` : '90px',
+        paddingTop: props?.level ? `${props.level * 70}vh` : '60px',
         backgroundColor: `rgb(${backgroundColorList.join(',')})`,
       }}
     >

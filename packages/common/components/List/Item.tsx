@@ -4,9 +4,8 @@ import styled from 'styled-components'
 export const ListItemInner = styled.li`
   position: relative;
   display: flex;
-  height: 45px;
+  height: 55px;
   align-items: center;
-  border-bottom: 1px solid ${(props) => props.theme?.list?.item?.borderColor};
 `
 const Background = styled.div`
   position: absolute;
@@ -14,7 +13,7 @@ const Background = styled.div`
   bottom: 0;
   left: 0;
   z-index: 0;
-  background: ${(props) => props.theme?.list?.item?.backgroundHighlight};
+  background: ${(props) => props.theme?.list?.item?.hightlightBackground};
   transition: width 1s ease;
 `
 
