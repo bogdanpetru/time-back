@@ -19,7 +19,7 @@ export const createProject = (
     id: savedProjectId,
   })
   dispatch({
-    type: ActionTypes.SAVE_PROJECT,
+    type: ActionTypes.ADD_PROJECT,
     project: newProject,
   })
 
@@ -63,5 +63,3 @@ export const getDeleteProject = (dispatch: React.Dispatch<Action>) => (
 
   return api.deleteProject(projectId)
 }
-
-

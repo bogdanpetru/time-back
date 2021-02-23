@@ -47,17 +47,20 @@
 
 - [x] organize in projects
 - [x] custom intervals
-- [ ] notes on pomodoros and projects
-- [ ] can add notes while the timer is running
-- [ ] able to use it as a fasting timer
+- [ ] installable app
+- [ ] sync with watchers
+- [ ] limit number of projects?
+- [ ]
 
 **faze II**
 
 - [ ] allow using the app without logging in
   - [ ] save the data in indexdb or localstorage for web\
-- [ ] logged in with faundadb
 - [ ] require stronger password
 - [ ] server side rendering
+- [ ] able to use it as a fasting timer
+- [ ] can add notes while the timer is running
+  - [ ] define design
 
 **faze III**
 

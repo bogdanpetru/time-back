@@ -67,6 +67,21 @@ export const getProjects = async (): Promise<Project[]> => {
   )
 }
 
+export const listenToProjectUpdates = (
+  subscriber: (data: { type: string; project: Project }) => void
+) => {
+  getProjectsRef().onSnapshot((snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+      const project = mapProject(change.doc.data())
+
+      subscriber({
+        type: change.type,
+        project: mapProject(change.doc.data()),
+      })
+    })
+  })
+}
+
 export const setCurrentStrawberry = async (
   projectId: string,
   strawberry: CurrentStrawBerry
@@ -91,4 +106,3 @@ export const archiveStrawberry = async (
     .collection('strawberries')
     .doc()
     .set(strawberry)
-

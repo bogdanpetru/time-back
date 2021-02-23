@@ -49,7 +49,6 @@ export const updateGlobalProjectSatistics = (project: Project): Project => {
   }
 
   const newStrawberry = getNewStrawberryInterval(project)
-  debugger
   return {
     ...project,
     currentStrawBerry: newStrawberry,

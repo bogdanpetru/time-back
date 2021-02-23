@@ -18,7 +18,7 @@ const MenuBody = styled.div`
 `
 
 const Menu: FunctionComponent = (props) => {
-  const wrapperRef = useRef<Element>()
+  const wrapperRef = useRef<HTMLDivElement>()
   const [isOpen, setIsOpen] = useState(false)
   const handleClick = (event: React.MouseEvent) => {
     event.stopPropagation()

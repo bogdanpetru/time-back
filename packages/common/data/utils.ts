@@ -50,9 +50,5 @@ export const getRemainingStrawberryTime = (
 
   const time = timeLeft - timeFromPreviousStart
 
-  if (isNaN(time)) {
-    debugger
-  }
-
   return time || 0
 }

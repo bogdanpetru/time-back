@@ -4,7 +4,7 @@ import * as api from '@app/data/api'
 import { State } from '../state'
 import { ActionTypes, Action } from '../actions'
 
-import { startMonitoring } from './monitoring'
+import { startMonitoring, keepProjectsUpdated } from './monitoring'
 import { intializeTime } from './time'
 
 /**
@@ -20,6 +20,7 @@ export const initializeData = (
   getState: () => State
 ) => async (): Promise<Project[]> => {
   const state = getState()
+
   if (state.projects.list?.length) {
     return []
   }
@@ -34,6 +35,7 @@ export const initializeData = (
   })
 
   startMonitoring(dispatch, getState)
+  keepProjectsUpdated(dispatch, getState)
 
   return projects
 }

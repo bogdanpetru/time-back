@@ -76,7 +76,7 @@ const MIDDLE = 'MIDDLE'
 const TOP = 'TOP'
 const BOTTOM = 'BOTTOM'
 
-const getPattern = (width: number, betweenPoints: number) => {
+const getPointsPattern = (width: number, betweenPoints: number) => {
   const pattern = [TOP, MIDDLE, BOTTOM, MIDDLE]
   const numOfPoints = Math.ceil(width / betweenPoints) * 2
 
@@ -100,7 +100,7 @@ const getWavePoints = (
 ): number[][] => {
   const points = []
   const offscreen = width * 0.1
-  const pattern = getPattern(width + offscreen, betweenPoints)
+  const pattern = getPointsPattern(width + offscreen, betweenPoints)
 
   const levelY = totalHeight - level
 
@@ -123,7 +123,7 @@ const getWavePoints = (
     const previousPoint: any = points.length ? points[i - 1] : firstPoint
     const x = randomDelta(betweenPoints / 2) + previousPoint[0]
     const widthRatio = clamp(x / width, 0, 1)
-    const curve = waveHeight * 1.3
+    const curve = waveHeight * 1.7
     const localLevel = levelY + curve * Math.sin(widthRatio * Math.PI)
 
     switch (pattern[i]) {
@@ -167,13 +167,9 @@ const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
     const pointsList = []
     let level = height - individualWaveHegiht
 
-    console.log(level)
-
     for (let i = 1; i < waveNumber; i++) {
       const coef = fib(waveNumber - i) / max + 0.3
       const level = coef * height
-      console.log(level)
-
       pointsList.push([
         getWavePoints(
           height,
@@ -197,8 +193,6 @@ const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
           props.betweenPoints
         ),
       ])
-      // console.log(level)
-      // level -= individualWaveHegiht
     }
 
     setPoints(pointsList)
@@ -213,7 +207,7 @@ const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
       {Boolean(paths.length) && (
         <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
           {paths.map((pathsItem, key) => {
-            const darken = (paths.length - (key + 1)) * 8
+            const darken = (paths.length - (key + 1)) * 7
             return (
               <path
                 key={key}

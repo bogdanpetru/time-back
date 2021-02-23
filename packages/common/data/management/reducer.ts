@@ -59,7 +59,7 @@ const reducer: Reducer = (state: State, action: Action): State => {
           }),
         },
       }
-    case ActionTypes.SAVE_PROJECT:
+    case ActionTypes.ADD_PROJECT:
       return {
         ...state,
         projects: {

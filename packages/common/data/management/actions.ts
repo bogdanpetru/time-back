@@ -3,7 +3,7 @@ import { Project, CurrentStrawBerry } from '../interface'
 export enum ActionTypes {
   SET_PROJECTS = 'SET_PROJECTS',
   SET_STRAWBERRY = 'SET_STRAWBERRY',
-  SAVE_PROJECT = 'SAVE_PROJECT',
+  ADD_PROJECT = 'ADD_PROJECT',
   EDIT_PROJECT = 'EDIT_PROJECT',
   DELETE_PROJECT = 'DELETE_PROJECT',
   UPATE_TIME = 'UPATE_TIME',
@@ -28,7 +28,7 @@ export type Action =
       projects: Project[]
     }
   | {
-      type: ActionTypes.SAVE_PROJECT
+      type: ActionTypes.ADD_PROJECT
       project: Project
     }
   | {

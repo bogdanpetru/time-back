@@ -64,3 +64,34 @@ export const startMonitoring = (
   keepProjectsUpToDate(dispatch, getState) // start by updating
   timeService.subscribe(keepProjectsUpToDate(dispatch, getState))
 }
+
+export const keepProjectsUpdated = (
+  dispatch: React.Dispatch<Action>,
+  getState: () => State
+) => {
+  api.listenToProjectUpdates(({ project, type }) => {
+    switch (type) {
+      case 'added':
+        const isNew = !selectors.getProject(getState(), project?.id)
+        if (project?.id && isNew) {
+          dispatch({
+            type: ActionTypes.ADD_PROJECT,
+            project,
+          })
+        }
+        break
+      case 'modified':
+        dispatch({
+          type: ActionTypes.EDIT_PROJECT,
+          project,
+        })
+        break
+      case 'removed':
+        dispatch({
+          type: ActionTypes.DELETE_PROJECT,
+          projectId: project.id,
+        })
+        break
+    }
+  })
+}
