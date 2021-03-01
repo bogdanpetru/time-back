@@ -11,7 +11,7 @@
   - [x] key for each project with how many intervals it has
 - [ ] limit the amount of projects per user
 - [ ] limit the amount of intervals in a period of time
-- [ ] when pause is reset, it is changed to interval
+- [x] when pause is reset, it is changed to interval
 
 **todos**
 
@@ -28,6 +28,7 @@
 **before publish**
 
 - [ ] add firebase security rules
+  - [ ] unit tests
 - [ ] disable project
 - [ ] create new project (so the keys were not compromised)
 
@@ -152,6 +153,7 @@ Naming:
 
 - one thing to export, default export
 - multiple, always named, no namespaces
+  - for multiple exports, always import under a namepsace using '\* as module'
 
 #### destructuring
 

@@ -12,7 +12,7 @@ let subscribers: Subscriber[] = []
 
 let isTicking = false
 
-function tick() {
+const tick = () => {
   setTimeout(() => {
     const now = nowInSeconds()
     for (const subscriber of subscribers) {
@@ -22,7 +22,7 @@ function tick() {
   }, 1000)
 }
 
-export function subscribe(subscriber: Subscriber): Unsubscribe {
+export const subscribe = (subscriber: Subscriber): Unsubscribe => {
   startTicking()
 
   subscribers.push(subscriber)
@@ -31,7 +31,7 @@ export function subscribe(subscriber: Subscriber): Unsubscribe {
   }
 }
 
-export function startTicking() {
+export const startTicking = () => {
   if (isTicking) {
     return
   } else {

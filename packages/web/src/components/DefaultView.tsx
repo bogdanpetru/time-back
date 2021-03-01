@@ -10,7 +10,7 @@ import {
   MenuItem,
   Menu,
 } from '@app/components'
-import { signOut } from '@app/data/auth'
+import { signOut } from '@app/api/auth'
 import { t } from '@app/data/intl'
 
 const DefaultViewWrapper = styled.div`

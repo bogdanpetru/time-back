@@ -1,10 +1,13 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-import invariant from 'invariant'
 
-import { ProjectDescription, Project, CurrentStrawBerry } from './interface'
+import {
+  ProjectDescription,
+  Project,
+  CurrentStrawBerry,
+} from '@app/data/interface'
 
-import { mapProject } from './map'
+import { mapProject } from '@app/data/map'
 
 const getDb = () => firebase.firestore()
 
@@ -76,7 +79,7 @@ export const listenToProjectUpdates = (
 
       subscriber({
         type: change.type,
-        project: mapProject(change.doc.data()),
+        project,
       })
     })
   })

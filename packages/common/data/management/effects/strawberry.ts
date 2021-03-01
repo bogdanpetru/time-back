@@ -1,5 +1,5 @@
 import { nowInSeconds, addArray, compose } from '@app/utils'
-import * as api from '@app/data/api'
+import * as api from '@app/api'
 import { mapStrawberry } from '@app/data/map'
 import * as builders from '../builders'
 import { State } from '../state'

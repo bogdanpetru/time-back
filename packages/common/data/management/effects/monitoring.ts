@@ -1,11 +1,10 @@
-import * as api from '@app/data/api'
+import * as api from '@app/api'
 import * as timeService from '@app/services/time'
 import * as builders from '../builders'
 import { State } from '../state'
 import { getRemainingStrawberryTime } from '@app/data/utils'
 import { ActionTypes, Action } from '../actions'
 
-import { compose } from '@app/utils'
 import * as selectors from '../selectors'
 export const keepProjectsUpToDate = (
   dispatch: React.Dispatch<Action>,

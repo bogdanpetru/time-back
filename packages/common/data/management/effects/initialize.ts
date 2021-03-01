@@ -1,5 +1,5 @@
 import { Project } from '@app/data/interface'
-import * as api from '@app/data/api'
+import * as api from '@app/api'
 
 import { State } from '../state'
 import { ActionTypes, Action } from '../actions'

@@ -40,6 +40,7 @@ const reducer: Reducer = (state: State, action: Action): State => {
             if (project.id === action.projectId) {
               let statistics = project.statistics
               if (action.today) {
+                // TODO: delete this
                 statistics = {
                   ...statistics,
                   today: {

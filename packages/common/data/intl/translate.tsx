@@ -1,3 +1,1 @@
-export function t(key: string): string {
-  return key;
-}
+export const t = (key: string): string => key

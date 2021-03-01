@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 import { Route, Redirect, RouteProps } from 'react-router-dom'
-import { isUserSignedIn } from '@app/data/auth'
+import { isUserSignedIn } from '@app/api/auth'
 
 interface ProtectedRouteProps extends RouteProps {
   children: React.ReactNode

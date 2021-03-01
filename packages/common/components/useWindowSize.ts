@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import throttle from 'lodash.throttle'
 
-export default function useWindowSize() {
+const useWindowSize = () => {
   const [{ width, height }, setSize] = useState<{
     width: number
     height: number
@@ -25,3 +25,5 @@ export default function useWindowSize() {
 
   return { width, height }
 }
+
+export default useWindowSize

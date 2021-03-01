@@ -18,7 +18,7 @@ import {
   signInWithGoogle,
   signUpWithEmail,
   signInWithEmail,
-} from '@app/data/auth'
+} from '@app/api/auth'
 
 const Wrapper = styled.div`
   position: relative;
@@ -88,10 +88,7 @@ const Auth: FunctionComponent = () => {
   }
 
   const handleSignUp = (
-    signUpFn: (
-      email: string,
-      password: string
-    ) => Promise<any>
+    signUpFn: (email: string, password: string) => Promise<any>
   ) => async () => {
     setSignInLoading(true)
     try {

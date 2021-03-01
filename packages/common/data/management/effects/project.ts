@@ -1,7 +1,6 @@
-import * as api from '@app/data/api'
+import * as api from '@app/api'
 import { Project, ProjectDescription } from '@app/data/interface'
 import { mapProject } from '@app/data/map'
-import { getRemainingStrawberryTime } from '@app/data/utils'
 import { State } from '../state'
 import { ActionTypes, Action } from '../actions'
 import * as selectors from '../selectors'

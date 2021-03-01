@@ -1,0 +1,28 @@
+rules_version = '2';
+service cloud.firestore {
+	match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      match /projects/{projectId} {
+        allow read: if true;
+
+        allow update: if (
+          if request.resource.data.name is string ||
+          if request.resource.data.strawberrySize is number || 
+          if request.resource.data.breakSize is number ||  
+          if request.resource.data.description is string
+        )
+
+        allow create: if (
+          request.resource.data.name is string &&
+          request.resource.data.strawberrySize is number &&
+          request.resource.data.numberOfStrawberries is number &&
+          request.resource.data.breakSize is number &&
+          request.resource.data.description is string &&
+          request.resource.data.description is string 
+        )
+      }
+    }    
+  }
+}

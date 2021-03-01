@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
 import { primary } from '@app/theme'
-import { useAuth } from '@app/data/auth'
+import { useAuth } from '@app/api/auth'
 import DataProvider from '@app/data/management/provider'
 import { Loader, ToastContainer } from '@app/components'
 
