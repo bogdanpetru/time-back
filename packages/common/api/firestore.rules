@@ -8,10 +8,10 @@ service cloud.firestore {
         allow read: if true;
 
         allow update: if (
-          if request.resource.data.name is string ||
-          if request.resource.data.strawberrySize is number || 
-          if request.resource.data.breakSize is number ||  
-          if request.resource.data.description is string
+          request.resource.data.name is string ||
+          request.resource.data.strawberrySize is number || 
+          request.resource.data.breakSize is number ||  
+          request.resource.data.description is string
         )
 
         allow create: if (
@@ -19,8 +19,7 @@ service cloud.firestore {
           request.resource.data.strawberrySize is number &&
           request.resource.data.numberOfStrawberries is number &&
           request.resource.data.breakSize is number &&
-          request.resource.data.description is string &&
-          request.resource.data.description is string 
+          request.resource.data.description is string
         )
       }
     }    
