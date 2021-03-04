@@ -7,20 +7,27 @@ service cloud.firestore {
       match /projects/{projectId} {
         allow read: if true;
 
-        allow update: if (
-          request.resource.data.name is string ||
-          request.resource.data.strawberrySize is number || 
-          request.resource.data.breakSize is number ||  
-          request.resource.data.description is string
-        )
+        allow create: if areFieldsValidForCreate(request.resource.data);
+        allow update: if areFieldsValidForUpdate(request.resource.data);
 
-        allow create: if (
-          request.resource.data.name is string &&
-          request.resource.data.strawberrySize is number &&
-          request.resource.data.numberOfStrawberries is number &&
-          request.resource.data.breakSize is number &&
-          request.resource.data.description is string
-        )
+        function areFieldsValidForCreate(document) {
+          return document.name is string &&
+            document.strawberrySize is number &&
+            document.numberOfStrawberries is number &&
+            document.breakSize is number &&
+            document.description is string;
+        }
+        function areFieldsValidForUpdate(doc) {
+          return doc.keys().hasAny([
+            'name', 'strawberrySize', 'numberOfStrawberries', 'breakSize', 'description'
+          ]) && (
+            doc.get('name', '') is string &&
+            doc.get('strawberrySize', 0) is number &&
+            doc.get('numberOfStrawberries', 0) is number &&
+            doc.get('breakSize', 0) is number &&
+            doc.get('description', '') is string
+          );
+        }
       }
     }    
   }

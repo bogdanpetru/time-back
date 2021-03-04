@@ -5,6 +5,7 @@ import {
   clearFirestoreData,
   initializeAdminApp,
 } from '@firebase/rules-unit-testing'
+import { getProjectsRef } from './api'
 
 const PROJECT_ID = 'pomodoro-like-app'
 const userId = 'some-id'
@@ -14,6 +15,7 @@ const db = initializeTestApp({
     uid: userId,
   },
 }).firestore()
+
 const dbAdmin = initializeAdminApp({
   projectId: PROJECT_ID,
 }).firestore()
@@ -21,8 +23,26 @@ const dbAdmin = initializeAdminApp({
 const getProjectsDoc = () =>
   db.collection('users').doc(userId).collection('projects')
 
-afterAll(() => {
-  clearFirestoreData({
+const addDummyProject = () =>
+  dbAdmin
+    .collection('users')
+    .doc(userId)
+    .collection('projects')
+    .doc('project-id')
+    .set({
+      name: 'string',
+      strawberrySize: 0,
+      breakSize: 0,
+      description: 'description',
+    })
+
+afterAll(async () => {
+  await clearFirestoreData({
+    projectId: PROJECT_ID,
+  })
+})
+beforeEach(async () => {
+  await clearFirestoreData({
     projectId: PROJECT_ID,
   })
 })
@@ -45,39 +65,40 @@ describe('api', () => {
     ['breakSize', 3, 'string'],
     ['description', 'string', 3],
   ])('Can set %s as %s but not as %s', async (name, value, nonValidType) => {
-    await dbAdmin
-      .collection('users')
-      .doc(userId)
-      .collection('projects')
-      .doc('project-id')
-      .set({
-        name: 'string',
-        strawberrySize: 0,
-        breakSize: 0,
-        description: 'description',
-      })
+    await addDummyProject()
 
     await assertSucceeds(
       getProjectsDoc()
         .doc('project-id')
-        .set({
+        .update({
           [name]: value,
         })
     )
-
     await assertFails(
       getProjectsDoc()
         .doc('project-id')
-        .set({
+        .update({
           [name]: nonValidType,
         })
     )
   })
 
-  it("Can't update project-valid properties", async () => {
+  it("Can't update project-non-valid properties", async () => {
+    await addDummyProject()
     await assertFails(
-      getProjectsDoc().doc('project-id').set({
-        'non-valid-prop': 'not-valid',
+      getProjectsDoc().doc('project-id').update({
+        doesNotExist: 'no-valid-value',
+      })
+    )
+  })
+
+  xit('Can create project without optional fields', async () => {
+    await assertSucceeds(
+      getProjectsDoc().doc().set({
+        name: 'string',
+        strawberrySize: 0,
+        breakSize: 0,
+        description: 'description',
       })
     )
   })
