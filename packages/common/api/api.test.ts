@@ -5,7 +5,6 @@ import {
   clearFirestoreData,
   initializeAdminApp,
 } from '@firebase/rules-unit-testing'
-import { getProjectsRef } from './api'
 
 const PROJECT_ID = 'pomodoro-like-app'
 const userId = 'some-id'
@@ -30,10 +29,11 @@ const addDummyProject = () =>
     .collection('projects')
     .doc('project-id')
     .set({
-      name: 'string',
-      strawberrySize: 0,
-      breakSize: 0,
-      description: 'description',
+      name: 'old project',
+      strawberrySize: 20,
+      numberOfStrawberries: 30,
+      breakSize: 30,
+      description: 'old project description',
     })
 
 afterAll(async () => {
@@ -42,9 +42,9 @@ afterAll(async () => {
   })
 })
 beforeEach(async () => {
-  await clearFirestoreData({
-    projectId: PROJECT_ID,
-  })
+  // await clearFirestoreData({
+  //   projectId: PROJECT_ID,
+  // })
 })
 
 describe('api', () => {
@@ -58,9 +58,8 @@ describe('api', () => {
       db.collection('users').doc(userId).collection('not-projects').get()
     )
   })
-
   it.each([
-    ['name', 'string', 3],
+    ['name', 'str-value', 3],
     ['strawberrySize', 3, 'string'],
     ['breakSize', 3, 'string'],
     ['description', 'string', 3],
@@ -92,7 +91,7 @@ describe('api', () => {
     )
   })
 
-  xit('Can create project without optional fields', async () => {
+  it('Can create project without optional fields', async () => {
     await assertSucceeds(
       getProjectsDoc().doc().set({
         name: 'string',

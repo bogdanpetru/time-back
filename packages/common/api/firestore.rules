@@ -6,26 +6,17 @@ service cloud.firestore {
 
       match /projects/{projectId} {
         allow read: if true;
+        allow create: if checkTypes(request.resource.data, resource.data);
+        allow update: if checkTypes(request.resource.data, resource.data);
 
-        allow create: if areFieldsValidForCreate(request.resource.data);
-        allow update: if areFieldsValidForUpdate(request.resource.data);
-
-        function areFieldsValidForCreate(document) {
-          return document.name is string &&
-            document.strawberrySize is number &&
-            document.numberOfStrawberries is number &&
-            document.breakSize is number &&
-            document.description is string;
-        }
-        function areFieldsValidForUpdate(doc) {
-          return doc.keys().hasAny([
-            'name', 'strawberrySize', 'numberOfStrawberries', 'breakSize', 'description'
-          ]) && (
-            doc.get('name', '') is string &&
-            doc.get('strawberrySize', 0) is number &&
-            doc.get('numberOfStrawberries', 0) is number &&
-            doc.get('breakSize', 0) is number &&
-            doc.get('description', '') is string
+        function checkTypes(next, current) {
+          let allowedKeys = ['name', 'strawberrySize', 'numberOfStrawberries', 'breakSize', 'description'];
+          return next.diff(current).affectedKeys().hasOnly(allowedKeys) && (
+            ('name' in next && next.name is string) &&
+            ('strawberrySize' in next && next.strawberrySize is number) &&
+            ('numberOfStrawberries' in next && next.numberOfStrawberries is number) &&
+            ('breakSize' in next && next.breakSize is number) &&
+            ('description' in next && next.description is string)
           );
         }
       }
