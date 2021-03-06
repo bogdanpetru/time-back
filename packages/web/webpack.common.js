@@ -6,7 +6,6 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
-  devtool: 'inline-source-map',
   module: {
     rules: [
       {
@@ -27,26 +26,16 @@ module.exports = {
     },
   },
   output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
-  },
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    historyApiFallback: {
-      index: '/index.html',
-    },
-    compress: false,
-    port: 3001,
+    filename: 'bundle.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
+      template: './public/index.html',
     }),
-    new FaviconsWebpackPlugin({
-      logo: './favicon/favicon-32x32.png',
-      inject: true,
-    }),
+    // new FaviconsWebpackPlugin({
+    //   logo: './favicon/favicon-32x32.png',
+    //   inject: true,
+    // }),
     new Dotenv(),
     // new WorkboxPlugin.GenerateSW({
     //   maximumFileSizeToCacheInBytes: 10 * 1000000

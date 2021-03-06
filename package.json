@@ -11,6 +11,8 @@
   "license": "MIT",
   "scripts": {
     "reset": "find . -type d -name 'node_modules' -exec rm -r {} +  && yarn",
-    "start": "yarn workspace @app/web start"
+    "start": "yarn workspace @app/web start",
+    "build": "yarn workspace @app/web build",
+    "deploy": "yarn workspace @app/web deploy"
   }
 }

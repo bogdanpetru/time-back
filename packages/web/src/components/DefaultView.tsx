@@ -27,19 +27,13 @@ const LogoWrapper = styled.div`
 const MenuWrapper = styled.div`
   position: absolute;
   top: 24px;
-  right: 0;
+  right: 5px;
 `
 
 const BackButton = styled(TransparentButton)`
   position: absolute;
   top: 24px;
-  left: 0;
-`
-
-const SignOutButton = styled(TransparentButton)`
-  position: absolute;
-  top: 24px;
-  right: 0;
+  left: 5px;
 `
 
 const DefaultView: FunctionComponent<{
