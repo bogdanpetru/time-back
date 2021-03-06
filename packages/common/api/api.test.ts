@@ -101,4 +101,13 @@ describe('api', () => {
       })
     )
   })
+
+  it("Can't create project with invalid fields", async () => {
+    await assertFails(
+      getProjectsDoc().doc().set({
+        name: 'cool project',
+        customProp: 'not-a-valid-prop',
+      })
+    )
+  })
 })

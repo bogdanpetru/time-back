@@ -6,17 +6,33 @@ service cloud.firestore {
 
       match /projects/{projectId} {
         allow read: if true;
-        allow create: if checkTypes(request.resource.data, resource.data);
-        allow update: if checkTypes(request.resource.data, resource.data);
+        allow create: if checkTypesForCreate(request.resource.data);
+        allow update: if checkTypesForUpdate(request.resource.data, resource.data);
 
-        function checkTypes(next, current) {
-          let allowedKeys = ['name', 'strawberrySize', 'numberOfStrawberries', 'breakSize', 'description'];
-          return next.diff(current).affectedKeys().hasOnly(allowedKeys) && (
-            ('name' in next && next.name is string) &&
-            ('strawberrySize' in next && next.strawberrySize is number) &&
-            ('numberOfStrawberries' in next && next.numberOfStrawberries is number) &&
-            ('breakSize' in next && next.breakSize is number) &&
-            ('description' in next && next.description is string)
+
+        function checkTypesForUpdate(next, current) {
+          return hasOnlyAllowedFieldsForUpdate(next, current) && hasCorrectTypes(next);
+        }
+
+        function checkTypesForCreate(next) {
+          return next.keys().hasOnly(getAllowedTypes()) && hasCorrectTypes(next);
+        }
+
+        function hasOnlyAllowedFieldsForUpdate(next, current) {     
+          return next.diff(current).affectedKeys().hasOnly(getAllowedTypes())
+        }
+
+        function getAllowedTypes() {
+          return ['name', 'strawberrySize', 'numberOfStrawberries', 'breakSize', 'description'];
+        }
+
+        function hasCorrectTypes(next) {
+          return (
+            ('name' in next ? next.name is string : true) &&
+            ('strawberrySize' in next ? next.strawberrySize is number : true) &&
+            ('numberOfStrawberries' in next ? next.numberOfStrawberries is number : true) &&
+            ('breakSize' in next ? next.breakSize is number : true) &&
+            ('description' in next ? next.description is string : true)
           );
         }
       }
