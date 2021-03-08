@@ -17,6 +17,19 @@ import {
 } from '@app/components'
 import DefaultView from '@app/web/components/DefaultView'
 
+const Statistics = styled.div`
+  margin-right: 20px;
+  display: flex;
+  max-width: 120px;
+  flex-direction: column;
+`
+
+const StatisticsItem = styled.div`
+  font-size: ${(props) => props.theme?.projectsList?.statistics?.fontSize}px;
+  font-weight: ${(props) =>
+    props.theme?.projectsList?.statistics?.fontWeight}; ;
+`
+
 const ActionButton = styled(TransparentButton)`
   padding: 0 10px;
   height: 100%;
@@ -28,6 +41,7 @@ const ActionButton = styled(TransparentButton)`
 const ProjectListInner = styled(List)`
   min-height: 130px;
   margin-bottom: 30px;
+  color: ${(props) => props.theme?.projectsList?.color};
 `
 
 const ProjectList: FunctionComponent = () => {
@@ -85,6 +99,18 @@ const ProjectList: FunctionComponent = () => {
             >
               {project.name}
               <Spacer />
+              <Statistics>
+                {project?.statistics?.totalStrawberries && (
+                  <StatisticsItem>
+                    total: {project.statistics.totalStrawberries}
+                  </StatisticsItem>
+                )}
+
+                <StatisticsItem>
+                  today: {project.statistics.today.completedStrawberries}/
+                  {project.numberOfStrawberries}
+                </StatisticsItem>
+              </Statistics>
               <ActionButton
                 title={t('edit project')}
                 onClick={handleEdit(project.id)}

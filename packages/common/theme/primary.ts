@@ -96,6 +96,14 @@ const common = `
   background: ${appBackground};
 `
 
+const projectsList = {
+  color: primary,
+  statistics: {
+    fontWeight: 600,
+    fontSize: 16,
+  },
+}
+
 const theme = {
   button,
   common,
@@ -110,6 +118,7 @@ const theme = {
   toast,
   timer,
   menu,
+  projectsList,
 }
 
 export default theme
