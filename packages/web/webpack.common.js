@@ -26,19 +26,21 @@ module.exports = {
     },
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/'
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
-    // new FaviconsWebpackPlugin({
-    //   logo: './favicon/favicon-32x32.png',
-    //   inject: true,
-    // }),
+    new FaviconsWebpackPlugin({
+      logo: './favicon/favicon-32x32.png',
+      inject: true,
+    }),
     new Dotenv(),
-    // new WorkboxPlugin.GenerateSW({
-    //   maximumFileSizeToCacheInBytes: 10 * 1000000
-    // })
+    new WorkboxPlugin.GenerateSW({
+      maximumFileSizeToCacheInBytes: 10 * 1000000
+    })
   ],
 }

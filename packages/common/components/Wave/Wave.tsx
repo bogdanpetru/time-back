@@ -123,7 +123,9 @@ const getWavePoints = (
     const previousPoint: any = points.length ? points[i - 1] : firstPoint
     const x = randomDelta(betweenPoints / 2) + previousPoint[0]
     const widthRatio = clamp(x / width, 0, 1)
-    const curve = waveHeight * 1.7
+
+    // smaller width, smaller curve
+    const curve = (width * 1.2) / (waveHeight * 1.7)
     const localLevel = levelY + curve * Math.sin(widthRatio * Math.PI)
 
     switch (pattern[i]) {
@@ -165,7 +167,6 @@ const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
 
   useEffect(() => {
     const pointsList = []
-    let level = height - individualWaveHegiht
 
     for (let i = 1; i < waveNumber; i++) {
       const coef = fib(waveNumber - i) / max + 0.3
