@@ -14,7 +14,7 @@ const clamp = (x: number, min: number, max: number): number => {
 }
 
 const fib = (n: number, memo: { [key: number]: number } = {}): number => {
-  if (n === 1 || n === 2) {
+  if (n === 0 || n === 1 || n === 2) {
     return 1
   }
   memo[n] = fib(n - 2, memo) + fib(n - 1, memo)
@@ -99,7 +99,7 @@ const getWavePoints = (
   betweenPoints: number
 ): number[][] => {
   const points = []
-  const offscreen = width * 0.1
+  const offscreen = width * 0.2
   const pattern = getPointsPattern(width + offscreen, betweenPoints)
 
   const levelY = totalHeight - level
@@ -125,7 +125,7 @@ const getWavePoints = (
     const widthRatio = clamp(x / width, 0, 1)
 
     // smaller width, smaller curve
-    const curve = (width * 1.2) / (waveHeight * 1.7)
+    const curve = (width * 1.3) / (waveHeight * 1.7)
     const localLevel = levelY + curve * Math.sin(widthRatio * Math.PI)
 
     switch (pattern[i]) {
@@ -170,7 +170,7 @@ const WaveTop: FunctionComponent<WaveTopProps> = memo((props) => {
 
     for (let i = 1; i < waveNumber; i++) {
       const coef = fib(waveNumber - i) / max + 0.3
-      const level = coef * height
+      const level = coef * height * 0.9
       pointsList.push([
         getWavePoints(
           height,

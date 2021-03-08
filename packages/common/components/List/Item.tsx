@@ -6,6 +6,7 @@ export const ListItemInner = styled.li`
   display: flex;
   height: 55px;
   align-items: center;
+  padding: 0 5px;
 `
 const Background = styled.div`
   position: absolute;

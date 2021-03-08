@@ -6,6 +6,7 @@ import { State } from '../state'
 import { ActionTypes, Action } from '../actions'
 import * as selectors from '../selectors'
 import { CurrentStrawBerry } from '../../interface'
+import syncProjects from './syncProjects'
 
 export const resetStrawberry = (
   dispatch: React.Dispatch<Action>,

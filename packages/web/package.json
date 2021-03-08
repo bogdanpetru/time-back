@@ -24,6 +24,7 @@
     "@typescript-eslint/parser": "4.13.0",
     "dotenv-webpack": "6.0.0",
     "eslint": "7.17.0",
+    "favicons": "^6.2.1",
     "favicons-webpack-plugin": "5.0.2",
     "file-loader": "6.2.0",
     "html-webpack-plugin": "^5.2.0",
