@@ -31,7 +31,7 @@ export const updateStatisticsOnStrawberryFinish = (
 
   return {
     ...project,
-    statistics: statistics,
+    statistics,
   }
 }
 

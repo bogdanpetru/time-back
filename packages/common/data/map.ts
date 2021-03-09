@@ -22,7 +22,7 @@ export const mapProject = (data: any): Project =>
     strawberrySize: data.strawberrySize,
     breakSize: parseInt(data.breakSize, 10),
     description: data.description,
-    numberOfStrawberries: data.numberOfStrawberries,
+    numberOfStrawberries: parseInt(data.numberOfStrawberries, 10) || 0,
     strawberries: data.strawberries,
     currentStrawBerry: mapStrawberry(
       data.currentStrawBerry || {
