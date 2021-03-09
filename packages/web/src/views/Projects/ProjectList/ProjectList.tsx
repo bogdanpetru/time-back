@@ -100,15 +100,15 @@ const ProjectList: FunctionComponent = () => {
               {project.name}
               <Spacer />
               <Statistics>
-                {project?.statistics?.totalStrawberries && (
-                  <StatisticsItem>
-                    total: {project.statistics.totalStrawberries}
-                  </StatisticsItem>
-                )}
-
                 <StatisticsItem>
-                  today: {project.statistics.today.completedStrawberries}/
-                  {project.numberOfStrawberries}
+                  {t('total')}: {project.statistics.totalStrawberries}
+                </StatisticsItem>
+                <StatisticsItem>
+                  {t('today')}: {project.statistics.today.completedStrawberries}
+                  /{project.numberOfStrawberries}
+                </StatisticsItem>
+                <StatisticsItem>
+                  {t('goals')}: {project.statistics.numberOfDailyCompletedGoals}
                 </StatisticsItem>
               </Statistics>
               <ActionButton

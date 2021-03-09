@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import {
   LogoText,
   Title,
@@ -44,6 +44,8 @@ const DefaultView: FunctionComponent<{
   const history = useHistory()
   const isHome = history.location.pathname === '/'
   const isNew = history.location.pathname === '/new'
+  const isStrawberry = history.location.pathname.includes('strawberry')
+  const params = useParams<{ projectId: string }>()
 
   const goHome = () => {
     history.push('/')
@@ -58,6 +60,10 @@ const DefaultView: FunctionComponent<{
     history.push('/login')
   }
 
+  const onEdit = () => {
+    history.push(`/project/${params.projectId}`)
+  }
+
   return (
     <DefaultViewWrapper className={props.className}>
       {!isHome && (
@@ -70,9 +76,16 @@ const DefaultView: FunctionComponent<{
           <MenuItem isActive={isHome} onClick={goHome}>
             {t('projects')}
           </MenuItem>
-          <MenuItem isActive={isNew} onClick={onNewProject}>
-            {t('new project')}
-          </MenuItem>
+          {isStrawberry && (
+            <MenuItem isActive={isNew} onClick={onEdit}>
+              {t('edit project')}
+            </MenuItem>
+          )}
+          {!isNew && (
+            <MenuItem isActive={isNew} onClick={onNewProject}>
+              {t('new project')}
+            </MenuItem>
+          )}
           <MenuItem onClick={onSignOut}>{t('sign out')}</MenuItem>
         </Menu>
       </MenuWrapper>

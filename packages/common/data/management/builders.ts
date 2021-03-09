@@ -24,6 +24,11 @@ export const updateStatisticsOnStrawberryFinish = (
     totalStrawberries: (project.statistics.totalStrawberries || 0) + 1,
   }
 
+  if (statistics.today.completedStrawberries === project.numberOfStrawberries) {
+    statistics.numberOfDailyCompletedGoals =
+      (statistics?.numberOfDailyCompletedGoals || 0) + 1
+  }
+
   return {
     ...project,
     statistics: statistics,

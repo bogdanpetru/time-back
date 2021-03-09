@@ -35,7 +35,7 @@ module.exports = {
       template: './public/index.html',
     }),
     new FaviconsWebpackPlugin({
-      logo: './favicon/favicon-32x32.png',
+      logo: './favicon/android-chrome-512x512.png',
       inject: true,
     }),
     new Dotenv(),

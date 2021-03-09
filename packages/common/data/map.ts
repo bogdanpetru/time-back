@@ -37,5 +37,7 @@ export const mapProject = (data: any): Project =>
           data?.statistics?.today?.completedStrawberries || 0,
       },
       totalStrawberries: data?.statistics?.totalStrawberries || 0,
+      numberOfDailyCompletedGoals:
+        data?.statistics?.numberOfDailyCompletedGoals || 0,
     },
   })

@@ -89,16 +89,19 @@ const CreateProject: FunctionComponent<CreateProjectProps> = (props) => {
     <DefaultView title={title}>
       <form onSubmit={form.onSubmit}>
         <Input autofocus {...form.inputs.name} label={t('name')} />
-        <Input {...form.inputs.strawberrySize} label={t('size')} />
+        <Input
+          {...form.inputs.strawberrySize}
+          label={t('interval size (seconds)')}
+        />
         <Input
           {...form.inputs.numberOfStrawberries}
-          label={t('number')}
+          label={t('how many to complete in a day')}
           type="number"
         />
         <Input
           {...form.inputs.breakSize}
           type="number"
-          label={t('break size')}
+          label={t('break size (seconds)')}
         />
         <Input
           {...form.inputs.description}
