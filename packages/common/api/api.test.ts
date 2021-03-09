@@ -110,4 +110,39 @@ describe('api', () => {
       })
     )
   })
+
+  it('Can create a project with a current straberry', async () => {
+    await assertSucceeds(
+      getProjectsDoc()
+        .doc()
+        .set({
+          name: 'cool project',
+          currentStrawberry: {
+            size: 20,
+            timeSpent: [],
+            startTime: [],
+            running: false,
+            type: 'STRAWBERRY_TYPE_PAUSE',
+          },
+        })
+    )
+  })
+
+  it("Can't create a project with an invalid currentStrawberry", async () => {
+    await assertFails(
+      getProjectsDoc()
+        .doc()
+        .set({
+          name: 'cool project',
+          currentStrawberry: {
+            notAValidValue: 20,
+            size: 20,
+            timeSpent: [],
+            startTime: [],
+            running: false,
+            type: 'STRAWBERRY_TYPE_PAUSE',
+          },
+        })
+    )
+  })
 })

@@ -4,7 +4,7 @@ import 'firebase/firestore'
 import {
   ProjectDescription,
   Project,
-  CurrentStrawBerry,
+  CurrentStrawberry,
 } from '@app/data/interface'
 
 import { mapProject } from '@app/data/map'
@@ -33,7 +33,7 @@ export const createProject = async (
   } else {
     await docRef.set({
       ...projectDetails,
-      currentStrawBerry: {
+      currentStrawberry: {
         size: projectDetails.strawberrySize,
       },
     })
@@ -87,12 +87,12 @@ export const listenToProjectUpdates = (
 
 export const setCurrentStrawberry = async (
   projectId: string,
-  strawberry: CurrentStrawBerry
+  strawberry: CurrentStrawberry
 ) => {
   const projectRef = getProjectsRef().doc(projectId)
   await projectRef.set(
     {
-      currentStrawBerry: strawberry,
+      currentStrawberry: strawberry,
     },
     { merge: true }
   )
@@ -102,7 +102,7 @@ export const setCurrentStrawberry = async (
 
 export const archiveStrawberry = async (
   projectId: string,
-  strawberry: CurrentStrawBerry
+  strawberry: CurrentStrawberry
 ) =>
   getProjectsRef()
     .doc(projectId)

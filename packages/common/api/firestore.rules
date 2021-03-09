@@ -6,34 +6,46 @@ service cloud.firestore {
 
       match /projects/{projectId} {
         allow read: if true;
-        allow create: if checkTypesForCreate(request.resource.data);
-        allow update: if checkTypesForUpdate(request.resource.data, resource.data);
+        allow create: if isValidForCreate(request.resource.data);
+        allow update: if isValidForUpdate(request.resource.data, resource.data);
 
-
-        function checkTypesForUpdate(next, current) {
-          return hasOnlyAllowedFieldsForUpdate(next, current) && hasCorrectTypes(next);
+        // project validation
+        function isValidForUpdate(next, current) {
+          // need to check that all fields are valid + updated fields are allowed
+          return projectHasOnlyAllowedFieldsForUpdate(next, current) && projectHasCorrectFields(next);
         }
 
-        function checkTypesForCreate(next) {
-          return next.keys().hasOnly(getAllowedTypes()) && hasCorrectTypes(next);
+        function isValidForCreate(next) {
+          // TODO: add comment why it is different from update
+          return next.keys().hasOnly(getProjectAllowedFileds()) && projectHasCorrectFields(next);
         }
 
-        function hasOnlyAllowedFieldsForUpdate(next, current) {     
-          return next.diff(current).affectedKeys().hasOnly(getAllowedTypes())
+        function projectHasOnlyAllowedFieldsForUpdate(next, current) {     
+          return next.diff(current).affectedKeys().hasOnly(getProjectAllowedFileds())
         }
 
-        function getAllowedTypes() {
-          return ['name', 'strawberrySize', 'numberOfStrawberries', 'breakSize', 'description'];
+        function getProjectAllowedFileds() {
+          return ['name', 'strawberrySize', 'numberOfStrawberries', 'breakSize', 'description', 'currentStrawBerry'];
         }
 
-        function hasCorrectTypes(next) {
+        function projectHasCorrectFields(next) {
           return (
             ('name' in next ? next.name is string : true) &&
             ('strawberrySize' in next ? next.strawberrySize is number : true) &&
             ('numberOfStrawberries' in next ? next.numberOfStrawberries is number : true) &&
             ('breakSize' in next ? next.breakSize is number : true) &&
-            ('description' in next ? next.description is string : true)
+            ('description' in next ? next.description is string : true) && 
+            ('currentStraberry' in next ? isCurrentStrawberryValid(next.currentStraberry) : true)
           );
+        }
+
+        // Strawberry validation
+        function isCurrentStrawberryValid(strawberry) {
+          return strawberry.keys().hasOnly(getStrawberryAllowedKeys());
+        }
+
+        function getStrawberryAllowedKeys() {
+          return ['size', 'timeSpent', 'startTime', 'running', 'type'];
         }
       }
     }    
