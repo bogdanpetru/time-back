@@ -1,5 +1,5 @@
 import { last, addArray, nowInSeconds, isNumber } from '@app/utils'
-import { CurrentStrawBerry, Strawberry } from './interface'
+import { CurrentStrawberry, Strawberry } from './interface'
 
 export const getTimeLeft = (strawberry: Strawberry): number => {
   if (!strawberry) {
@@ -22,7 +22,7 @@ export const getTimeLeft = (strawberry: Strawberry): number => {
 }
 
 export const getTimeLeftRatio = (
-  strawberry: CurrentStrawBerry,
+  strawberry: CurrentStrawberry,
   time: number
 ): number => {
   let timeSpentRatio: number = 0
@@ -33,7 +33,7 @@ export const getTimeLeftRatio = (
 }
 
 export const getRemainingStrawberryTime = (
-  strawberry: CurrentStrawBerry
+  strawberry: CurrentStrawberry
 ): number => {
   if (!strawberry?.startTime?.length) {
     return strawberry.size

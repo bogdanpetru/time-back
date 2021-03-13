@@ -1,4 +1,4 @@
-import { Project, CurrentStrawBerry } from '../interface'
+import { Project, CurrentStrawberry } from '../interface'
 
 export enum ActionTypes {
   SET_PROJECTS = 'SET_PROJECTS',
@@ -15,12 +15,12 @@ export type Action =
   | {
       type: ActionTypes.SET_STRAWBERRY
       projectId: string
-      strawberry: CurrentStrawBerry
+      strawberry: CurrentStrawberry
     }
   | {
       type: ActionTypes.START_STRAWBERRY
       projectId: string
-      strawberry: CurrentStrawBerry
+      strawberry: CurrentStrawberry
       today: number
     }
   | {

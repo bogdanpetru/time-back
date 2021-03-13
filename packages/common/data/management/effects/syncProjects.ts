@@ -26,16 +26,16 @@ export const sync = (
 
     newProject = builders.updateGlobalProjectSatistics(newProject)
 
-    let time = getRemainingStrawberryTime(project.currentStrawBerry)
+    let time = getRemainingStrawberryTime(project.currentStrawberry)
     if (selectors.getTime(state, project.id) !== time) {
       if (time <= 0) {
         newProject = builders.createNextStrawberry(newProject)
         newProject = builders.updateStatisticsOnStrawberryFinish(
           newProject,
-          project.currentStrawBerry
+          project.currentStrawberry
         )
-        api.archiveStrawberry(project.id, project.currentStrawBerry)
-        time = newProject.currentStrawBerry.size
+        api.archiveStrawberry(project.id, project.currentStrawberry)
+        time = newProject.currentStrawberry.size
       }
 
       dispatch({

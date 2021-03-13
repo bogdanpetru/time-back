@@ -51,13 +51,11 @@
 - [ ] installable app
 - [ ] sync with watchers
 - [ ] limit number of projects?
-- [ ]
 
 **faze II**
 
 - [ ] allow using the app without logging in
-  - [ ] save the data in indexdb or localstorage for web\
-- [ ] require stronger password
+  - [ ] save the data in indexdb or localstorage for web
 - [ ] server side rendering
 - [ ] able to use it as a fasting timer
 - [ ] can add notes while the timer is running

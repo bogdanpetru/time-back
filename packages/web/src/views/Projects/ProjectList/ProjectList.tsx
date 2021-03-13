@@ -58,7 +58,7 @@ const ProjectList: FunctionComponent = () => {
   const handlePlay = (projectId: string) => (event: MouseEvent) => {
     event.stopPropagation()
     const project = projects.find((project) => project.id === projectId)
-    if (project?.currentStrawBerry?.running) {
+    if (project?.currentStrawberry?.running) {
       data.pauseStrawberry(projectId)
     } else {
       data.startStrawberry(projectId)
@@ -91,7 +91,7 @@ const ProjectList: FunctionComponent = () => {
           projects.map((project) => (
             <ListItem
               level={getTimeLeftRatio(
-                project.currentStrawBerry,
+                project.currentStrawberry,
                 data.getTime(project.id)
               )}
               key={project.id}
@@ -121,7 +121,7 @@ const ProjectList: FunctionComponent = () => {
                 title={t('start project')}
                 onClick={handlePlay(project.id)}
               >
-                {project?.currentStrawBerry?.running ? (
+                {project?.currentStrawberry?.running ? (
                   <PauseIcon />
                 ) : (
                   <PlayIcon />

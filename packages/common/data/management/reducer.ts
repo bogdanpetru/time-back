@@ -24,7 +24,7 @@ const reducer: Reducer = (state: State, action: Action): State => {
             if (project.id === action.projectId) {
               return {
                 ...project,
-                currentStrawBerry: action.strawberry,
+                currentStrawberry: action.strawberry,
               }
             }
             return project
@@ -52,7 +52,7 @@ const reducer: Reducer = (state: State, action: Action): State => {
 
               return {
                 ...project,
-                currentStrawBerry: action.strawberry,
+                currentStrawberry: action.strawberry,
                 statistics,
               }
             }

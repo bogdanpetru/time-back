@@ -17,7 +17,7 @@ const Strawberry: FunctionComponent = memo(() => {
   const params = useParams<{ projectId: string }>()
   const data = useData()
   const [project, loading] = data.getProject(params.projectId)
-  const strawberry = project?.currentStrawBerry
+  const strawberry = project?.currentStrawberry
   const time = loading ? null : data.getTime(project.id)
 
   if (loading) {

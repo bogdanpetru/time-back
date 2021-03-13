@@ -12,7 +12,7 @@ export const createProject = (
   const savedProjectId = await api.createProject(void 0, projectDetails)
   const newProject = mapProject({
     ...projectDetails,
-    currentStrawBerry: {
+    currentStrawberry: {
       size: projectDetails.strawberrySize,
     },
     id: savedProjectId,
@@ -36,9 +36,9 @@ export const updateProject = (
     ...projectDescription,
   })
 
-  if (!project?.currentStrawBerry?.running) {
-    newProject.currentStrawBerry = {
-      ...newProject.currentStrawBerry,
+  if (!project?.currentStrawberry?.running) {
+    newProject.currentStrawberry = {
+      ...newProject.currentStrawberry,
       size: projectDescription.strawberrySize,
     }
   }

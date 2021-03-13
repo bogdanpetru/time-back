@@ -18,9 +18,6 @@ export interface StrawberryConfig {
   timeSpent?: number[]
   startTime?: number[]
   running?: boolean
-  notes?: string
-  name?: string
-  finished?: boolean
   type?: StrawberryType
 }
 
@@ -28,9 +25,7 @@ export interface Strawberry extends StrawberryConfig {
   id: string
 }
 
-export interface CurrentStrawBerry extends StrawberryConfig {
-  time?: number
-}
+export interface CurrentStrawberry extends StrawberryConfig {}
 
 export interface ProjectDescription {
   name: string
@@ -39,7 +34,7 @@ export interface ProjectDescription {
   breakSize?: number
   description?: string
   strawberries?: Strawberry[]
-  currentStrawBerry?: CurrentStrawBerry
+  currentStrawberry?: CurrentStrawberry
   statistics: Statistics
 }
 

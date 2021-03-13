@@ -1,13 +1,13 @@
 import { mapStrawberry } from '@app/data/map'
-import { Project, StrawberryType, CurrentStrawBerry } from '@app/data/interface'
+import { Project, StrawberryType, CurrentStrawberry } from '@app/data/interface'
 import { isSameDate } from '@app/utils'
 
 export const updateStatisticsOnStrawberryFinish = (
   project: Project,
-  currentStrawBerry: CurrentStrawBerry
+  currentStrawberry: CurrentStrawberry
 ): Project => {
   const isInterval =
-    currentStrawBerry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL
+    currentStrawberry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL
 
   if (!isInterval) {
     return project
@@ -36,7 +36,7 @@ export const updateStatisticsOnStrawberryFinish = (
 }
 
 export const updateGlobalProjectSatistics = (project: Project): Project => {
-  if (project.currentStrawBerry.running) {
+  if (project.currentStrawberry.running) {
     return project
   }
 
@@ -48,7 +48,7 @@ export const updateGlobalProjectSatistics = (project: Project): Project => {
     // and it has already reseted
     project.statistics.today.completedStrawberries === 0 &&
     // it has not been started today at all
-    project.currentStrawBerry.startTime.length === 0
+    project.currentStrawberry.startTime.length === 0
   ) {
     return project
   }
@@ -56,7 +56,7 @@ export const updateGlobalProjectSatistics = (project: Project): Project => {
   const newStrawberry = getNewStrawberryInterval(project)
   return {
     ...project,
-    currentStrawBerry: newStrawberry,
+    currentStrawberry: newStrawberry,
     statistics: {
       ...project?.statistics,
       today: {
@@ -70,7 +70,7 @@ export const updateGlobalProjectSatistics = (project: Project): Project => {
 
 export const getNewStrawberryInterval = (
   project: Project
-): CurrentStrawBerry => {
+): CurrentStrawberry => {
   const type = StrawberryType.STRAWBERRY_TYPE_INTERVAL
   const size = project.strawberrySize
 
@@ -80,7 +80,7 @@ export const getNewStrawberryInterval = (
   })
 }
 
-const getNewPauseStrawberry = (project: Project): CurrentStrawBerry => {
+const getNewPauseStrawberry = (project: Project): CurrentStrawberry => {
   const type = StrawberryType.STRAWBERRY_TYPE_PAUSE
   const size = project.breakSize
 
@@ -97,7 +97,7 @@ const getNewPauseStrawberry = (project: Project): CurrentStrawBerry => {
  */
 export const createNextStrawberry = (project: Project): Project => {
   const isInterval =
-    project.currentStrawBerry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL
+    project.currentStrawberry.type === StrawberryType.STRAWBERRY_TYPE_INTERVAL
   const newStrawberry =
     isInterval && project.breakSize
       ? getNewPauseStrawberry(project)
@@ -105,6 +105,6 @@ export const createNextStrawberry = (project: Project): Project => {
 
   return {
     ...project,
-    currentStrawBerry: newStrawberry,
+    currentStrawberry: newStrawberry,
   }
 }

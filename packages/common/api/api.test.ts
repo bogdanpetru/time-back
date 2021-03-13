@@ -117,6 +117,7 @@ describe('api', () => {
         .doc()
         .set({
           name: 'cool project',
+          strawberrySize: 20,
           currentStrawberry: {
             size: 20,
             timeSpent: [],
@@ -134,6 +135,7 @@ describe('api', () => {
         .doc()
         .set({
           name: 'cool project',
+          strawberrySize: 20,
           currentStrawberry: {
             notAValidValue: 20,
             size: 20,
@@ -145,4 +147,40 @@ describe('api', () => {
         })
     )
   })
+
+  it.each([
+    ['size', 3, 'must-be-number'],
+    // ['timeSpent', [2], 'must-be-array'],
+    // ['timeSpent', [], 'can be empty'],
+    // ['startTime', [1], 'must be array'],
+    // ['startTime', [], 'can be empty'],
+    // ['running', true, 'must be bool'],
+    // ['type', 'STRAWBERRY_TYPE_INTERVAL', 'invalid type'],
+    // ['type', 'STRAWBERRY_TYPE_PAUSE', 'invalid type'],
+  ])(
+    'Can create project with current strawberry with %s as %s but not as %s',
+    async (name, value, nonValidType) => {
+      await addDummyProject()
+
+      await assertSucceeds(
+        getProjectsDoc()
+          .doc('project-id')
+          .update({
+            currentStrawberry: {
+              [name]: value,
+            },
+          })
+      )
+      console.log('nonValidType', nonValidType)
+      await assertFails(
+        getProjectsDoc()
+          .doc('project-id')
+          .update({
+            currentStrawberry: {
+              [name]: nonValidType,
+            },
+          })
+      )
+    }
+  )
 })

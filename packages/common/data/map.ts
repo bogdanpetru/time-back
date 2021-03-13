@@ -24,8 +24,8 @@ export const mapProject = (data: any): Project =>
     description: data.description,
     numberOfStrawberries: parseInt(data.numberOfStrawberries, 10) || 0,
     strawberries: data.strawberries,
-    currentStrawBerry: mapStrawberry(
-      data.currentStrawBerry || {
+    currentStrawberry: mapStrawberry(
+      data.currentStrawberry || {
         size: data.strawberrySize,
       }
     ),

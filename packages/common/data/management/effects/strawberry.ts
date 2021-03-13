@@ -5,7 +5,7 @@ import * as builders from '../builders'
 import { State } from '../state'
 import { ActionTypes, Action } from '../actions'
 import * as selectors from '../selectors'
-import { CurrentStrawBerry } from '../../interface'
+import { CurrentStrawberry } from '../../interface'
 import syncProjects from './syncProjects'
 
 export const resetStrawberry = (
@@ -30,16 +30,16 @@ export const resetStrawberry = (
 export const startStrawberry = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
-) => (projectId: string): Promise<CurrentStrawBerry> => {
+) => (projectId: string): Promise<CurrentStrawberry> => {
   const state = getState()
   const startTime = nowInSeconds()
   const project = selectors.getProject(state, projectId)
   let today = null
 
   const strawberry = {
-    ...project.currentStrawBerry,
+    ...project.currentStrawberry,
     running: true,
-    startTime: [...(project.currentStrawBerry?.startTime || []), startTime],
+    startTime: [...(project.currentStrawberry?.startTime || []), startTime],
   }
 
   dispatch({
@@ -55,10 +55,10 @@ export const startStrawberry = (
 export const pauseStrawberry = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
-) => (projectId: string): Promise<CurrentStrawBerry> => {
+) => (projectId: string): Promise<CurrentStrawberry> => {
   const state = getState()
   const project = selectors.getProject(state, projectId)
-  let newStrawberry = project.currentStrawBerry
+  let newStrawberry = project.currentStrawberry
 
   let time = selectors.getTime(state, project.id)
   const timeSpent =
@@ -87,7 +87,7 @@ export const finishStrawberry = (
 ) => async (projectId: string): Promise<void> => {
   const state = getState()
   const project = selectors.getProject(state, projectId)
-  const oldStrawberry = project.currentStrawBerry
+  const oldStrawberry = project.currentStrawberry
   let newProject = builders.createNextStrawberry(project)
   newProject = builders.updateStatisticsOnStrawberryFinish(
     newProject,

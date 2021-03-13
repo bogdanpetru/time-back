@@ -9,7 +9,7 @@ import {
   Project,
   Strawberry,
   ProjectDescription,
-  CurrentStrawBerry,
+  CurrentStrawberry,
   StrawberryType,
 } from '../interface'
 import * as effects from './effects'
@@ -23,8 +23,8 @@ export interface DataManagement {
   getProject(projectId: string): Data<Project>
   getTime(projectId: string): number
   resetStrawberry(projectId: string): Promise<Strawberry>
-  startStrawberry(projectId: string): Promise<CurrentStrawBerry>
-  pauseStrawberry(projectId: string): Promise<CurrentStrawBerry>
+  startStrawberry(projectId: string): Promise<CurrentStrawberry>
+  pauseStrawberry(projectId: string): Promise<CurrentStrawberry>
   deleteProject(projectId: string): Promise<void>
   updateProject(project: Project): Promise<Project>
   createProject(projectDetails: ProjectDescription): Promise<Project>
@@ -71,7 +71,7 @@ const DataProvider: FunctionComponent = (props) => {
       if (typeof time !== 'number') {
         const project = selectors.getProject(state, projectId)
         time =
-          project.currentStrawBerry.type ===
+          project.currentStrawberry.type ===
             StrawberryType.STRAWBERRY_TYPE_PAUSE && project.breakSize
             ? project.breakSize
             : project.strawberrySize
