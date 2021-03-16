@@ -7,7 +7,8 @@ import {
 } from '@firebase/rules-unit-testing'
 
 const PROJECT_ID = 'pomodoro-like-app'
-const userId = 'some-id'
+const userId = 'user-id'
+const projectId = 'project-id'
 const db = initializeTestApp({
   projectId: PROJECT_ID,
   auth: {
@@ -27,7 +28,7 @@ const addDummyProject = () =>
     .collection('users')
     .doc(userId)
     .collection('projects')
-    .doc('project-id')
+    .doc(projectId)
     .set({
       name: 'old project',
       strawberrySize: 20,
@@ -41,10 +42,11 @@ afterAll(async () => {
     projectId: PROJECT_ID,
   })
 })
+
 beforeEach(async () => {
-  // await clearFirestoreData({
-  //   projectId: PROJECT_ID,
-  // })
+  await clearFirestoreData({
+    projectId: PROJECT_ID,
+  })
 })
 
 describe('api', () => {
@@ -58,6 +60,7 @@ describe('api', () => {
       db.collection('users').doc(userId).collection('not-projects').get()
     )
   })
+
   it.each([
     ['name', 'str-value', 3],
     ['strawberrySize', 3, 'string'],
@@ -68,14 +71,14 @@ describe('api', () => {
 
     await assertSucceeds(
       getProjectsDoc()
-        .doc('project-id')
+        .doc(projectId)
         .update({
           [name]: value,
         })
     )
     await assertFails(
       getProjectsDoc()
-        .doc('project-id')
+        .doc(projectId)
         .update({
           [name]: nonValidType,
         })
@@ -85,7 +88,7 @@ describe('api', () => {
   it("Can't update project-non-valid properties", async () => {
     await addDummyProject()
     await assertFails(
-      getProjectsDoc().doc('project-id').update({
+      getProjectsDoc().doc(projectId).update({
         doesNotExist: 'no-valid-value',
       })
     )
@@ -95,8 +98,8 @@ describe('api', () => {
     await assertSucceeds(
       getProjectsDoc().doc().set({
         name: 'string',
-        strawberrySize: 0,
-        breakSize: 0,
+        strawberrySize: 1,
+        numberOfStrawberries: 1,
         description: 'description',
       })
     )
@@ -118,6 +121,7 @@ describe('api', () => {
         .set({
           name: 'cool project',
           strawberrySize: 20,
+          numberOfStrawberries: 1,
           currentStrawberry: {
             size: 20,
             timeSpent: [],
@@ -150,31 +154,30 @@ describe('api', () => {
 
   it.each([
     ['size', 3, 'must-be-number'],
-    // ['timeSpent', [2], 'must-be-array'],
-    // ['timeSpent', [], 'can be empty'],
-    // ['startTime', [1], 'must be array'],
-    // ['startTime', [], 'can be empty'],
-    // ['running', true, 'must be bool'],
-    // ['type', 'STRAWBERRY_TYPE_INTERVAL', 'invalid type'],
-    // ['type', 'STRAWBERRY_TYPE_PAUSE', 'invalid type'],
+    ['timeSpent', [2], 'must-be-array'],
+    ['timeSpent', [], 'can be empty'],
+    ['startTime', [1], 'must be array'],
+    ['startTime', [], 'can be empty'],
+    ['running', true, 'must be bool'],
+    ['type', 'STRAWBERRY_TYPE_INTERVAL', 'invalid type'],
+    ['type', 'STRAWBERRY_TYPE_PAUSE', 'invalid type'],
   ])(
     'Can create project with current strawberry with %s as %s but not as %s',
     async (name, value, nonValidType) => {
       await addDummyProject()
-
       await assertSucceeds(
         getProjectsDoc()
-          .doc('project-id')
+          .doc(projectId)
           .update({
             currentStrawberry: {
               [name]: value,
             },
           })
       )
-      console.log('nonValidType', nonValidType)
+
       await assertFails(
         getProjectsDoc()
-          .doc('project-id')
+          .doc(projectId)
           .update({
             currentStrawberry: {
               [name]: nonValidType,
@@ -183,4 +186,27 @@ describe('api', () => {
       )
     }
   )
+
+  it('Can archive a valid strawberry', async () => {
+    await assertSucceeds(
+      getProjectsDoc().doc(projectId).collection('strawberries').doc().set({
+        size: 20,
+        timeSpent: [],
+        startTime: [],
+        running: false,
+        type: 'STRAWBERRY_TYPE_PAUSE',
+      })
+    )
+  })
+  it("Can't archive an invalid strawberry", async () => {
+    await assertFails(
+      getProjectsDoc().doc(projectId).collection('strawberries').doc().set({
+        size: 'not-a-valid-size',
+        timeSpent: [],
+        startTime: [],
+        running: false,
+        type: 'STRAWBERRY_TYPE_PAUSE',
+      })
+    )
+  })
 })

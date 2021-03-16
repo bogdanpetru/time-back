@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "jest",
+    "test": "firebase emulators:exec \"yarn jest\"",
     "start:emulators": "firebase emulators:start"
   },
   "dependencies": {

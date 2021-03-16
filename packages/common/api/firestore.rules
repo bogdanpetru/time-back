@@ -7,40 +7,53 @@ service cloud.firestore {
       match /projects/{projectId} {
         allow read: if true;
         allow write: if isProjectValid(request.resource.data);
-
-        function isProjectValid(next) {
-          return getProjectAllowedKeys(next) && projectHasCorrectFields(next);
-        }
-
-        function getProjectAllowedKeys(project) {
-          return project.keys().hasOnly(['name', 'strawberrySize', 'numberOfStrawberries', 'breakSize', 'description', 'currentStrawberry']);
-        }
-
-        function projectHasCorrectFields(next) {
-          return (
-            ('name' in next ? next.name is string : true) &&
-            ('strawberrySize' in next ? next.strawberrySize is number : true) &&
-            ('numberOfStrawberries' in next ? next.numberOfStrawberries is number : true) &&
-            ('breakSize' in next ? next.breakSize is number : true) &&
-            ('description' in next ? next.description is string : true) && 
-            ('currentStrawberry' in next ? isCurrentStrawberryValid(next.currentStrawberry) : true)
-          );
-        }
-        // Strawberry validation
-        function isCurrentStrawberryValid(strawberry) {
-          return false;// currentStrawberryHasAllowedKeys(strawberry) && currentStraberryHasValidKeys(strawberry);
-        }
-
-        function currentStrawberryHasAllowedKeys(strawberry) {
-          return strawberry.keys().hasOnly(['size', 'timeSpent', 'startTime', 'running', 'type']);
-        }
-
-        function currentStraberryHasValidKeys(strawberry) {
-          return true || (
-            'size' in strawberry ? strawberry.size is number : true
-          )
+        match /strawberries/{strawberryId} {
+          // no functinality that read; so reads are not allowed
+          allow create: if isStrawberryValid(request.resource.data);
         }
       }
     }    
   }
+}
+
+function isProjectValid(next) {
+  return getProjectAllowedKeys(next) && hasProjectCorrectKeys(next);
+}
+
+function getProjectAllowedKeys(project) {
+  return project.keys().hasOnly(['name', 'strawberrySize', 'numberOfStrawberries', 'breakSize', 'description', 'currentStrawberry']);
+}
+
+function hasProjectCorrectKeys(next) {
+  let topFieldsAreValid = ( 
+    next.get('name', '') is string  &&
+    next.strawberrySize is number && next.strawberrySize > 0 &&
+    next.numberOfStrawberries is number && next.numberOfStrawberries > 0 &&
+    next.get('breakSize', 0) is number &&
+    next.get('description', '') is string
+  );
+  let currentStrawberryIsValid = 'currentStrawberry' in next ? isStrawberryValid(next.currentStrawberry) : true; 
+
+  return topFieldsAreValid && currentStrawberryIsValid;
+}
+
+function isStrawberryValid(strawberry) {
+  return hasStrawberryAllowedKeys(strawberry) && areStrawberryKeysValid(strawberry);
+}
+
+function hasStrawberryAllowedKeys(strawberry) {
+  return strawberry.keys().hasOnly(['size', 'timeSpent', 'startTime', 'running', 'type']);
+}
+
+function areStrawberryKeysValid(strawberry) {
+  let type = strawberry.get('type', 'STRAWBERRY_TYPE_INTERVAL');
+  return (
+    strawberry.get('size', 0) is number &&
+    strawberry.get('timeSpent', []) is list && 
+    strawberry.get('startTime', []) is list &&
+    strawberry.get('running', false) is bool && 
+    (
+      type == 'STRAWBERRY_TYPE_INTERVAL' || type == 'STRAWBERRY_TYPE_PAUSE'
+    )
+  );
 }
