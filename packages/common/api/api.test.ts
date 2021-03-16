@@ -35,6 +35,7 @@ const addDummyProject = () =>
       numberOfStrawberries: 30,
       breakSize: 30,
       description: 'old project description',
+      statistics: {},
     })
 
 afterAll(async () => {
@@ -186,6 +187,23 @@ describe('api', () => {
       )
     }
   )
+
+  it('Can stop a running strawberry', async () => {
+    await addDummyProject()
+    await assertSucceeds(
+      getProjectsDoc()
+        .doc(projectId)
+        .set({
+          currentStrawberry: {
+            size: 3000,
+            timeSpent: [],
+            startTime: [1615875356000],
+            running: false,
+            type: 'STRAWBERRY_TYPE_INTERVAL',
+          },
+        })
+    )
+  })
 
   it('Can archive a valid strawberry', async () => {
     await assertSucceeds(

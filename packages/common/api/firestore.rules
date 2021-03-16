@@ -21,7 +21,15 @@ function isProjectValid(next) {
 }
 
 function getProjectAllowedKeys(project) {
-  return project.keys().hasOnly(['name', 'strawberrySize', 'numberOfStrawberries', 'breakSize', 'description', 'currentStrawberry']);
+  return project.keys().hasOnly([
+    'name', 
+    'strawberrySize', 
+    'numberOfStrawberries', 
+    'breakSize', 
+    'description', 
+    'currentStrawberry',
+    'statistics'
+  ]);
 }
 
 function hasProjectCorrectKeys(next) {

@@ -90,12 +90,9 @@ export const setCurrentStrawberry = async (
   strawberry: CurrentStrawberry
 ) => {
   const projectRef = getProjectsRef().doc(projectId)
-  await projectRef.set(
-    {
-      currentStrawberry: strawberry,
-    },
-    { merge: true }
-  )
+  await projectRef.update({
+    currentStrawberry: strawberry,
+  })
 
   return strawberry
 }

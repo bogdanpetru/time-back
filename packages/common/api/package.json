@@ -4,8 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "firebase emulators:exec \"yarn jest\"",
-    "start:emulators": "firebase emulators:start"
+    "test": "firebase emulators:exec \"yarn jest --watch\"",
+    "start:emulators": "firebase emulators:start",
+    "deploy:rules": "firebase deploy --only firestore:rules"
   },
   "dependencies": {
     "firebase": "^8.1.1",
