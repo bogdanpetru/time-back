@@ -6,6 +6,7 @@ service cloud.firestore {
 
       match /projects/{projectId} {
         allow read: if true;
+        allow delete: if true;
         allow write: if isProjectValid(request.resource.data);
         match /strawberries/{strawberryId} {
           // no functinality that read; so reads are not allowed
@@ -28,7 +29,8 @@ function getProjectAllowedKeys(project) {
     'breakSize', 
     'description', 
     'currentStrawberry',
-    'statistics'
+    'statistics',
+    'id'
   ]);
 }
 
@@ -41,15 +43,16 @@ function hasProjectCorrectKeys(next) {
     next.get('description', '') is string
   );
   let currentStrawberryIsValid = 'currentStrawberry' in next ? isStrawberryValid(next.currentStrawberry) : true; 
+  let statisticsIsValid = 'statistics' in next ? areProjectStatisticsValid(next.statistics) : true;
 
-  return topFieldsAreValid && currentStrawberryIsValid;
+  return topFieldsAreValid && currentStrawberryIsValid && statisticsIsValid;
 }
 
 function isStrawberryValid(strawberry) {
-  return hasStrawberryAllowedKeys(strawberry) && areStrawberryKeysValid(strawberry);
+  return hasStrawberryKeysAllowed(strawberry) && areStrawberryKeysValid(strawberry);
 }
 
-function hasStrawberryAllowedKeys(strawberry) {
+function hasStrawberryKeysAllowed(strawberry) {
   return strawberry.keys().hasOnly(['size', 'timeSpent', 'startTime', 'running', 'type']);
 }
 
@@ -63,5 +66,25 @@ function areStrawberryKeysValid(strawberry) {
     (
       type == 'STRAWBERRY_TYPE_INTERVAL' || type == 'STRAWBERRY_TYPE_PAUSE'
     )
+  );
+}
+
+function areProjectStatisticsValid(statistics) {
+  return hasProjectStatisticsKeysAllowed(statistics) && hasProjectStatisticsKeysValid(statistics);
+}
+
+function hasProjectStatisticsKeysAllowed(statistics) {
+  let topLevelKeysValid =  statistics.keys().hasOnly(['today', 'totalStrawberries', 'currentStreak', 'numberOfDailyCompletedGoals']);
+  let todayIsValid = statistics.get('today', {}).keys().hasOnly(['date', 'completedStrawberries']);
+
+  return topLevelKeysValid && todayIsValid;
+}
+
+function hasProjectStatisticsKeysValid(statistics) {
+  return (
+    statistics.get(['today', 'date'], 0) is number &&
+    statistics.get(['today', 'completedStrawberries'], 0) is number &&
+    statistics.get('totalStrawberries', 0) is number &&
+    statistics.get('currentStreak', 0) is number
   );
 }

@@ -9,7 +9,7 @@ export const createProject = (
   dispatch: React.Dispatch<Action>,
   getState: () => State
 ) => async (projectDetails: ProjectDescription) => {
-  const savedProjectId = await api.createProject(void 0, projectDetails)
+  const savedProjectId = await api.createProject(projectDetails)
   const newProject = mapProject({
     ...projectDetails,
     currentStrawberry: {

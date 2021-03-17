@@ -23,22 +23,10 @@ export const getProjectsRef = () => {
 }
 
 export const createProject = async (
-  projectId: string = null,
   projectDetails?: ProjectDescription
 ): Promise<string> => {
-  const docRef = getProjectsRef().doc(projectId || void 0)
-
-  if (projectId) {
-    await docRef.update(projectDetails)
-  } else {
-    await docRef.set({
-      ...projectDetails,
-      currentStrawberry: {
-        size: projectDetails.strawberrySize,
-      },
-    })
-  }
-
+  const docRef = getProjectsRef().doc()
+  await docRef.set(projectDetails)
   return docRef.id
 }
 

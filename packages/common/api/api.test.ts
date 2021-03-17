@@ -193,7 +193,7 @@ describe('api', () => {
     await assertSucceeds(
       getProjectsDoc()
         .doc(projectId)
-        .set({
+        .update({
           currentStrawberry: {
             size: 3000,
             timeSpent: [],
@@ -227,4 +227,102 @@ describe('api', () => {
       })
     )
   })
+  it('Can delete own project', async () => {
+    await assertSucceeds(getProjectsDoc().doc(projectId).delete())
+  })
+
+  it('Can save statistics on project', async () => {
+    await addDummyProject()
+    await assertSucceeds(
+      getProjectsDoc()
+        .doc(projectId)
+        .update({
+          statistics: {
+            today: {
+              date: 1616007083012,
+              completedStrawberries: 10,
+            },
+            totalStrawberries: 10,
+            currentStreak: 0,
+            numberOfDailyCompletedGoals: 0,
+          },
+        })
+    )
+  })
+
+  it("Can't update statistics with non-valid keys", async () => {
+    await addDummyProject()
+    await assertFails(
+      getProjectsDoc()
+        .doc(projectId)
+        .update({
+          statistics: {
+            today: {
+              date: 1616007083012,
+              completedStrawberries: 10,
+            },
+            totalStrawberries: 10,
+            currentStreak: 0,
+            notAvalidKey: 0,
+          },
+        })
+    )
+  })
+
+  it("Can't update statistics with non-valid keys in statistics.today", async () => {
+    await addDummyProject()
+    await assertFails(
+      getProjectsDoc()
+        .doc(projectId)
+        .update({
+          statistics: {
+            today: {
+              date: 1616007083012,
+              completedStrawberries: 10,
+              notAvalidKey: 0,
+            },
+            totalStrawberries: 10,
+            currentStreak: 0,
+          },
+        })
+    )
+  })
+
+  it.each([
+    [
+      'today.date',
+      { today: { date: 1616007083012 } },
+      { today: { date: 'invalid' } },
+    ],
+    [
+      'today.completedStrawberries',
+      { today: { completedStrawberries: 1 } },
+      { today: { completedStrawberries: 'invalid' } },
+    ],
+    [
+      'totalStrawberries',
+      { totalStrawberries: 1 },
+      { totalStrawberries: 'not-valid-type' },
+    ],
+    [
+      'currentStreak',
+      { currentStreak: 1 },
+      { currentStreak: 'not-valid-type' },
+    ],
+  ])(
+    'Can update %s with valid value, but not with invalid',
+    async (_, validUpdate, invalidValue) => {
+      await addDummyProject()
+      await assertSucceeds(
+        getProjectsDoc().doc(projectId).update({
+          statistics: validUpdate,
+        })
+      )
+      await assertFails(
+        getProjectsDoc().doc(projectId).update({
+          statistics: invalidValue,
+        })
+      )
+    }
+  )
 })

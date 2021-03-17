@@ -70,6 +70,7 @@ interface InputProps {
   error?: string
   name?: string
   autofocus?: boolean
+  min?: number
 }
 
 const Input = (props: InputProps) => {
@@ -121,6 +122,7 @@ const Input = (props: InputProps) => {
         onBlur={handleBlur}
         onChange={handleChange}
         value={value}
+        min={props.min}
       />
       {props.error && <Error>{props.error}</Error>}
     </Wrapper>
