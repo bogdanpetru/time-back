@@ -99,8 +99,8 @@ const getWavePoints = (
   betweenPoints: number
 ): number[][] => {
   const points = []
-  const offscreen = width * 0.2
-  const pattern = getPointsPattern(width + offscreen, betweenPoints)
+  const offscreen = width * 0.25
+  const pattern = getPointsPattern(width + offscreen * 1.2, betweenPoints)
 
   const levelY = totalHeight - level
 
@@ -111,7 +111,7 @@ const getWavePoints = (
   const getTopY = (levelInner: number = levelY): number =>
     randomDelta(levelInner - waveHeight)
 
-  const firstPoint = [randomDelta(-offscreen, 0.5), getMiddleY(levelY)]
+  const firstPoint = [randomDelta(-offscreen, 0.2), getMiddleY(levelY)]
 
   /**
    * add curve
