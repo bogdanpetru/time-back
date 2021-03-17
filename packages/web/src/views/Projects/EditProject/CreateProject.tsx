@@ -91,7 +91,7 @@ const CreateProject: FunctionComponent<CreateProjectProps> = (props) => {
         <Input autofocus {...form.inputs.name} label={t('name')} />
         <Input
           {...form.inputs.strawberrySize}
-          type="number"
+          // type="number"
           label={t('interval size (minutes)')}
           min={0}
         />

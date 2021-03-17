@@ -4,7 +4,7 @@
 
 **chores**
 
-- [ ] add data validation in firebase
+- [x] add data validation in firebase
 - [ ] add types to theme
 - [x] add stats document
   - [x] number of projects

@@ -2,9 +2,11 @@ import * as api from '@app/api'
 import * as builders from '../builders'
 import { State } from '../state'
 import { getRemainingStrawberryTime } from '@app/data/utils'
+import strawberryImg from '@app/assets/strawberry.png'
+import { addNotification } from '@app/services/notification'
 import { ActionTypes, Action } from '../actions'
-
 import * as selectors from '../selectors'
+import { StrawberryType } from '../../interface'
 
 export const sync = (
   dispatch: React.Dispatch<Action>,
@@ -36,6 +38,19 @@ export const sync = (
         )
         api.archiveStrawberry(project.id, project.currentStrawberry)
         time = newProject.currentStrawberry.size
+
+        if (
+          project?.currentStrawberry?.type ===
+          StrawberryType.STRAWBERRY_TYPE_INTERVAL
+        ) {
+          addNotification('Strawberry finished, take a break', {
+            img: strawberryImg,
+          })
+        } else {
+          addNotification('Break finished, back to work 😊', {
+            img: strawberryImg,
+          })
+        }
       }
 
       dispatch({

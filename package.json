@@ -6,7 +6,7 @@
   ],
   "name": "time-back",
   "version": "1.0.0",
-  "description": "Time back. Lik Pomodoro but with strawberries.",
+  "description": "Time back. Like Pomodoro but with strawberries.",
   "author": "bogdan petru pintican <bogdanpintican@gmail.com>",
   "license": "MIT",
   "scripts": {
