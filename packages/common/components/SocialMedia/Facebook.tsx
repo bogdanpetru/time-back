@@ -15,6 +15,6 @@ const FacebookLogo = () => (
       fill="white"
     />
   </svg>
-);
+)
 
-export default FacebookLogo;
+export default FacebookLogo

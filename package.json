@@ -13,6 +13,11 @@
     "reset": "find . -type d -name 'node_modules' -exec rm -r {} +  && yarn",
     "start": "yarn workspace @app/web start",
     "build": "yarn workspace @app/web build",
-    "deploy": "yarn workspace @app/web deploy"
+    "deploy": "yarn workspace @app/web deploy",
+    "format": "lerna exec -- prettier --write ."
+  },
+  "devDependencies": {
+    "lerna": "4.0.0",
+    "prettier": "2.2.1"
   }
 }

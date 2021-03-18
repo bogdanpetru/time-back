@@ -40,6 +40,7 @@ const CreateProject: FunctionComponent<CreateProjectProps> = (props) => {
       },
       {
         name: 'numberOfStrawberries',
+        type: 'number',
         initialValue: props.project?.numberOfStrawberries || 4,
       },
       {
@@ -91,25 +92,18 @@ const CreateProject: FunctionComponent<CreateProjectProps> = (props) => {
         <Input autofocus {...form.inputs.name} label={t('name')} />
         <Input
           {...form.inputs.strawberrySize}
-          // type="number"
           label={t('interval size (minutes)')}
-          min={0}
         />
         <Input
           {...form.inputs.numberOfStrawberries}
+          type="number"
           label={t('how many to complete in a day')}
         />
-        <Input
-          {...form.inputs.breakSize}
-          type="number"
-          label={t('break size (minutes)')}
-          min={0}
-        />
+        <Input {...form.inputs.breakSize} label={t('break size (minutes)')} />
         <Input
           {...form.inputs.description}
           type="text"
           label={t('description')}
-          min={0}
         />
 
         <Footer>

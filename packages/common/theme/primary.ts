@@ -31,6 +31,7 @@ const label = {
   fontSize: 14,
   color: primary,
   colorWithValue: primary,
+  fontWeight: 600,
 }
 
 const button = {

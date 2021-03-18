@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div<{
@@ -27,6 +27,7 @@ const Label = styled.label<{ hasValue?: boolean }>`
   position: absolute;
   left: 8px;
   font-size: ${(props) => props?.theme?.label?.fontSize}px;
+  font-weight: ${(props) => props?.theme?.label?.fontWeight};
   transition: top 100ms;
   cursor: text;
   ${(props) =>
@@ -40,7 +41,7 @@ const Label = styled.label<{ hasValue?: boolean }>`
   color: ${(props) => props?.theme?.label?.color};
 `
 
-const Error = styled.span`
+const ErrorText = styled.span`
   position: absolute;
   top: calc(100% + 2px);
   font-size: 0.8em;
@@ -124,7 +125,7 @@ const Input = (props: InputProps) => {
         value={value}
         min={props.min}
       />
-      {props.error && <Error>{props.error}</Error>}
+      {props.error && <ErrorText>{props.error}</ErrorText>}
     </Wrapper>
   )
 }

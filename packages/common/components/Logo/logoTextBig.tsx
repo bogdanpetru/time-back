@@ -11,6 +11,6 @@ const LogoTextBig = () => (
       fill="#063B47"
     />
   </svg>
-);
+)
 
-export default LogoTextBig;
+export default LogoTextBig

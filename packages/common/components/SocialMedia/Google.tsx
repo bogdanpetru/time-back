@@ -27,6 +27,6 @@ const GoogleLogo = () => (
       fill="#319F43"
     />
   </svg>
-);
+)
 
-export default GoogleLogo;
+export default GoogleLogo

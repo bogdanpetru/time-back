@@ -1,6 +1,6 @@
-import firebase from "firebase/app";
-import 'firebase/auth';
+import firebase from 'firebase/app'
+import 'firebase/auth'
 
 export const getUser = () => {
-  return firebase.auth().currentUser;
+  return firebase.auth().currentUser
 }

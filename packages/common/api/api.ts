@@ -26,7 +26,9 @@ export const createProject = async (
   projectDetails?: ProjectDescription
 ): Promise<string> => {
   const docRef = getProjectsRef().doc()
+  console.log(projectDetails)
   await docRef.set(projectDetails)
+
   return docRef.id
 }
 
