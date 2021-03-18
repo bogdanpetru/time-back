@@ -1,77 +1,41 @@
 # time back
 
-## should be abble to
+## introduction
 
-**chores**
+Time back is a pomodoro like app but with strawberries.
+Strawberries are custom intervals that can be grouped in projects.
 
-- [x] add data validation in firebase
-- [ ] add types to theme
-- [x] add stats document
-  - [x] number of projects
-  - [x] key for each project with how many intervals it has
-- [ ] limit the amount of projects per user
-- [ ] limit the amount of intervals in a period of time
-- [x] when pause is reset, it is changed to interval
+The application has basic PWA functionality, it is installable and it caches statis assets.
 
-**todos**
+This is a simple app that I have built for personal use.
 
-- [x] basic input validation on project details
-- [ ] design a project card/list view
-  - [ ] needs to have all the information
-  - [x] with a big play button
+## getting started
 
-**UI**
+Clone and install dependencies
 
-- [x] focus first imput
-- [x] save on enter
+```sh
+git clone git@github.com:bogdanpetru/time-back.git
+yarn
+```
 
-**before publish**
+To play around with the code you need to create a firebase app, and create an `.env` file in `packages/web` with the following keys:
 
-- [ ] add firebase security rules
-  - [ ] unit tests
-- [ ] disable project
-- [ ] create new project (so the keys were not compromised)
+```
+FIREBASE_API_KEY="<API-KEY>"
+FIREBASE_AUTH_DOMAIN="<AUTH_DOMAIN>"
+FIREBASE_DATABASE_URL="<DB_URL>"
+FIREBASE_PROJECT_ID="<PROJECT_ID>"
+FIREBASE_STORAGE_BUCKET="<STORAGE_BUCKET>"
+FIREBASE_MESSAGING_SENDER_ID="<MESSAGING_SENDER_ID>"
+FIREBASE_APP_ID="<APP_ID>"
+FIREBASE_MEASUREMENT_ID="<MEASUREMENT_ID>"
+```
 
-**security settings**
+## Technology Stack
 
-- [x] restrict users to edit their own data
-- [ ] restrict to a maximum of projects
-- [ ] restrict the length of each value
-- [ ] add validation in a cloud function
-- [ ] sanity - restrict the number of writes/reads/day
-
-**setup**
-
-- [x] remove create react app
-
-**faze I**
-
-- [x] organize in projects
-- [x] custom intervals
-- [ ] installable app
-- [ ] sync with watchers
-- [ ] limit number of projects?
-
-**faze II**
-
-- [ ] allow using the app without logging in
-  - [ ] save the data in indexdb or localstorage for web
-- [ ] server side rendering
-- [ ] able to use it as a fasting timer
-- [ ] can add notes while the timer is running
-  - [ ] define design
-
-**faze III**
-
-- [ ] tags
-- [ ] all the data can be exported
-- [ ] the data in the db is encrypted
-- [ ] runs on mobile and web (web with PWA)
-
-## bugs
-
-[x] the animation breaks on window resize
-[x] the time is wrong when the app is in background
+ReactJs, react-router and styled-components for the UI.
+Firebase for auth and data.
+Most of the rest of the code is custom code.
 
 ## structure
 
@@ -90,10 +54,10 @@ mobile
 
 [structure](https://www.robinwieruch.de/react-folder-structure)
 
-component-name/
-/index.tsx
-/test.ts
-/style.js
+- component-name/
+- /index.tsx
+- /test.ts
+- /style.js
 
 ### web
 
@@ -124,11 +88,11 @@ Naming:
 
 #### /views
 
-/views - each route of the app, hold view data
-/views/ViewName/
-/views/ViewName/index.ts
-/views/ViewName/ViewName.ts
-/views/ViewName/components/specific to the view?
+- /views - each route of the app, hold view data
+- /views/ViewName/
+- /views/ViewName/index.ts
+- /views/ViewName/ViewName.ts
+- /views/ViewName/components/specific to the view?
 
 ## style guide
 
@@ -168,12 +132,4 @@ Naming:
 
 The app uses vanilla **webpack**. I've tired to use parcel and create-react-app.
 
-Both alternatives (I create-react-app uses webpack) were hard to work with with typescript, yarn packages, web and react-native.
-
-## URLs
-
-Project url uses the projects name. To have this:
-
-- name must be unique
-- spaces are replaced with `-`
-- to be able to replace spaces with `-`, `project-name` and `project name` are the same
+Both alternatives were hard to work with typescript, yarn packages, web and react-native.
