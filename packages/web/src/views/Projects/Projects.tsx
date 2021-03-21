@@ -1,10 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, FunctionComponent } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import useData from '@app/data/management/useData'
 import { CreateProject, EditProject } from './EditProject'
 import Strawberry from './Strawberry'
 import ProjectList from './ProjectList'
-import { FunctionComponent } from 'react'
 
 const Projects: FunctionComponent = () => {
   const data = useData()
