@@ -4,16 +4,16 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "firebase emulators:exec \"yarn jest --watch\"",
+    "test": "firebase emulators:exec --ui \"yarn jest --watch\"",
     "start:emulators": "firebase emulators:start",
     "deploy:rules": "firebase deploy --only firestore:rules"
   },
   "dependencies": {
-    "firebase": "^8.1.1",
+    "firebase": "^8.3.1",
     "invariant": "^2.2.4"
   },
   "devDependencies": {
-    "@firebase/rules-unit-testing": "^1.2.2",
+    "@firebase/rules-unit-testing": "^1.2.5",
     "@types/jest": "^26.0.20",
     "firebase-admin": "^9.5.0",
     "firebase-tools": "^9.6.1",

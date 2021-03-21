@@ -4,16 +4,25 @@ const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 admin.initializeApp()
 
-exports.limitNumberOfProjects = functions.functions.firestore
+const firestore = (exports.limitNumberOfProjects = functions.firestore
   .document('/users/{userId}/projects/{projectId}')
-  .onCreate((snap: any, context: any) => {
-    const original = snap.data().original
+  .onCreate(async (_: any, context: any) => {
+    functions.logger.log('increasing project count', context.params.projectId)
 
-    functions.logger.log(
-      'increasing project count',
-      context.params.projectId,
-      original
-    )
+    const userDocRef = admin
+      .firestore()
+      .collection('users')
+      .doc(context.params.userId)
+    try {
+      await userDocRef.update({
+        numberOfProjects: admin.firestore.FieldValue.increment(1),
+      })
+    } catch (error) {
+      functions.logger.error(
+        `Failed to update user data while trying to update number of projects for: ${context.params.userId}`,
+        error
+      )
+    }
 
     return Promise.resolve(null)
-  })
+  }))
