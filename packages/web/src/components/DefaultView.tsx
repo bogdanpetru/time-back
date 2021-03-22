@@ -12,6 +12,7 @@ import {
 } from '@app/components'
 import { signOut } from '@app/api/auth'
 import { t } from '@app/data/intl'
+import useData from '@app/data/management/useData'
 
 const DefaultViewWrapper = styled.div`
   position: relative;
@@ -42,6 +43,7 @@ const DefaultView: FunctionComponent<{
   className?: string
 }> = (props) => {
   const history = useHistory()
+  const data = useData()
   const isHome = history.location.pathname === '/'
   const isNew = history.location.pathname === '/new'
   const isStrawberry = history.location.pathname.includes('strawberry')
@@ -57,6 +59,7 @@ const DefaultView: FunctionComponent<{
 
   const onSignOut = async () => {
     await signOut()
+    data.resetState()
     history.push('/login')
   }
 

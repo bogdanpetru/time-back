@@ -108,6 +108,14 @@ const reducer: Reducer = (state: State, action: Action): State => {
         ...state,
         time: action.time,
       }
+    case ActionTypes.RESET:
+      return {
+        projects: {
+          list: [],
+          loading: true,
+        },
+        time: {},
+      }
     default:
       return state
   }

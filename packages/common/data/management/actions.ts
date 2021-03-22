@@ -9,6 +9,7 @@ export enum ActionTypes {
   UPATE_TIME = 'UPATE_TIME',
   SET_INITIAL_TIME = 'SET_INITIAL_TIME',
   START_STRAWBERRY = 'START_STRAWBERRY',
+  RESET = 'RESET',
 }
 
 export type Action =
@@ -47,4 +48,7 @@ export type Action =
   | {
       type: ActionTypes.SET_INITIAL_TIME
       time: { [key: string]: number }
+    }
+  | {
+      type: ActionTypes.RESET
     }

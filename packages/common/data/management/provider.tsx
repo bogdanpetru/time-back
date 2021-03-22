@@ -14,7 +14,7 @@ import {
 } from '../interface'
 import * as effects from './effects'
 import * as selectors from './selectors'
-import { Action } from './actions'
+import { Action, ActionTypes } from './actions'
 
 type Data<T> = [T, boolean]
 
@@ -29,17 +29,18 @@ export interface DataManagement {
   updateProject(project: Project): Promise<Project>
   createProject(projectDetails: ProjectDescription): Promise<Project>
   initializeData(): Promise<Project[]>
+  resetState(): void
+}
+
+const initialState: State = {
+  projects: {
+    list: [],
+    loading: true,
+  },
+  time: {},
 }
 
 const DataProvider: FunctionComponent = (props) => {
-  const initialState: State = {
-    projects: {
-      list: [],
-      loading: true,
-    },
-    time: {},
-  }
-
   const [state, dispatch] = useReducer<Reducer, State>(
     reducer,
     null,
@@ -85,6 +86,7 @@ const DataProvider: FunctionComponent = (props) => {
     updateProject: effects.updateProject(dispatchWithLog, getState),
     createProject: effects.createProject(dispatchWithLog, getState),
     initializeData: effects.initializeData(dispatchWithLog, getState),
+    resetState: () => dispatch({ type: ActionTypes.RESET }),
   } as DataManagement
 
   return (
