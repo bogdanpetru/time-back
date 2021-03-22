@@ -14,7 +14,9 @@
     "start": "yarn workspace @app/web start",
     "build": "yarn workspace @app/web build",
     "deploy": "yarn workspace @app/web deploy",
-    "format": "lerna exec -- prettier --write ."
+    "format": "lerna exec -- prettier --write .",
+    "deploy:api": "yarn workspace @app/api deploy",
+    "test": "lerna exec -- yarn test"
   },
   "devDependencies": {
     "lerna": "4.0.0",

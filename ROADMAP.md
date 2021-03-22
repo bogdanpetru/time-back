@@ -6,6 +6,7 @@
   - [x] number of projects
   - [x] key for each project with how many intervals it has
 - [x] when pause is reset, it is changed to interval
+- [ ] clear data on logout
 
 **todos**
 
@@ -41,7 +42,10 @@
 - [x] custom intervals
 - [x] installable app
 - [x] sync with watchers
-- [ ] limit number of projects?
+- [x] limit number of projects?
+  - limiting the number of projects brings more reads and function invocation:
+  - need to keep track of the number of projects (incremented by a cloud-function)
+  - in security rules need to make an extra read for the tracking value
 - [ ] fix notificaiton image
 - [ ] fix background when installed on mobile
 - [ ] deploy on a custom domain

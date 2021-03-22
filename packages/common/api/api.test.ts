@@ -38,7 +38,8 @@ const addDummyProject = () =>
       statistics: {},
     })
 
-const createUser = () => dbAdmin.collection('users').doc(userId).set({})
+const createUser = () =>
+  dbAdmin.collection('users').doc(userId).set({ numberOfProjects: 5 })
 
 afterAll(async () => {
   await clearFirestoreData({
@@ -48,6 +49,9 @@ afterAll(async () => {
 
 beforeEach(async () => {
   await createUser()
+})
+
+afterEach(async () => {
   await clearFirestoreData({
     projectId: PROJECT_ID,
   })
@@ -328,18 +332,4 @@ describe('api', () => {
       )
     }
   )
-
-  it.only('Can not create more then 20 projects', async () => {
-    await addDummyProject()
-    await dbAdmin.collection('users').doc(userId).set({ numberOfProjects: 20 })
-
-    await assertFails(
-      getProjectsDoc().doc().set({
-        name: 'the 20th project',
-        strawberrySize: 1,
-        numberOfStrawberries: 1,
-        description: 'description',
-      })
-    )
-  })
 })

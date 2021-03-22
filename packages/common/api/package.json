@@ -4,8 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "firebase emulators:exec --ui \"yarn jest --watch\"",
+    "test": "firebase emulators:exec \"yarn jest\"",
+    "test:ui": "firebase emulators:exec --ui \"yarn jest --watch\"",
     "start:emulators": "firebase emulators:start",
+    "deploy": "yarn deploy:rules",
     "deploy:rules": "firebase deploy --only firestore:rules"
   },
   "dependencies": {

@@ -8,22 +8,12 @@ service cloud.firestore {
         allow read: if true;
         allow delete: if true;
         allow update: if isProjectValid(request.resource.data);
-        allow create: if isProjectValidForCreate(request.resource.data);
+        allow create: if isProjectValid(request.resource.data);
  
         function isProjectValid(next) {
           return getProjectAllowedKeys(next) && hasProjectCorrectKeys(next);
         }
 
-        function isProjectValidForCreate(next) {
-          let MAX_NUMBER_OF_PROJECTS = 20;
-          let user = get(/databases/$(database)/documents/users/$(request.auth.uid));
-          let numberOfProjects = user.data.get('numberOfProjects', 0);
-          return (
-            isProjectValid(next) && 
-            numberOfProjects < MAX_NUMBER_OF_PROJECTS
-          );
-        }
- 
         match /strawberries/{strawberryId} {
           // no functinality that read; so reads are not allowed
           allow create: if isStrawberryValid(request.resource.data);
