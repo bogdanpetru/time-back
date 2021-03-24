@@ -11,5 +11,6 @@ module.exports = merge(common, {
     },
     compress: false,
     port: 3001,
+    https: true,
   },
 })
