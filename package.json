@@ -12,6 +12,7 @@
   "scripts": {
     "reset": "find . -type d -name 'node_modules' -exec rm -r {} +  && yarn",
     "start": "yarn workspace @app/web start",
+    "start:https": "yarn workspace @app/web start:https",
     "build": "yarn workspace @app/web build",
     "deploy": "yarn workspace @app/web deploy",
     "format": "lerna exec -- prettier --write .",

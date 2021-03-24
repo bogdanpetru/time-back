@@ -41,6 +41,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack serve --config webpack.dev.js",
+    "start:https": "yarn start --https --key ./localhost-key.pem --cert ./localhost.pem",
     "build": "webpack --config webpack.prod.js",
     "lint": "yarn eslint . --ext .js,.jsx,.ts,.tsx",
     "deploy": "yarn build && npx firebase deploy"

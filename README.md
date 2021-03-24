@@ -31,6 +31,17 @@ FIREBASE_APP_ID="<APP_ID>"
 FIREBASE_MEASUREMENT_ID="<MEASUREMENT_ID>"
 ```
 
+### To run over https (to test PWA)
+
+Run start command with `yarn start:https`.
+
+To generate a certificate follow steps from [here](https://web.dev/how-to-use-local-https/).
+
+Generate the certificate under `packages/web` with `locahost` name.
+`.pem` files are added to `.gitignore`.
+
+If you want to generate the certificate in a another place modify the `start:https` script from `packages/web` to point to the correct location.
+
 ## Technology Stack
 
 ReactJs, react-router and styled-components for the UI.
