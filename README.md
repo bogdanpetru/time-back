@@ -1,6 +1,6 @@
 # time back
 
-## introduction
+## Introduction
 
 Time back is a pomodoro like app but with strawberries.
 Strawberries are custom intervals that can be grouped in projects.
@@ -9,7 +9,7 @@ The application has basic PWA functionality, it is installable and it caches sta
 
 This is a simple app that I have built for personal use.
 
-## getting started
+## Getting started
 
 Clone and install dependencies
 
@@ -33,35 +33,37 @@ FIREBASE_MEASUREMENT_ID="<MEASUREMENT_ID>"
 
 ### To run over https (to test PWA)
 
-Run start command with `yarn start:https`.
+Start application with `yarn start:https`.
 
 To generate a certificate follow steps from [here](https://web.dev/how-to-use-local-https/).
 
 Generate the certificate under `packages/web` with `locahost` name.
 `.pem` files are added to `.gitignore`.
 
-If you want to generate the certificate in a another place modify the `start:https` script from `packages/web` to point to the correct location.
+If you want to generate the certificate in a another place, modify the `start:https` script from `packages/web` to point to the correct location.
 
 ## Technology Stack
 
 ReactJs, react-router and styled-components for the UI.
 Firebase for auth and data.
-Most of the rest of the code is custom code.
+Most of the rest of the code-base is custom code.
 
-## structure
+## Structure
 
-### packages
+### Packages
 
-common
-/components
-/data
-/api
-/service - are stateful entities
-/utils - are stateless utils
-web
-mobile
+- /common
+  - /api - api calls and firebase setup (security rules and tests)
+  - /assets - images, logo
+  - /data - data management and mapping of entities
+  - /components
+  - /services - are stateful entities
+  - /theme
+  - /utils - are stateless utils
+- /web
+- /mobile (not yet implemented)
 
-### components
+### Components
 
 [structure](https://www.robinwieruch.de/react-folder-structure)
 
@@ -70,7 +72,7 @@ mobile
 - /test.ts
 - /style.js
 
-### web
+### Web
 
 #### /src/App.tsx
 
@@ -80,11 +82,11 @@ This component will hold all the logic that is common for all views:
 - theming
 - any global context providers
 
-#### /components
+#### /src/components
 
-/components - specific components for the web
+Specific components for the web app.
 
-#### styled components
+##### Styled components
 
 `styled-components` are first class components:
 
@@ -105,7 +107,7 @@ Naming:
 - /views/ViewName/ViewName.ts
 - /views/ViewName/components/specific to the view?
 
-## style guide
+## Style guide
 
 ### Principles
 
@@ -113,7 +115,7 @@ Naming:
 - less code is better when it does not impact readability
   - e.g. all functions are declared with arrow function, shorter readability
 
-#### functions declarations
+#### Functions declarations
 
 - use `() => {}` declaration for any function with the exception of generators
 - `why`
@@ -122,25 +124,17 @@ Naming:
   - e.g. a styled-component when changing to proper component, less text to edit
   - forces to declare the functions in a certain order, you cannot use a function declared later
 
-#### exports
+#### Exports
 
 - one thing to export, default export
 - multiple, always named, no namespaces
   - for multiple exports, always import under a namepsace using '\* as module'
 
-#### destructuring
+#### Destructuring
 
 - no destructuring for props
   - easy to see what are props or other types of variables
 
-####
+#### Booleans
 
 - all booleans are prefixed with `is`
-
-## Stack
-
-### build/dev
-
-The app uses vanilla **webpack**. I've tired to use parcel and create-react-app.
-
-Both alternatives were hard to work with typescript, yarn packages, web and react-native.
