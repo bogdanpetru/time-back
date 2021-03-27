@@ -7,9 +7,11 @@ import {
   Input,
   Button,
   GoogleLogo,
+  GithubLogo,
   TransparentButton,
   ErrorText,
   Loader,
+  TwitterLogo,
 } from '@app/components'
 import { t } from '@app/data/intl'
 
@@ -19,6 +21,7 @@ import {
   signUpWithEmail,
   signInWithEmail,
   signInWithGithub,
+  signInWithTwitter,
 } from '@app/api/auth'
 
 const Wrapper = styled.div`
@@ -56,6 +59,12 @@ const SocialWrapper = styled.div`
   max-width: 155px;
   margin: 0 auto;
   text-align: center;
+`
+
+const SocialTitle = styled.strong`
+  display: block;
+  font-weight: 600;
+  margin-bottom: 10px;
 `
 
 const LoaderWrapper = styled.div`
@@ -110,6 +119,7 @@ const Auth: FunctionComponent = () => {
   const handleSignUpWithEmail = handleSignUp(signUpWithEmail)
   const handleSignInWithEmail = handleSignUp(signInWithEmail)
   const handleSignInWithGithub = handleSignUp(signInWithGithub)
+  const handleSignInWithTwitter = handleSignUp(signInWithTwitter)
   const buttonsDisabled = !email || !password
 
   return (
@@ -154,11 +164,15 @@ const Auth: FunctionComponent = () => {
         </Button>
       </ButtonWrapper>
       <SocialWrapper>
+        <SocialTitle>{t('Or login with:')}</SocialTitle>
         <TransparentButton onClick={handleSignInWithGoogle}>
           <GoogleLogo />
         </TransparentButton>
         <TransparentButton onClick={handleSignInWithGithub}>
-          Login with Github
+          <GithubLogo />
+        </TransparentButton>
+        <TransparentButton onClick={handleSignInWithTwitter}>
+          <TwitterLogo />
         </TransparentButton>
       </SocialWrapper>
       {errorMessage && <ErrorText>{errorMessage}</ErrorText>}

@@ -24,8 +24,8 @@
 
 - [x] add firebase security rules
   - [x] unit tests
-- [ ] disable project
-- [ ] create new project (so the keys were not compromised)
+- [x] disable project
+- [x] create new project (so the keys were not compromised)
 
 **security settings**
 
@@ -48,7 +48,7 @@
   - in security rules need to make an extra read for the tracking value
 - [x] fix notification image
 - [ ] fix background when installed on mobile
-- [ ] deploy on a custom domain
+- [x] deploy on a custom domain
 
 **faze II**
 

@@ -19,4 +19,9 @@ export const signInWithGithub = () => {
   return firebase.auth().signInWithPopup(provider)
 }
 
+export const signInWithTwitter = () => {
+  const provider = new firebase.auth.TwitterAuthProvider()
+  return firebase.auth().signInWithPopup(provider)
+}
+
 export const isUserSignedIn = (): boolean => !!firebase.auth().currentUser
