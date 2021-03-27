@@ -14,4 +14,9 @@ export const signInWithGoogle = () => {
   return firebase.auth().signInWithPopup(provider)
 }
 
+export const signInWithGithub = () => {
+  const provider = new firebase.auth.GithubAuthProvider()
+  return firebase.auth().signInWithPopup(provider)
+}
+
 export const isUserSignedIn = (): boolean => !!firebase.auth().currentUser

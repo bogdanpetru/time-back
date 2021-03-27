@@ -6,7 +6,7 @@ import {
   initializeAdminApp,
 } from '@firebase/rules-unit-testing'
 
-const PROJECT_ID = 'pomodoro-like-app'
+const PROJECT_ID = 'time-back-2c1a5'
 const userId = 'user-id'
 const projectId = 'project-id'
 const db = initializeTestApp({

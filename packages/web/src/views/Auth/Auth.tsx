@@ -18,6 +18,7 @@ import {
   signInWithGoogle,
   signUpWithEmail,
   signInWithEmail,
+  signInWithGithub,
 } from '@app/api/auth'
 
 const Wrapper = styled.div`
@@ -108,6 +109,7 @@ const Auth: FunctionComponent = () => {
   const handleSignInWithGoogle = handleSignUp(signInWithGoogle)
   const handleSignUpWithEmail = handleSignUp(signUpWithEmail)
   const handleSignInWithEmail = handleSignUp(signInWithEmail)
+  const handleSignInWithGithub = handleSignUp(signInWithGithub)
   const buttonsDisabled = !email || !password
 
   return (
@@ -154,6 +156,9 @@ const Auth: FunctionComponent = () => {
       <SocialWrapper>
         <TransparentButton onClick={handleSignInWithGoogle}>
           <GoogleLogo />
+        </TransparentButton>
+        <TransparentButton onClick={handleSignInWithGithub}>
+          Login with Github
         </TransparentButton>
       </SocialWrapper>
       {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
