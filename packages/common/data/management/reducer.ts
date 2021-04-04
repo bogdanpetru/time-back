@@ -38,22 +38,9 @@ const reducer: Reducer = (state: State, action: Action): State => {
           loading: false,
           list: state.projects.list.map((project) => {
             if (project.id === action.projectId) {
-              let statistics = project.statistics
-              if (action.today) {
-                // TODO: delete this
-                statistics = {
-                  ...statistics,
-                  today: {
-                    ...statistics.today,
-                    date: action.today,
-                  },
-                }
-              }
-
               return {
                 ...project,
                 currentStrawberry: action.strawberry,
-                statistics,
               }
             }
             return project

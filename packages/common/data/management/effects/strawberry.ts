@@ -32,21 +32,21 @@ export const startStrawberry = (
   getState: () => State
 ) => (projectId: string): Promise<CurrentStrawberry> => {
   const state = getState()
-  const startTime = nowInSeconds()
   const project = selectors.getProject(state, projectId)
-  let today = null
 
   const strawberry = {
     ...project.currentStrawberry,
     running: true,
-    startTime: [...(project.currentStrawberry?.startTime || []), startTime],
+    startTime: [
+      ...(project.currentStrawberry?.startTime || []),
+      nowInSeconds(),
+    ],
   }
 
   dispatch({
     type: ActionTypes.START_STRAWBERRY,
     projectId,
     strawberry,
-    today,
   })
 
   return api.setCurrentStrawberry(projectId, strawberry)

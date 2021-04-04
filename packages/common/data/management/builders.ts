@@ -44,6 +44,21 @@ export const updateGlobalProjectSatistics = (project: Project): Project => {
     return project
   }
 
+  if (!project?.statistics?.today?.date) {
+    // if it does not have a date, the project is new and no strawberry was complete
+    // if this is the case if this is paused until tomorrow it should be reset
+    return {
+      ...project,
+      statistics: {
+        ...project.statistics,
+        today: {
+          ...project.statistics.today,
+          date: Date.now(),
+        },
+      },
+    }
+  }
+
   if (
     // and it has already reseted
     project.statistics.today.completedStrawberries === 0 &&

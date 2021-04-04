@@ -22,7 +22,6 @@ export type Action =
       type: ActionTypes.START_STRAWBERRY
       projectId: string
       strawberry: CurrentStrawberry
-      today: number
     }
   | {
       type: ActionTypes.SET_PROJECTS

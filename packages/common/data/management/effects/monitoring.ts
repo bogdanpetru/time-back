@@ -30,6 +30,7 @@ export const keepProjectsUpdated = (
         }
         break
       case 'modified':
+        console.log('modified', project)
         dispatch({
           type: ActionTypes.EDIT_PROJECT,
           project,
