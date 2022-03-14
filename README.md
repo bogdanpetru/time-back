@@ -9,7 +9,7 @@ The application has basic PWA functionality, it is installable and it caches sta
 
 This is a simple app that I have built for personal use.
 
-*[timeback.app](https://timeback.app)*
+*[timeback](https://time-back-2c1a5.firebaseapp.com/)*
 
 
 ## Getting started
