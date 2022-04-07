@@ -16,7 +16,7 @@ import useData from '@app/data/management/useData'
 
 const DefaultViewWrapper = styled.div`
   position: relative;
-  max-width: 460px;
+  max-width: 640px;
   margin: 0 auto;
   padding: 10px;
 `

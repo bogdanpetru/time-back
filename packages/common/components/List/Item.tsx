@@ -4,7 +4,7 @@ import styled from 'styled-components'
 export const ListItemInner = styled.li`
   position: relative;
   display: flex;
-  height: 55px;
+  min-height: 60px;
   align-items: center;
   padding: 0 5px;
   margin-bottom: 10px;

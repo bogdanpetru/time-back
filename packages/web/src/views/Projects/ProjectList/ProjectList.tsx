@@ -20,7 +20,8 @@ import DefaultView from '@app/web/components/DefaultView'
 const Statistics = styled.div`
   margin-right: 20px;
   display: flex;
-  max-width: 120px;
+  min-width: 100px;
+
   flex-direction: column;
 `
 
