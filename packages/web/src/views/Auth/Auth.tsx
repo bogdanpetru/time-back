@@ -26,9 +26,12 @@ import {
 
 const Wrapper = styled.div`
   position: relative;
-  padding-top: 74px;
   max-width: 300px;
   margin: 0 auto;
+
+  @media (min-width: 768px) {
+    padding-top: 74px;
+  }
 `
 
 const LogoWrapper = styled.div`
@@ -56,7 +59,7 @@ const ButtonWrapper = styled.div`
 
 const SocialWrapper = styled.div`
   align-items: center;
-  max-width: 155px;
+  width: 100%;
   margin: 0 auto;
   text-align: center;
 `
